@@ -14,6 +14,9 @@ class Group < ActiveRecord::Base
 
   def course
     course = Time.now.year.to_i - forming_year
+    if forming_year == Time.now.year.to_i
+      course = '(1)'
+    end
     if Time.now.month.to_i > 7
       course += 1
     end
