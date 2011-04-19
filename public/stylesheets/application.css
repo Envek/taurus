@@ -13,6 +13,16 @@
   border: solid 3px #ff5050;
   background-color: #ffaaaa; }
 
+.info {
+  margin: 8px;
+  padding: 0 10px 0 52px;
+  border: 1px dotted gray;
+  background-color: #eeeeff;
+  background-image: url("/images/information_32.png");
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  font-size: 120%; }
+
 /* GroupsList START */
 .groups {
   height: 30px; }
