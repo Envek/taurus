@@ -2,11 +2,7 @@
   %br
   = 'Группа ' + s.object.jet.group.name
   %br
-  = s.radio_button :number, 0
-  = 'Без подгрупп'
-  %br
-  = s.radio_button :number, 1
-  = 'Первая подгруппа'
-  %br
-  = s.radio_button :number, 2
-  = 'Вторая подгруппа'
+  - options = [['Без подгрупп', 0], ['Первая подгруппа', 1], ['Вторая подгруппа', 2]]
+  - labels = [["Подгруппа № %d (как без подгрупп)"], ["Подгруппа № %d (как первая)"], ["Подгруппа № %d (как вторая)"]]
+  - options += Array.new(6) { |index| [labels[index%3].to_s % (index+3), index+3] }
+  = s.select :number, options_for_select(options, s.object.number)
