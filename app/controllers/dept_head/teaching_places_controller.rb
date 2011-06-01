@@ -1,5 +1,6 @@
 class DeptHead::TeachingPlacesController < DeptHead::BaseController
   active_scaffold do |config|
+    config.actions << :delete
     config.columns = [:position, :lecturer]
     config.list.columns = [:lecturer, :position]
     #config.columns[:lecturer].form_ui = :select
