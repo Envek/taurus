@@ -17,7 +17,7 @@ class ChargeCard < ActiveRecord::Base
     self.groups.each do |group|
       groups << group.name
     end
-    discipline.name + ', ' + lesson_type.name + ', ' + groups.map{|g| g + ', '}.to_s.chop.chop
+    [discipline.try(:name), lesson_type.try(:name), groups].compact.join(", ")
   end
 
   def name_for_pair_edit
