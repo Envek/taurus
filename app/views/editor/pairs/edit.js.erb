@@ -1,4 +1,15 @@
 jQuery(document).ready(function($){
+
+    $.ajaxSetup({
+    "error":function() {   
+        $('.workspace').prepend('<div id="error"></div>');
+        $('#error').append('<p>Произошла ошибка при выполнении запроса</p>');
+        $('#error').dialog({
+            draggable: false,
+            modal: true
+        });
+    }});
+
     $('#pair_edit_<%= @pair.id %>').remove();
     $('body').prepend('<%= escape_javascript render :partial => 'pair_edit' %>');
     var dlg = $('#pair_edit_<%= @pair.id %>').dialog({
