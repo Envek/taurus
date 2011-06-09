@@ -88,11 +88,14 @@ $grid_background: #E6E6FA;
   .pair_content {
     float: left;
   }
+  position: relative;
   .management_panel {
-    float: right;
-    clear: both;
+    position: absolute;
+    top: 0;
+    right: 0;
     cursor: pointer;
     height: 16px;
+    background-color: rgba(245, 249, 189, 0.5);
   }
   .management_panel div {
     display: inline;

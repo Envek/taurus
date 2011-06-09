@@ -49,14 +49,17 @@
   cursor: move;
   background-color: #F5F9BD;
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  position: relative; }
   .pair .pair_content {
     float: left; }
   .pair .management_panel {
-    float: right;
-    clear: both;
+    position: absolute;
+    top: 0;
+    right: 0;
     cursor: pointer;
-    height: 16px; }
+    height: 16px;
+    background-color: rgba(245, 249, 189, 0.5); }
   .pair .management_panel div {
     display: inline;
     height: 16px;
