@@ -1,6 +1,6 @@
 - td_id = "td_grid#{grid}_week#{week_counter + 1}_day#{day}_time#{time}"
-- id = "container_grid#{grid}_week#{week_counter + 1}_day#{day}_time#{time}"
+- id = "container_grid#{grid}_week#{week_counter + 1}_day#{day}_time#{time}_index0"
 %td{ :id => "#{td_id}", :colspan => "1"}  
-  .receiver{ :id => "#{id}", :grid_id => "#{grid}", :week_number => "#{week_counter + 1}", :day_of_the_week => "#{day}", :pair_number => "#{time}" }
+  .receiver{ :id => "#{id}", :grid_id => "#{grid}", :week_number => "#{week_counter + 1}", :day_of_the_week => "#{day}", :pair_number => "#{time}", :index => 0 }
   = render :partial => 'recv_mgmt_panel', :locals => {:rcv_count => 1}
 

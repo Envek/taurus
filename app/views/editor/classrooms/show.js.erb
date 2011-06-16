@@ -16,12 +16,32 @@ jQuery(document).ready(function($){
             $(this).removeClass('hovered_receiver');
         }
     });
+    var paircells = new Array();
     <% @pairs.each do |pair| %>
+    var index = '<%= escape_javascript "grid#{@classroom.id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}" %>';
+    if (paircells[index] == null)
+        paircells[index] = 0;
+    else
+        paircells[index]++;
       <% if pair.week == 0 %>
-        $('#td_grid<%= pair.classroom_id %>_week1_day<%= pair.day_of_the_week %>_time<%= pair.pair_number %>').replaceWith('<%= escape_javascript render :partial => "/editor/classrooms/container", :locals => {:pair => pair, :colspan => 2} %>');
-        $('#td_grid<%= pair.classroom_id %>_week2_day<%= pair.day_of_the_week %>_time<%= pair.pair_number %>').remove();
+        if (!paircells[index]) {
+            $('#td_grid<%= pair.classroom_id %>_week1_day<%= pair.day_of_the_week %>_time<%= pair.pair_number %>').replaceWith('<%= escape_javascript render :partial => "/editor/classrooms/container", :locals => {:pair => pair, :colspan => 2, :index => 0} %>');
+            $('#td_grid<%= pair.classroom_id %>_week2_day<%= pair.day_of_the_week %>_time<%= pair.pair_number %>').remove();
+        }
       <% end %>
-      $('#<%= escape_javascript "container_grid#{@classroom.id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}" %>').append(
+      if (paircells[index]) {
+        var newRcv = $('#<%= escape_javascript "container_grid#{@classroom.id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}_index0" %>').clone().empty();
+        newRcv.attr('id', '<%= escape_javascript "container_grid#{@classroom.id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}_index" %>'+paircells[index]);
+        newRcv.addClass('hidden_receiver')
+        var td_id = '#<%= escape_javascript "td_grid#{pair.classroom_id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}" %>';
+        $(td_id).append(newRcv);
+        $(td_id+'>.grid_mgmt_panel').detach().appendTo(td_id); // Move management panel to the end of cell
+        // Update the counters in management panel
+        var grid_context = $(td_id+'>.grid_mgmt_panel').parent();
+        var count = $('.receiver', grid_context).length;
+        $('.receiver_count', grid_context).text("1/"+count);
+      }
+      $('#<%= escape_javascript "container_grid#{@classroom.id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}_index" %>'+paircells[index]).append(
         '<%= escape_javascript render :partial => '/editor/pairs/pair', :object => pair %>'
       );        
     <% end %>
