@@ -10,7 +10,11 @@ class Editor::PairsController < Editor::BaseController
       p.pair_number = params[:pair_number]
       p.week = params[:week]
       p.active_at = Date.today
-      p.expired_at = Date.new(2010, 12, 31)
+      # Установка даты окончания преподования пары в зависимости от сегодняшней даты (приблизительно на конец следующего семестра)
+      year = Date.today.month > 11 ? Date.today.year+1 : Date.today.year
+      month = Date.today.month > 5 ? ( Date.today.month > 11 ? 6 : 12 ) : 12
+      day = month == 6 ? 30 : 31
+      p.expired_at = Date.new(year, month, day)
     end
     @container = params[:container]
     unless @pair.valid?
