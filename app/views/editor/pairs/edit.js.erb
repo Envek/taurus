@@ -96,4 +96,10 @@ jQuery(document).ready(function($){
         buttonImageOnly: true
     });
     
+    var grid_context = $('.pair#<%= @pair.id %>').parent().parent();
+    var current = $('.receiver', grid_context).not('.hidden_receiver');
+    var index = current.prevAll('.receiver').length;
+    var indexparam = $('<input id="pair_index" name="index" type="hidden" value="'+index+'">');
+    $('#pair_edit_<%= @pair.id %> > form').append(indexparam);
+    
 });

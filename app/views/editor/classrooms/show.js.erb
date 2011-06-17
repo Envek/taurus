@@ -11,7 +11,8 @@ jQuery(document).ready(function($){
                 week: $(this).attr('week_number'),
                 day_of_the_week: $(this).attr('day_of_the_week'),
                 pair_number: $(this).attr('pair_number'),
-                container: $(this).attr('id')
+                container: $(this).attr('id'),
+                index: $('.receiver', $(this).parent()).not('.hidden_receiver').prevAll('.receiver').length
             }, null, "script");
             $(this).removeClass('hovered_receiver');
         }
