@@ -120,6 +120,11 @@ jQuery(document).ready(function($) {
     $('.receiver_add').live('click', function() {
         var grid_context = $(this).parent().parent();
         var newrcv = $('.receiver', grid_context).first().clone().empty();
+        var rcvid = newrcv.attr('id');
+        var index = $('.receiver', grid_context).length;
+        rcvid = rcvid.substring(0, rcvid.lastIndexOf('_index')) + '_index' + index;
+        newrcv.attr('id', rcvid);
+        newrcv.attr('index', index);
         $('.receiver', grid_context).addClass('hidden_receiver');
         newrcv.droppable({
             accept: '.pair',
@@ -132,7 +137,8 @@ jQuery(document).ready(function($) {
                    week: $(this).attr('week_number'),
                    day_of_the_week: $(this).attr('day_of_the_week'),
                    pair_number: $(this).attr('pair_number'),
-                   container: $(this).attr('id')
+                   container: $(this).attr('id'),
+                   index: index
                 }, null, "script");
                 $(this).removeClass('hovered_receiver');
             }

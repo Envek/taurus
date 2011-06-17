@@ -33,6 +33,7 @@ jQuery(document).ready(function($){
       if (paircells[index]) {
         var newRcv = $('#<%= escape_javascript "container_grid#{@classroom.id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}_index0" %>').clone().empty();
         newRcv.attr('id', '<%= escape_javascript "container_grid#{@classroom.id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}_index" %>'+paircells[index]);
+        newRcv.attr('index', paircells[index]);
         newRcv.addClass('hidden_receiver')
         var td_id = '#<%= escape_javascript "td_grid#{pair.classroom_id}_week#{pair.week}_day#{pair.day_of_the_week}_time#{pair.pair_number}" %>';
         $(td_id).append(newRcv);
