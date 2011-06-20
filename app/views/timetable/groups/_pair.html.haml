@@ -1,3 +1,6 @@
-.lecturer #{p.lecturer}
+- if p.assistant && p.assistant_id
+  .lecturer #{p.lecturer}, #{p.assistant}
+- else
+  .lecturer #{p.lecturer}  
 .discipline #{p.discipline}
 .auditory Ауд.: #{p.classroom.name} (#{p.classroom.building.name})

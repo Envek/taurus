@@ -35,6 +35,23 @@ class Pair < ActiveRecord::Base
     self.try(:charge_card).try(:teaching_place).try(:lecturer).try(:id) || nil
   end
 
+  def assistant
+    name = self.try(:charge_card).try(:assistant_teaching_place).try(:lecturer).try(:name) || ''
+    apart = name.split(' ')
+    name = apart[0]
+    name += (' ' + apart[1].slice(/^./) + '.') if apart[1]
+    name += (apart[2].slice(/^./) + '.') if apart[2]
+    name
+  end
+
+  def assistant_full
+    self.try(:charge_card).try(:assistant_teaching_place).try(:name)
+  end
+
+  def assistant_id
+    self.try(:charge_card).try(:assistant_teaching_place).try(:lecturer).try(:id) || nil
+  end
+
   def full_discipline
     full = self.try(:charge_card).try(:discipline).try(:name)
     unless (lesson = self.try(:charge_card).try(:lesson_type).try(:name)).nil?

@@ -15,6 +15,10 @@
     - if pair.lecturer && pair.lecturer_id
       %abbr{:title => "#{pair.lecturer_full}"}
         = link_to "#{pair.lecturer}", timetable_lecturer_path(pair.lecturer_id), :target => '_blank'
+    - if pair.assistant && pair.assistant_id
+      , 
+      %abbr{:title => "#{pair.assistant_full}"}
+        = link_to "#{pair.assistant}", timetable_lecturer_path(pair.assistant_id), :target => '_blank'
     %br
     - if pair.groups
       - pair.groups.each_with_index do |group, i|
