@@ -70,6 +70,7 @@ ru:
         name: 'Название корпуса'
       charge_card:
         teaching_place: 'Преподаватель'
+        assistant_teaching_place: 'Ассистент'
         discipline: 'Название дисциплины'
         groups: 'Группы'
         jets: 'Группы'
@@ -115,6 +116,7 @@ ru:
     description:
       charge_card:
         teaching_place: 'Внимание! При смене преподавателя все имеющиеся пары для этой карты будут удалены!'
+        assistant_teaching_place: 'Ассистирующий преподаватель, например, для лабораторных работ.'
       classroom:
         capacity: 'количество человек'
       jet:

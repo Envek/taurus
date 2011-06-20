@@ -3,6 +3,8 @@ module DeptHead::ChargeCardsHelper
     case association.name
     when :teaching_place
       {'teaching_places.department_id' => current_dept_head.department.id}
+    when :assistant_teaching_place
+      {'teaching_places.department_id' => current_dept_head.department.id}
     when :discipline
       {'disciplines.department_id' => current_dept_head.department.id}
     else
