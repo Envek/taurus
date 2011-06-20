@@ -8,7 +8,7 @@ class TeachingPlace < ActiveRecord::Base
   validates_uniqueness_of :lecturer_id, :scope => :department_id
 
   def name
-    lecturer.name + ' (' + department.name + ')'
+    (lecturer.try(:name) or '') + ' (' + (department.try(:name) or '') + ')'
   end
 
   def to_label

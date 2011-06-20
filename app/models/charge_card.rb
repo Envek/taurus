@@ -21,7 +21,7 @@ class ChargeCard < ActiveRecord::Base
   end
 
   def name_for_pair_edit
-    teaching_place.name + ', ' + name
+    (teaching_place.try(:name) or '') + ', ' + name
   end
 
   def hours_quantity
