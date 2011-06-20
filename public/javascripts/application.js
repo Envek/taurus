@@ -125,6 +125,7 @@ jQuery(document).ready(function($) {
         rcvid = rcvid.substring(0, rcvid.lastIndexOf('_index')) + '_index' + index;
         newrcv.attr('id', rcvid);
         newrcv.attr('index', index);
+        newrcv.removeClass('hidden_receiver');
         $('.receiver', grid_context).addClass('hidden_receiver');
         newrcv.droppable({
             accept: '.pair',
