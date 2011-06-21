@@ -22,6 +22,7 @@ class Timetable::LecturersController < ApplicationController
       charge_cards = []
       teaching_places.each do |tp|
         charge_cards << tp.charge_cards
+        charge_cards << tp.assistant_charge_cards
       end
       charge_cards = charge_cards.flatten
       
