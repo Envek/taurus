@@ -1,0 +1,30 @@
+- subgroups = []
+- to_display = []
+- pairs.sort_by { |p| p[0].expired_at }.each do |b|
+  - if !subgroups.include?(b[1])
+    - subgroups << b[1]
+    - to_display << b
+
+- if to_display.size > 0
+  - if subgroups.max == 0 # Если без подгрупп
+    %td{:colspan => 2}
+      - pair = to_display.first[0]
+      = render 'pair', :p => pair
+  - else
+    -# На настоящий момент более двух подгрупп НЕ ПОДДЕРЖИВАЕТСЯ!!!
+    -# TODO: Переписать для поддержки большего количества подгрупп
+    - sp = to_display.find_all{ |elem| elem[1] == 1 }
+    - if sp.size > 0
+      %td 
+        - pair = sp.first[0]
+        = render 'pair', :p => pair
+    - else
+      %td.empty
+    - sp = to_display.find_all{ |elem| elem[1] == 2 }
+    - if sp.size > 0
+      %td
+        - pair = sp.first[0]
+        = render 'pair', :p => pair
+    - else
+      %td.empty
+
