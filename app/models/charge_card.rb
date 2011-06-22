@@ -22,7 +22,7 @@ class ChargeCard < ActiveRecord::Base
   end
 
   def name_for_pair_edit
-    teaching_place.name + ', ' + name
+    [teaching_place.name, assistant_teaching_place.try(:to_label), name].compact.join(", ")
   end
 
   def hours_quantity
