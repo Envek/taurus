@@ -121,12 +121,30 @@ class Pair < ActiveRecord::Base
         candidates -= conflicts 
       end
       # lecturer busyness
-      if (conflicts = candidates.select { |c| c.charge_card && charge_card && c.charge_card.teaching_place.lecturer == charge_card.teaching_place.lecturer }).size > 0
+      if (conflicts = candidates.select { |c| 
+            c.charge_card && charge_card && 
+            (c.charge_card.teaching_place.lecturer == charge_card.teaching_place.lecturer ||
+             c.charge_card.try(:assistant_teaching_place).try(:lecturer) == charge_card.teaching_place.lecturer)
+      }).size > 0
         pairs = conflicts.map { |p| p.name }.join('<br />')
         errors.add_to_base "Невозможно сохранить пару, так как этот преподаватель уже ведет следующие пары:<br /><br />" +
         pairs +
         "<br /><br />в этом временном окне."
         candidates -= conflicts
+      end
+      # assistant lecturer busyness
+      if (charge_card.try(:assistant_teaching_place).try(:lecturer) != nil)
+        if (conflicts = candidates.select { |c| 
+            c.charge_card && charge_card && 
+            (c.charge_card.teaching_place.lecturer == charge_card.try(:assistant_teaching_place).try(:lecturer) ||
+             c.charge_card.try(:assistant_teaching_place).try(:lecturer) == charge_card.try(:assistant_teaching_place).try(:lecturer))            
+        }).size > 0
+          pairs = conflicts.map { |p| p.name }.join('<br />')
+          errors.add_to_base "Невозможно сохранить пару, так как ассистирующий преподаватель уже ведет следующие пары:<br /><br />" +
+          pairs +
+          "<br /><br />в этом временном окне."
+          candidates -= conflicts
+        end
       end
       # subgroups busyness
       if (conflicts = candidates.select { |c| c.charge_card && charge_card && (c.charge_card.groups & charge_card.groups).size > 0 }).size > 0
