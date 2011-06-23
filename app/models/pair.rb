@@ -75,6 +75,10 @@ class Pair < ActiveRecord::Base
     self.try(:charge_card).try(:lesson_type).try(:name)
   end
   
+  def max_subgroups
+    self.charge_card.jets.max_by { |jet| jet.subgroups_quantity }.subgroups_quantity
+  end
+  
   private
   
   def validate_on_create    

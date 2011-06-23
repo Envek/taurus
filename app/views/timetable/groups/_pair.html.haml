@@ -1,3 +1,6 @@
 .lecturer #{p.lecturer}
 .discipline #{p.discipline}
 .auditory Ауд.: #{p.classroom.name} (#{p.classroom.building.name})
+- if s and p.max_subgroups > 2
+  .subgroup Подгруппа #{s}
+

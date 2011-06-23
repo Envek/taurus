@@ -6,19 +6,20 @@
   =# both_week_pairs.size
   =# first_week_pairs.size
   =# second_week_pairs.size
-  - if both_week_pairs.empty? && first_week_pairs.empty? && second_week_pairs.empty?
+  - if both_week_pairs.empty? and first_week_pairs.empty? and second_week_pairs.empty?
     .nopair
   - else
     .daycellcontainer{:title => day + ", пара в " + time}
       %table{:class => 'daycell'}
-        - if both_week_pairs.any?
+        - if both_week_pairs.any? and !first_week_pairs.any? and !second_week_pairs.any?
           %tr
-            = render 'week_in_day', :pairs => both_week_pairs
+            = render 'week_in_day', :pairs => both_week_pairs, :skipcell => [], :singlerow => true
         - else
+          - skipcell = []
           %tr
-            - if first_week_pairs.any?
-            = render 'week_in_day', :pairs => first_week_pairs
+            - if first_week_pairs.any? or both_week_pairs.any?
+            = render 'week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false
           %tr
             - if second_week_pairs.any?
-            = render 'week_in_day', :pairs => second_week_pairs        
+            = render 'week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false        
 

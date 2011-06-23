@@ -3,28 +3,35 @@
 - pairs.sort_by { |p| p[0].expired_at }.each do |b|
   - if !subgroups.include?(b[1])
     - subgroups << b[1]
+    - subgroups << 0 # Если есть пара с подгруппами, то пара без подгрупп уже не влезет 
     - to_display << b
 
 - if to_display.size > 0
-  - if subgroups.max == 0 # Если без подгрупп
+  -# Если без подгрупп или есть только одна пара 3-ей или ещё какой подгруппы
+  = to_display.map { |e| e[0].id }
+  - if subgroups.max == 0 or (subgroups.max > 2 and to_display.size == 1)
     %td{:colspan => 2}
       - pair = to_display.first[0]
-      = render 'pair', :p => pair
+      = render 'pair', :p => pair, :s => to_display.first[1]
   - else
-    -# На настоящий момент более двух подгрупп НЕ ПОДДЕРЖИВАЕТСЯ!!!
-    -# TODO: Переписать для поддержки большего количества подгрупп
-    - sp = to_display.find_all{ |elem| elem[1] == 1 }
-    - if sp.size > 0
-      %td 
+    -# Если есть пара третьей или большей подгруппы и есть место куда её воткнуть
+    - to_display.find_all{ |elem| elem[1] > 2 }.each do |elem|
+      - if subgroups.max > 2 and to_display.size == 2 and to_display.size - skipcell.size > 0
+        - elem[2] = elem[1] # elem[1] - подгруппа-позиция, elem[2] - реальная подгруппа пары
+        - elem[1] = to_display.find_all{ |elem| elem[1] == 1 }.size > 1 ? 2 : 1
+    - 1.upto(2) do |sub|
+      - if skipcell.include?(sub)
+        - skipcell - [sub]
+        - next
+      - sp = to_display.find_all{ |elem| elem[1] == sub }
+      - if sp.size > 0
         - pair = sp.first[0]
-        = render 'pair', :p => pair
-    - else
-      %td.empty
-    - sp = to_display.find_all{ |elem| elem[1] == 2 }
-    - if sp.size > 0
-      %td
-        - pair = sp.first[0]
-        = render 'pair', :p => pair
-    - else
-      %td.empty
+        - a = {}
+        - if pair.week == 0 and !singlerow
+          - skipcell << sub
+          - a = {:rowspan=>2}
+        %td{a}
+          = render 'pair', :p => pair, :s => sp.first[2]
+      - else
+        %td.empty
 
