@@ -1,7 +1,7 @@
 class DeptHead::ChargeCardsController < DeptHead::BaseController
   active_scaffold do |config|
     config.actions << :delete
-    config.columns = [:teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups]
+    config.columns = [:teaching_place, :assistant_teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups]
     config.create.columns.exclude :groups, :hours_quantity
     config.update.columns.exclude :groups, :hours_quantity
     config.list.columns.exclude :jets
@@ -9,6 +9,8 @@ class DeptHead::ChargeCardsController < DeptHead::BaseController
     config.columns[:lesson_type].form_ui = :select
     config.columns[:teaching_place].form_ui = :select
     config.columns[:teaching_place].clear_link
+    config.columns[:assistant_teaching_place].form_ui = :select
+    config.columns[:assistant_teaching_place].clear_link
     config.columns[:discipline].clear_link
     config.columns[:groups].clear_link
   end

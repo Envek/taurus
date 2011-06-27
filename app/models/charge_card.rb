@@ -3,6 +3,7 @@ class ChargeCard < ActiveRecord::Base
 
   belongs_to :discipline
   belongs_to :teaching_place
+  belongs_to :assistant_teaching_place, :class_name => "TeachingPlace", :foreign_key => "assistant_id"
 
   belongs_to :lesson_type
   has_many :jets, :dependent => :destroy
@@ -21,7 +22,7 @@ class ChargeCard < ActiveRecord::Base
   end
 
   def name_for_pair_edit
-    (teaching_place.try(:name) or '') + ', ' + name
+    [teaching_place.name, assistant_teaching_place.try(:to_label), name].compact.join(", ")
   end
 
   def hours_quantity
