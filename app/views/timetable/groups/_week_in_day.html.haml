@@ -1,5 +1,6 @@
 - subgroups = []
 - to_display = []
+- pairs = pairs.find_all{ |p| p[0].expired_at >= Date.today }
 - pairs.sort_by { |p| p[0].expired_at }.each do |b|
   - if !subgroups.include?(b[1])
     - subgroups << b[1]
