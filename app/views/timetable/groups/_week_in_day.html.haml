@@ -8,7 +8,6 @@
 
 - if to_display.size > 0
   -# Если без подгрупп или есть только одна пара 3-ей или ещё какой подгруппы
-  = to_display.map { |e| e[0].id }
   - if subgroups.max == 0 or (subgroups.max > 2 and to_display.size == 1)
     %td{:colspan => 2}
       - pair = to_display.first[0]
