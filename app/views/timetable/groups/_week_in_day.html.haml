@@ -14,7 +14,7 @@
       - cellsintop << 1
     %td{:colspan => 2}
       - pair = to_display.first[0]
-      = render 'pair', :p => pair, :s => to_display.first[1]
+      = render '/timetable/groups/pair', :p => pair, :s => to_display.first[1]
   - else
     - if cellsintop.empty?
       - cellsintop << 2
@@ -35,7 +35,7 @@
           - skipcell << sub
           - a = {:rowspan=>2}
         %td{a}
-          = render 'pair', :p => pair, :s => sp.first[2]
+          = render '/timetable/groups/pair', :p => pair, :s => sp.first[2]
       - else
         %td.empty
 - else
