@@ -10,10 +10,14 @@
 - if to_display.size > 0
   -# Если без подгрупп или есть только одна пара 3-ей или ещё какой подгруппы
   - if subgroups.max == 0 or (subgroups.max > 2 and to_display.size == 1)
+    - if cellsintop.empty?
+      - cellsintop << 1
     %td{:colspan => 2}
       - pair = to_display.first[0]
       = render 'pair', :p => pair, :s => to_display.first[1]
   - else
+    - if cellsintop.empty?
+      - cellsintop << 2
     -# Если есть пара третьей или большей подгруппы и есть место куда её воткнуть
     - to_display.find_all{ |elem| elem[1] > 2 }.each do |elem|
       - if subgroups.max > 2 and to_display.size == 2 and to_display.size - skipcell.size > 0
@@ -34,4 +38,7 @@
           = render 'pair', :p => pair, :s => sp.first[2]
       - else
         %td.empty
-
+- else
+  - a = (cellsintop.include?(2) ? {:colspan=>2} : {})
+  %td.empty{a}
+  

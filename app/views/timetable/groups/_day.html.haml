@@ -13,13 +13,14 @@
       %table{:class => 'daycell'}
         - if both_week_pairs.any? and !first_week_pairs.any? and !second_week_pairs.any?
           %tr
-            = render 'week_in_day', :pairs => both_week_pairs, :skipcell => [], :singlerow => true
+            = render 'week_in_day', :pairs => both_week_pairs, :skipcell => [], :singlerow => true, :cellsintop => []
         - else
           - skipcell = []
+          - cellsintop = []
           %tr
             - if first_week_pairs.any? or both_week_pairs.any?
-            = render 'week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false
+            = render 'week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop
           %tr
             - if second_week_pairs.any?
-            = render 'week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false        
+            = render 'week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop        
 
