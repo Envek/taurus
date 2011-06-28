@@ -56,6 +56,7 @@ $grid_background: #E6E6FA;
     @include table_border;
     height: $container_height;
     width: 7.7%;
+    position: relative;
   }
   th {
     @include table_border;
@@ -102,6 +103,28 @@ $grid_background: #E6E6FA;
     height: 16px;
     width: 16px;
   }
+}
+
+.grid_mgmt_panel {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  .receiver_add,
+  .receiver_prev,
+  .receiver_next {
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  .receiver_count {
+    margin-left: 50px;
+  }
+}
+
+.hidden_receiver {
+  display: none;
 }
 
 abbr {

@@ -28,7 +28,8 @@
     border-style: solid;
     border-width: thin;
     height: 68px;
-    width: 7.7%; }
+    width: 7.7%;
+    position: relative; }
   .grid th {
     border-style: solid;
     border-width: thin;
@@ -64,6 +65,24 @@
     display: inline;
     height: 16px;
     width: 16px; }
+
+.grid_mgmt_panel {
+  position: absolute;
+  bottom: 0;
+  right: 0; }
+  .grid_mgmt_panel .receiver_add,
+  .grid_mgmt_panel .receiver_prev,
+  .grid_mgmt_panel .receiver_next {
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    cursor: pointer; }
+  .grid_mgmt_panel .receiver_count {
+    margin-left: 50px; }
+
+.hidden_receiver {
+  display: none; }
 
 abbr {
   cursor: help; }

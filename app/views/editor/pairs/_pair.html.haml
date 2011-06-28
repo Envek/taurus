@@ -24,3 +24,6 @@
       - pair.groups.each_with_index do |group, i|
         = ", " unless i == 0
         = link_to "#{group.name}", timetable_group_path(group.id), :target => '_blank'
+    %br
+    = "#{pair.active_at} — #{pair.expired_at}"
+

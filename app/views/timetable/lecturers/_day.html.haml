@@ -2,44 +2,24 @@
 - first_week_pairs = @pairs[day_counter][time][1]
 - second_week_pairs = @pairs[day_counter][time][2]
 %td
-  - if both_week_pairs.empty? && first_week_pairs.empty? && second_week_pairs.empty?
+  -# Uncomment for debug purpose only!
+  =# both_week_pairs.size
+  =# first_week_pairs.size
+  =# second_week_pairs.size
+  - if both_week_pairs.empty? and first_week_pairs.empty? and second_week_pairs.empty?
     .nopair
   - else
-    %table{:class => 'daycell'}
-      - if both_week_pairs.size == 1
-        %tr
-          - both_week_pairs.each do |b|
-            %td{:colspan => 2, :rowspan => 2}
-              = render 'pair', :p => b
-        %tr
-      - else
-        %tr
-          - if first_week_pairs.empty?
-            %td{:colspan => 2}
-              .nopair
-          - elsif first_week_pairs.size > 2
-            %td{:colspan => 2}
-              .error_pair
-          - elsif first_week_pairs.size == 2
-            - first_week_pairs.each do |f|
-              %td
-                = render 'pair', :p => f
-          - elsif first_week_pairs.size == 1
-            - first_week_pairs.each do |f|
-              %td{:colspan => 2}
-                = render 'pair', :p => f
-        %tr
-          - if second_week_pairs.empty?
-            %td{:colspan => 2}
-              .nopair
-          - elsif second_week_pairs.size > 2
-            %td{:colspan => 2}
-              .error_pair
-          - elsif second_week_pairs.size == 2
-            - second_week_pairs.each do |f|
-              %td
-                = render 'pair', :p => f
-          - elsif second_week_pairs.size == 1
-            - second_week_pairs.each do |f|
-              %td{:colspan => 2}
-                = render 'pair', :p => f
+    .daycellcontainer{:title => day}
+      %table{:class => 'daycell'}
+        - if both_week_pairs.any? and !first_week_pairs.any? and !second_week_pairs.any?
+          %tr
+            = render 'week_in_day', :pairs => both_week_pairs, :skipcell => [], :singlerow => true
+        - else
+          - skipcell = []
+          %tr
+            - if first_week_pairs.any? or both_week_pairs.any?
+            = render 'week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false
+          %tr
+            - if second_week_pairs.any?
+            = render 'week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false        
+

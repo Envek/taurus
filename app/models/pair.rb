@@ -92,6 +92,10 @@ class Pair < ActiveRecord::Base
     self.try(:charge_card).try(:lesson_type).try(:name)
   end
   
+  def max_subgroups
+    self.charge_card.jets.max_by { |jet| jet.subgroups_quantity }.subgroups_quantity
+  end
+  
   private
   
   def validate_on_create    
@@ -109,8 +113,8 @@ class Pair < ActiveRecord::Base
   
   def validate_on_update
     week_conditions = week == 0 ? [0, 1, 2] : [0, week]
-    conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?)',
-                  id, day_of_the_week, pair_number, week_conditions]
+    conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?) AND NOT ((pairs.active_at > ? AND expired_at > ?) OR (active_at < ? AND expired_at < ?))',
+                  id, day_of_the_week, pair_number, week_conditions, expired_at, expired_at, active_at, active_at]
     if (candidates = Pair.all(:conditions => conditions)).size > 0
       # classroom busyness
       if (conflicts = candidates.select { |c| c.classroom_id == classroom.id }).size > 0
