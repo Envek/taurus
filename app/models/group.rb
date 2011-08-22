@@ -13,12 +13,12 @@ class Group < ActiveRecord::Base
   named_scope :by_name, lambda { |name| { :conditions => ['groups.name LIKE ?', escape_name(name)] } }
 
   def course
-    course = Time.now.year.to_i - forming_year
-    if forming_year == Time.now.year.to_i
-      course = '(1)'
-    end
-    if Time.now.month.to_i > 7
+    this_year = Time.now.year.to_i
+    course = this_year - forming_year
+    if forming_year <= this_year and Time.now.month.to_i > 7
       course += 1
+    else
+      course = '(1)'
     end
     course
   end
