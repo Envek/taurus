@@ -1,5 +1,6 @@
 class ChargeCard < ActiveRecord::Base
   before_update :remove_pairs
+  before_save :update_editor_name
 
   belongs_to :discipline
   belongs_to :teaching_place
@@ -27,6 +28,10 @@ class ChargeCard < ActiveRecord::Base
 
   def hours_quantity
     weeks_quantity * hours_per_week
+  end
+
+  def update_editor_name
+    self.editor_name = self.name_for_pair_edit
   end
 
   private
