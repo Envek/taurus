@@ -34,7 +34,7 @@
 .dummy_div {
   clear: both; }
 
-.group_name {
+.group_name, .lecturer_name {
   width: 40%;
   border-radius: 30px;
   background: #e6e6fa;
@@ -43,11 +43,11 @@
   text-align: center;
   margin-left: 0; }
 
-.group_name_input_terminal {
+.group_name_input_terminal, .lecturer_name_input_terminal {
   margin-top: 30px;
   font-size: 40px; }
 
-.group_name_label_terminal {
+.group_name_label_terminal, .lecturer_name_label_terminal {
   margin-top: 35px;
   width: 100%;
   font-family: Archangelsk;
@@ -82,3 +82,11 @@
     width: 50%; }
   #terminalhelp .helpcontent {
     margin: 0 0.5em; }
+    
+.lecturer_name_terminal_wrapper {
+    overflow: hidden;
+}
+
+.lecturer_name_label_terminal {
+    margin-bottom: 50px;
+}

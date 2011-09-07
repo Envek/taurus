@@ -1,13 +1,12 @@
 class Timetable::LecturersController < ApplicationController
+  layout 'lecturer'
 
   def index
-    if params[:terminal]
-      template = 'index_terminal'
-    end
-
+    template = params[:terminal] ? 'index_terminal' : 'index'
+    
     respond_to do |format|
-      format.html { render template || 'index' }
-      format.json { render :json => Lecturer.all.to_json(:only => [:id, :name]) }
+      format.html { render template }
+      format.json { render :json => Lecturer.by_name(params[:lecturer]).to_json(:only => [:id, :name]) }
     end
   end
 
