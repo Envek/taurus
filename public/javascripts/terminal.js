@@ -55,4 +55,46 @@ jQuery(document).ready(function($){
         }
     	});
     });
+    
+    $('#lecturer_name_input_terminal').keyboard({
+        layout: 'custom',
+        customLayout: {
+            'default': [
+                '{clear} й ц у к е н г ш щ з х ъ {b}',
+                'ф ы в а п р о л д ж э',
+                '{shift} я ч с м и т ь б ю . {shift}',
+                '{space}'
+                ],
+            'shift': [
+                '{clear} Й Ц У К Е Н Г Ш Щ З Х Ъ {b}',
+                'Ф Ы В А П Р О Л Д Ж Э',
+                '{shift} Я Ч С М И Т Ь Б Ю , {shift}',
+                '{space}'
+                ]
+        },
+        position: {
+            of: $(".lecturer_name_terminal_wrapper"), // null = attach to input/textarea; use $(sel) to attach elsewhere
+            my: 'right top',
+            at: 'right top',
+            at2: 'right top' // used when "usePreview" is false
+        },
+        // true: preview added above keyboard; false: original input/textarea used
+        usePreview: false,
+
+        // if true, the keyboard will always be visible
+        alwaysOpen: true, 
+        
+        // *** change keyboard language & look ***
+        display: {
+            'accept': 'ОК:Принять (Shift-Enter)',
+            'b'     : '\u232b:Backspace',
+            'clear' : '\u2716:Очистить',
+            'cancel': 'Отмена:Отмена (Esc)',
+            'shift' : 'Shift:Shift',
+            'space' : ' :Пробел'
+        },
+        
+        change: function(e, keyboard, el) {$(el).keydown();},
+
+    });
 });
