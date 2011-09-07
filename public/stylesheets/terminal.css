@@ -41,7 +41,9 @@
   padding: 10px;
   float: left;
   text-align: center;
-  margin-left: 0; }
+  margin-left: 0; 
+  clear: right;  
+}
 
 .group_name_input_terminal, .lecturer_name_input_terminal {
   margin-top: 30px;
@@ -89,4 +91,16 @@
 
 .lecturer_name_label_terminal {
     margin-bottom: 50px;
+}
+
+.terminallinks {
+    font-size: 2em;
+    margin-top: 2em;
+}
+
+.terminallinks#lecturerlinks {
+    clear: both;
+    background: lavender;
+    border-radius: 30px;
+    padding: 0.5em 1em;
 }

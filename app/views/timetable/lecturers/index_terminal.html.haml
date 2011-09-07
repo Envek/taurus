@@ -12,6 +12,10 @@
     %div
       %button{:type => "button"} Показать расписание
 
+.terminallinks#lecturerlinks
+  %p Расписание вы можете также посмотреть с веб-сайта АмГУ по адресу <strong>#{request.host}</strong>
+  %p <a href="/timetable/groups?terminal=1"><strong>Расписание групп</strong></a>
+
 #terminalhelp
   .helpbox
     .helpcontent
