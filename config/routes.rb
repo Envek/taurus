@@ -30,6 +30,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace :supervisor do |s|
     s.resources :faculties, :active_scaffold => true
+    s.resources :specialities, :active_scaffold => true
     s.resources :classrooms, :active_scaffold => true
     s.resources :lecturers, :active_scaffold => true
     s.root :controller => 'lecturers'
