@@ -21,3 +21,15 @@
     .menu a:hover {
       background-color: #e6e6fa;
       color: #ffff88; }
+      
+.menu li.semester {
+  display: block;
+  float: right;
+  padding: 13px;
+}
+
+.menu li.semester a {
+  display: inline;
+  padding: 0;
+  color: navy;
+}

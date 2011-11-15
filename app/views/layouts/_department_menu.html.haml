@@ -4,6 +4,7 @@
     %li #{ link_to 'Дисциплины', dept_head_disciplines_path }
     %li #{ link_to 'Специальности', dept_head_specialities_path }
     %li #{ link_to 'Выход', destroy_dept_head_session_path, :class => "red" }
+    %li.semester Семестр: #{TAURUS_CONFIG["semester"]["current"]["title"]}. #{link_to 'Сменить', TAURUS_CONFIG["semester"]["other"]["link"]}.
     
 .info
   %p<
