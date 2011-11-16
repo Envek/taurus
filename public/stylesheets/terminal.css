@@ -104,3 +104,38 @@
     border-radius: 30px;
     padding: 0.5em 1em;
 }
+
+.infobox {
+  background: lavender;
+  border-radius: 30px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 25px;
+  margin: 8px 20px;
+  height: 480px;
+  width: 300px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.infobox p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.infobox .week_no {
+  font-size: 200px;
+  font-weight: bold;
+}
+
+.infobox .week {
+  font-size: 300%;
+  font-weight: bold;
+}
+
+.infobox .today {
+  font-size: 300%;
+}
