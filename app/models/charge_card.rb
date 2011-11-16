@@ -1,5 +1,6 @@
 class ChargeCard < ActiveRecord::Base
   before_update :remove_pairs
+  after_save :update_editor_name
 
   belongs_to :discipline
   belongs_to :teaching_place
@@ -27,6 +28,13 @@ class ChargeCard < ActiveRecord::Base
 
   def hours_quantity
     weeks_quantity * hours_per_week
+  end
+
+  def update_editor_name
+    reload
+    editor_name = ActiveRecord::Base.sanitize(self.name_for_pair_edit)
+    # It's not good idea to use raw SQL, but it's the only solution that works
+    ActiveRecord::Base.connection.execute("UPDATE charge_cards SET editor_name = #{editor_name} WHERE id = #{self.id};")
   end
 
   private
