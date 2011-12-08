@@ -7,3 +7,7 @@ gem "erubis"
 gem "haml"
 gem "pdfkit"
 gem "pg"
+
+group :production do
+  gem 'unicorn'
+end

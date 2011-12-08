@@ -17,6 +17,7 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     haml (3.0.21)
+    kgio (2.6.0)
     pdfkit (0.4.6)
     pg (0.10.1)
     rack (1.1.0)
@@ -27,7 +28,12 @@ GEM
       activeresource (= 2.3.8)
       activesupport (= 2.3.8)
       rake (>= 0.8.3)
+    raindrops (0.8.0)
     rake (0.8.7)
+    unicorn (4.1.1)
+      kgio (~> 2.4)
+      rack
+      raindrops (~> 0.6)
     warden (0.10.7)
       rack (>= 1.0.0)
 
@@ -41,3 +47,4 @@ DEPENDENCIES
   pdfkit
   pg
   rails (= 2.3.8)
+  unicorn
