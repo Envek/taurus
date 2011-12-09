@@ -11,6 +11,10 @@ gem 'whenever'
 
 group :production do
   gem 'unicorn'
+
+  # Backup automated system
+  gem 'backup'
+  gem 'mail'
 end
 
 group :development do

@@ -46,6 +46,9 @@ after 'deploy:update_code', :roles => :app do
   
   run "rm -f #{current_release}/config/taurus.yml"
   run "ln -s #{deploy_to}/shared/config/taurus.yml #{current_release}/config/taurus.yml"
+
+  run "rm -f #{current_release}/config/backup.rb"
+  run "ln -s #{deploy_to}/shared/config/backup.rb #{current_release}/config/backup.rb"
 end
 
 # Далее идут правила для перезапуска unicorn.
