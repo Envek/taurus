@@ -7,3 +7,6 @@ semester:
     number: 2
     title: "второй"
     link: "http://taurus.amursu.ru/"
+
+deploy:
+  to: "/srv/taurus"

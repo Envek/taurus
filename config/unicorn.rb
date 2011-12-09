@@ -1,4 +1,6 @@
-deploy_to  = "/srv/taurus"
+taurus_conf= YAML.load_file("#{File.dirname(__FILE__)}/taurus.yml")
+
+deploy_to  = taurus_conf['deploy']['to']
 rails_root = "#{deploy_to}/current"
 pid_file   = "#{deploy_to}/shared/pids/unicorn.pid"
 socket_file= "#{deploy_to}/shared/pids/unicorn.sock"
