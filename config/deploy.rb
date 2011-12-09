@@ -4,6 +4,9 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Для работы rvm
 require 'rvm/capistrano' # Для работы rvm
 require 'bundler/capistrano' # Для работы bundler. При изменении гемов bundler автоматически обновит все гемы на сервере, чтобы они в точности соответствовали гемам разработчика. 
 
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
+
 ssh_options[:forward_agent] = true # Используем локальные ключи, а не ключи сервера
 default_run_options[:pty] = true   # Для того, чтобы можно было вводить пароль
 

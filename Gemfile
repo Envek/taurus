@@ -7,6 +7,7 @@ gem "erubis"
 gem "haml"
 gem "pdfkit"
 gem "pg"
+gem 'whenever'
 
 group :production do
   gem 'unicorn'
