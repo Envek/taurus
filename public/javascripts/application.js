@@ -1,4 +1,11 @@
 jQuery(document).ready(function($) {
+
+    // Send CSRF token with every request
+    $(document).ajaxSend(function(e, xhr, options) {
+      var token = $("meta[name='csrf-token']").attr("content");
+      xhr.setRequestHeader("X-CSRF-Token", token);
+    });
+    
     // makes Rails to know that jQuery Ajax requests should be processed as .js format
     $.ajaxSetup({
         'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
