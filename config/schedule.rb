@@ -15,7 +15,7 @@ if environment == 'production'
   end
 
   every :day, :at => '8pm' do
-    command "rvm use #{ruby} && cd #{current} && bundle exec backup perform --trigger #{application} --config-file #{current}/config/backup.rb"
+    command "rvm use #{ruby} && cd #{current} && bundle exec backup perform --trigger taurus --config-file #{current}/config/backup.rb"
   end
 
 end
