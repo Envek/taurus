@@ -1,3 +1,4 @@
+env :PATH, ENV['PATH']
 taurus_conf= YAML.load_file("#{File.dirname(__FILE__)}/taurus.yml")
 
 app = taurus_conf['deploy']['app']
@@ -9,6 +10,11 @@ unicorn_conf = "#{current}/config/unicorn.rb"
 unicorn_pid = "#{deploy_to}/shared/pids/unicorn.pid"
 
 if environment == 'production'
+
+  # Запуск сервера после перезагрузки
+  every :reboot do
+    command "rvm use #{ruby} && cd #{current} && bundle exec unicorn_rails -c #{unicorn_conf} -E #{rails_env} -D"
+  end
 
   # Если Unicorn упал, пытаемся поднять
   every 1.minute do
