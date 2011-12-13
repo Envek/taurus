@@ -1,12 +1,5 @@
 # call with `cap -S app="<app>" deploy` to deploy to another instance.
 
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Для работы rvm
-require 'rvm/capistrano' # Для работы rvm
-require 'bundler/capistrano' # Для работы bundler. При изменении гемов bundler автоматически обновит все гемы на сервере, чтобы они в точности соответствовали гемам разработчика. 
-
-set :whenever_command, "bundle exec whenever"
-require "whenever/capistrano"
-
 ssh_options[:forward_agent] = true # Используем локальные ключи, а не ключи сервера
 default_run_options[:pty] = true   # Для того, чтобы можно было вводить пароль
 
@@ -18,10 +11,9 @@ set :domain, "taurus@taurus.amursu.ru" # Это необходимо для де
 # command should deploy default application instance
 set(:app, application) unless exists?(:app)
 unless app.nil?
-   set :deploy_to, "/srv/#{app}"
-else
-   set :deploy_to, "/srv/#{application}"
+   set :application, app
 end
+set :deploy_to, "/srv/#{application}"
 
 set :use_sudo, false
 set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
@@ -38,6 +30,14 @@ set :deploy_via, :remote_cache # Указание на то, что стоит �
 role :web, domain
 role :app, domain
 role :db,  domain, :primary => true
+
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Для работы rvm
+require 'rvm/capistrano' # Для работы rvm
+require 'bundler/capistrano' # Для работы bundler. При изменении гемов bundler автоматически обновит все гемы на сервере, чтобы они в точности соответствовали гемам разработчика.
+
+set :whenever_command, "rvm use #{rvm_ruby_string} && bundle exec whenever"
+set :whenever_identifier, application
+require "whenever/capistrano"
 
 after 'deploy:update_code', :roles => :app do
   # Конфиги. Их не трогаем!

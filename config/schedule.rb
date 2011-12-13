@@ -1,5 +1,6 @@
 taurus_conf= YAML.load_file("#{File.dirname(__FILE__)}/taurus.yml")
 
+app = taurus_conf['deploy']['app']
 rails_env = "production"
 ruby = "ree@taurus"
 deploy_to  = taurus_conf['deploy']['to']
@@ -15,7 +16,7 @@ if environment == 'production'
   end
 
   every :day, :at => '8pm' do
-    command "rvm use #{ruby} && cd #{current} && bundle exec backup perform --trigger taurus --config-file #{current}/config/backup.rb"
+    command "rvm use #{ruby} && cd #{current} && bundle exec backup perform --trigger #{app} --config-file #{current}/config/backup.rb"
   end
 
 end

@@ -10,3 +10,4 @@ semester:
 
 deploy:
   to: "/srv/taurus"
+  app: "taurus"
