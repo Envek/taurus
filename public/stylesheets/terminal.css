@@ -139,3 +139,7 @@
 .infobox .today {
   font-size: 300%;
 }
+
+.infobox .datetime {
+  font-size: 150%;
+}
