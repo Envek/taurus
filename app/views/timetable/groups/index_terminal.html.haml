@@ -57,7 +57,7 @@
   %p.today   Сегодня
   %p.week_no #{week_number}
   %p.week    #{(week_number % 2 != 0) ? "первая" : "вторая"} неделя
-  %p.datetime    #{Time.now.day}.#{Time.now.month}.#{Time.now.year} #{Time.now.hour}:#{Time.now.min}
+  %p.datetime    #{Time.now.day}.#{format("%02d",Time.now.month)}.#{Time.now.year} #{Time.now.hour}:#{format("%02d",Time.now.min)}
 
 #terminalhelp
   .helpbox
