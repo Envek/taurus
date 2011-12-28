@@ -143,3 +143,13 @@
 .infobox .datetime {
   font-size: 150%;
 }
+
+.terminal_mode_link {
+  display: block;
+  padding: 0.5em;
+}
+
+.terminal_mode_link_cont {
+  margin-bottom: 10px;
+  border-radius: 15px;
+}

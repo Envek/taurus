@@ -14,7 +14,9 @@
 
 .terminallinks#lecturerlinks
   %p Расписание вы можете также посмотреть с веб-сайта АмГУ по адресу <strong>www.amursu.ru</strong>
-  %p <a href="/timetable/groups?terminal=1"><strong>Расписание групп</strong></a>
+  .ui-button.ui-widget.ui-state-default.terminal_mode_link_cont
+    %a.terminal_mode_link{:href => "/timetable/groups?terminal=1"}
+      Расписание групп
 
 #terminalhelp
   .helpbox
