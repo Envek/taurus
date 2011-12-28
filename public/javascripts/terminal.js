@@ -1,4 +1,12 @@
 jQuery(document).ready(function($){
+
+    timer = setTimeout("window.location.reload(true)", 45000);
+
+    $('body.terminal').click (function () {
+      clearTimeout(timer);
+      timer = setTimeout("window.location.reload(true)", 45000);
+    });
+    
     $('.number').click(function() {
         $('#group_name_input_terminal').focus();
         character = $(this).attr('id');

@@ -9,6 +9,9 @@
     = stylesheet_link_tag 'redmond/jquery-ui-1.8.6.custom'
     = stylesheet_link_tag 'group', :media => 'all'
     <link rel="shortcut icon" href="/favicon.ico" />
-  %body
-    = yield
-
+  - if @terminal_index
+    %body.terminal
+      = yield
+  - else
+    %body
+      = yield
