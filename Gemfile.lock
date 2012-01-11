@@ -82,6 +82,7 @@ DEPENDENCIES
   erubis
   haml (~> 3.0.21)
   mail
+  net-ssh
   pdfkit
   pg
   rails (~> 2.3.8)
