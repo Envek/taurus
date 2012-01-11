@@ -14,7 +14,7 @@ group :production do
 
   # Backup automated system
   gem 'backup'
-  gem 'net-ssh'
+  gem 'net-ssh', "~> 2.1.4"
   gem 'mail'
 end
 
