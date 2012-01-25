@@ -15,12 +15,9 @@ class Group < ActiveRecord::Base
   def course
     this_year = Time.now.year.to_i
     course = this_year - forming_year
-    if forming_year <= this_year and Time.now.month.to_i > 7
-      course += 1
-    else
-      course = '(1)'
-    end
-    course
+    course += 1 if forming_year <= this_year and Time.now.month.to_i >= 7
+    course = '(1)' if forming_year > this_year or (forming_year == this_year and Time.now.month.to_i < 7)
+    return course
   end
 
   def get_pairs
