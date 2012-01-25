@@ -42,7 +42,8 @@ jQuery(document).ready(function($){
         minLength: 2,
         source: function(request, response) {
             $.getJSON('/editor/charge_cards.json', {
-              charge_card: request.term
+              charge_card: request.term,
+              classroom_id: <%= @pair.classroom.id %>,
             },
             function(data) {
                 var charge_cards = new Array(0);

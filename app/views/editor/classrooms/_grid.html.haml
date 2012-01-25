@@ -3,7 +3,9 @@
   %table
     %tr
       %th{:colspan => 13}
-        = "Аудитория #{grid.name} (#{grid.building.name}). Вместимость: #{grid.capacity ? grid.capacity.to_s + ' человек.' : 'не указана.'} "
+        Аудитория #{grid.name} (#{grid.building.name}).
+        Вместимость: #{grid.capacity ? grid.capacity.to_s + ' человек.' : 'не указана.'}
+        #{"В эту аудиторию можно поместить пары только для кафедры #{grid.department.short_name}!" if grid.department_lock}
         .closebutton{:class => "grid_close", :grid_id => "#{grid.id}"}
     %tr
       %th

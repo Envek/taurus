@@ -83,6 +83,7 @@ ru:
         capacity: 'Вместимость'
         department: 'Кафедра'
         name: 'Номер аудитории'
+        department_lock: 'Только для кафедры'
       department:
         faculty: 'Факультет'
         short_name: 'Сокращенное название'
