@@ -10,12 +10,16 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace :editor do |e|
     e.resources :classrooms
     e.resources :pairs
-    e.resources :charge_cards
+    e.resources :editor_charge_cards
     e.resources :classrooms_sheets
     e.resources :groups
     e.resource  :groups_list do |list|
       list.resources :groups
     end
+    e.resources :departments
+    e.resources :disciplines
+    e.resources :teaching_places
+    e.resources :charge_cards
     e.root :controller => 'classrooms_sheets'
   end
 
