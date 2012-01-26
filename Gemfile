@@ -8,6 +8,7 @@ gem "haml", "~> 3.0.21"
 gem "pdfkit"
 gem "pg"
 gem 'whenever'
+gem 'unicode'
 
 group :production do
   gem 'unicorn'

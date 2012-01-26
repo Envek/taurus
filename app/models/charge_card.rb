@@ -30,6 +30,12 @@ class ChargeCard < ActiveRecord::Base
     weeks_quantity * hours_per_week
   end
 
+  def editor_name_include? word
+    if editor_name
+      Unicode::downcase(editor_name).include? Unicode.downcase(word)
+    end
+  end
+
   def update_editor_name
     reload
     editor_name = ActiveRecord::Base.sanitize(self.name_for_pair_edit)

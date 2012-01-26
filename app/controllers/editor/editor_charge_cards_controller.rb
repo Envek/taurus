@@ -9,8 +9,9 @@ class Editor::EditorChargeCardsController < Editor::BaseController
       charge_card = ChargeCard.all(:select => "id,editor_name")
     end
     charge_card_search.each do |s|
-        charge_card = charge_card.select { |c| c.editor_name.include? s if c.editor_name}
+      charge_card = charge_card.select { |c| c.editor_name_include? s }
     end
+    charge_card.sort! {|a,b| a.editor_name <=> b.editor_name}
     respond_to do |format|
       format.json { render :json => charge_card.to_json(:only => [:id], :methods => [:editor_name])}
     end
