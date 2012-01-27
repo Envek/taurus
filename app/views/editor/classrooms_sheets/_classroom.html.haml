@@ -2,6 +2,8 @@
 %tr{:id => classroom.id, :class => 'classroom_row'}
   %th
     - capacity = classroom.capacity? ? " (#{classroom.capacity} чел.)" : ''
-    = "#{classroom.name}#{capacity}"
+    %p= "#{classroom.name}#{capacity}"
+    - if classroom.department
+      %p #{classroom.department.short_name} #{classroom.department_lock ? "⚓" : ""}
     = render :partial => 'day', :collection => @days, :locals => {:classroom => classroom, :pairs => pairs}
 

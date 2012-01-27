@@ -5,8 +5,10 @@
       %th{:colspan => 13}
         Аудитория #{grid.name} (#{grid.building.name}).
         Вместимость: #{grid.capacity ? grid.capacity.to_s + ' человек.' : 'не указана.'}
-        - if grid.department_lock and grid.department
-          В эту аудиторию можно поместить пары только для кафедры #{grid.department.short_name}!
+        - if grid.department
+          Кафедра: #{grid.department.short_name}.
+          - if grid.department_lock
+            В эту аудиторию можно поместить пары только для этой кафедры!
         .closebutton{:class => "grid_close", :grid_id => "#{grid.id}"}
     %tr
       %th
