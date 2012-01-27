@@ -16,4 +16,8 @@ class TeachingPlace < ActiveRecord::Base
     lecturer.name
   end
   
+  def whish
+    lecturer.whish
+  end
+  
 end

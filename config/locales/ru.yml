@@ -114,6 +114,7 @@ ru:
       teaching_place:
         lecturer: 'Преподаватель'
         position: 'Должность'
+        whish: 'Пожелания'
     description:
       charge_card:
         teaching_place: 'Внимание! При смене преподавателя все имеющиеся пары для этой карты будут удалены!'
