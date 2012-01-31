@@ -98,6 +98,7 @@ ru:
         course: 'Курс'
         forming_year: 'Год формирования'
         name: 'Номер группы'
+        speciality: 'Специальность'
       jet:
         group: 'Группа'
         subgroups_quantity: 'Количество подргупп'
@@ -111,6 +112,7 @@ ru:
       speciality:
         code: 'Код специальности'
         name: 'Название специальности'
+        department: 'Кафедра'
       teaching_place:
         lecturer: 'Преподаватель'
         position: 'Должность'
