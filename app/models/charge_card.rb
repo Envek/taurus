@@ -19,7 +19,8 @@ class ChargeCard < ActiveRecord::Base
     self.groups.each do |group|
       groups << group.name
     end
-    [discipline.try(:name), lesson_type.try(:name), groups].compact.join(", ")
+    n = [discipline.try(:name), lesson_type.try(:name), groups].compact.join(", ")
+    n + "; #{hours_quantity} ч."
   end
 
   def name_for_pair_edit
