@@ -20,6 +20,8 @@ ActionController::Routing::Routes.draw do |map|
     e.resources :disciplines
     e.resources :teaching_places
     e.resources :charge_cards
+    e.connect 'teaching_plans', :controller => "teaching_plans", :action => "index"
+    e.connect 'teaching_plans/:group_id', :controller => "teaching_plans", :action => "show"
     e.root :controller => 'classrooms_sheets'
   end
 

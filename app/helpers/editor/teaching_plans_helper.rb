@@ -1,0 +1,2 @@
+module Editor::TeachingPlansHelper
+end

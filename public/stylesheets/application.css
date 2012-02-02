@@ -57,3 +57,96 @@
     border: 1px black solid; }
 
 /* GroupsList END */
+
+/* Tables */
+table.infotable {
+  border-collapse: collapse;
+  border: 1px solid black;
+  color: black;
+}
+
+table.infotable td, table.infotable th {
+  border: 1px solid silver;
+  padding: 0.15em 0.5em;
+  font-size: 10pt;
+  text-align: left;
+}
+
+table.infotable thead th {
+  background: #555;
+  border-color: gray;
+  color: white;
+  text-align: center;
+}
+
+table.infotable td.numeric-cell, table.infotable th.numeric-cell {
+  text-align: right;
+}
+
+table.infotable tr {
+  background: white;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+table.infotable tr.red {
+  background-color: #FF7F7F;
+  background: rgba(255, 127, 127, 0.9);
+}
+
+table.infotable tr.red td {
+  border-color: #CC6F6F;
+}
+
+table.infotable tr.gray {
+  background-color: #AFAFAF;
+  background: rgba(175, 175, 175, 0.9);
+}
+
+table.infotable tr.gray td {
+  border-color: #999999;
+}
+    
+table.infotable tr.avg {
+  color: blue;
+  font-weight: bold;
+}
+
+table.infotable tr:nth-child(even) {
+  background: #F0F0F0;
+  background: rgba(200, 200, 200, 0.3);
+}
+
+table.infotable tr:nth-child(even).red {
+  background: #FF6F6F;
+  background: rgba(255, 111, 111, 0.9);
+}
+
+table.infotable tr:nth-child(even).gray {
+  background: #A6A6A6;
+  background: rgba(166, 166, 166, 0.9);
+}
+                
+table.infotable tr.highlight, table.infotable tr:hover, 
+table.infotable tr:nth-child(even):hover,
+table.infotable tr.red.highlight, table.infotable tr.gray.highlight {
+  background: lightyellow;
+  color: red;
+}
+
+table.infotable caption {
+  background: #555;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 0.2em 0.5em;  
+}
+
+table.infotable.fullwidth-table {
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+table.infotable tr.hidden {
+  display: none;
+}

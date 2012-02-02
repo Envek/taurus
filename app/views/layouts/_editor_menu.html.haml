@@ -6,3 +6,9 @@
     %li #{ link_to 'Карты нагрузки', editor_departments_path }
     %li #{ link_to 'Выход', destroy_editor_session_path, :class => "red" }
     %li.semester Семестр: #{TAURUS_CONFIG["semester"]["current"]["title"]}. #{link_to 'Сменить', TAURUS_CONFIG["semester"]["other"]["link"]+"editor"}.
+
+- if params[:controller].include? "teaching_plans" or params[:controller].include? "departments"
+  .submenu
+    %ul
+      %li #{ link_to 'Карты по преподавателям и дисциплинам', editor_departments_path }
+      %li #{ link_to "Учебные планы по группам", url_for(:controller => "teaching_plans", :action => "index") }

@@ -1,0 +1,16 @@
+%p
+  %label{:for => "teaching_plans_group_input"} Поиск группы:
+  %input#teaching_plans_group_input{:size => 25, :placeholder => "Введите номер группы"}
+  %button#teaching_plans_group_select Отбор
+  %button#teaching_plans_group_reset Сброс
+  
+%table#teaching_plans_group_list.infotable.fullwidth-table
+  %thead
+    %tr
+      %th Группа
+      %th Действие
+  %tbody
+    - @groups.each do |group|
+      %tr
+        %td= group.name
+        %td= link_to "Учебный план", url_for(:controller => "teaching_plans", :action => "show", :group_id => group.id)

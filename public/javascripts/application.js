@@ -180,5 +180,22 @@ jQuery(document).ready(function($) {
             $('.receiver_count', grid_context).text((newnum+2)+"/"+count);
         }
     });  
-});
 
+    // Учебные планы у редакторов расписания
+
+    // Поиск группы
+    $("#teaching_plans_group_select").click( function () {
+        var value = $("#teaching_plans_group_input").val();
+        $("#teaching_plans_group_list tbody tr").each( function () {
+            if ($("td:first-child", this).text().indexOf(value) < 0) {
+                $(this).addClass("hidden");
+            } else {
+                $(this).removeClass("hidden");
+            }
+        });
+    });
+    $("#teaching_plans_group_reset").click( function () {
+        $("#teaching_plans_group_input").val('');
+        $("#teaching_plans_group_list tbody tr").removeClass("hidden");
+    });
+});
