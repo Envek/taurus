@@ -1,14 +1,14 @@
 .menu
   %ul
-    %li #{ link_to 'Редактор расписания', editor_classrooms_path }
-    %li #{ link_to 'Занятость аудиторий', editor_classrooms_sheets_path }
-    %li #{ link_to 'Листы расписания', new_editor_groups_list_path }
-    %li #{ link_to 'Карты нагрузки', editor_departments_path }
+    %li #{ link_to 'Редактор по аудиториям', editor_classrooms_root_path }
+    %li #{ link_to 'Занятость аудиторий', editor_classrooms_classrooms_sheets_path }
+    %li #{ link_to 'Листы расписания', new_editor_reference_groups_list_path }
+    %li #{ link_to 'Карты нагрузки', editor_reference_departments_path }
     %li #{ link_to 'Выход', destroy_editor_session_path, :class => "red" }
     %li.semester Семестр: #{TAURUS_CONFIG["semester"]["current"]["title"]}. #{link_to 'Сменить', TAURUS_CONFIG["semester"]["other"]["link"]+"editor"}.
 
 - if params[:controller].include? "teaching_plans" or params[:controller].include? "departments"
   .submenu
     %ul
-      %li #{ link_to 'Карты по преподавателям и дисциплинам', editor_departments_path }
-      %li #{ link_to "Учебные планы по группам", url_for(:controller => "teaching_plans", :action => "index") }
+      %li #{ link_to 'Карты по преподавателям и дисциплинам', editor_reference_departments_path }
+      %li #{ link_to "Учебные планы по группам", url_for(:controller => "reference/teaching_plans", :action => "index") }

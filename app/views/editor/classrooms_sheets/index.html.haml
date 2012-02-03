@@ -1,8 +1,0 @@
-.info
-  %p<
-    <strong>Внимание!</strong> Вы составляете расписание на #{TAURUS_CONFIG["semester"]["current"]["title"]} семестр. Перейти на #{link_to TAURUS_CONFIG["semester"]["other"]["title"]+" семестр", TAURUS_CONFIG["semester"]["other"]["link"]+"editor"}?
-
-.workspace
-  - @buildings.each do |building|
-    %p
-      = link_to "#{building.name} корпус", editor_classrooms_sheet_path(building)

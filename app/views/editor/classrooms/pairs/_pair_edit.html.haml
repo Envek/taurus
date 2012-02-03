@@ -1,0 +1,30 @@
+.update_form{:id => "pair_edit_#{@pair.id.to_s}"}
+  - remote_form_for([:editor, :classrooms, @pair]) do |f|
+    %p{:id => "week_block"}
+      %br
+      = f.radio_button :week, 0
+      = 'Обе недели'
+      %br
+      = f.radio_button :week, 1
+      = 'Первая неделя'
+      %br
+      = f.radio_button :week, 2
+      = 'Вторая неделя'
+    %p{:id => "charge_card_block"}
+      = 'Карта нагрузки'
+      %br
+      %input{:class => "charge_card", :id => "charge_card_name", :size => 20, :value => "#{@pair.charge_card.editor_name if @pair.charge_card}"}
+      = f.hidden_field :charge_card_id
+    %p{:id => "dates_block"}
+      %span{:id => "active_at_label"} Начало занятий
+      %br
+      = f.text_field :active_at, {:value => @pair.active_at.strftime('%d.%m.%Y'),:size => 10}
+      %br
+      %span{:id => "expired_at_label"} Конец занятий
+      %br
+      = f.text_field :expired_at, {:value => @pair.expired_at.strftime('%d.%m.%Y'), :size => 10}
+    .subgroups
+      - f.fields_for :subgroups, @pair.subgroups do |s|
+        = render 'subgroup', :s => s
+    %p
+      = f.submit 'Сохранить'
