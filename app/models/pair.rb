@@ -5,6 +5,9 @@ class Pair < ActiveRecord::Base
 
   accepts_nested_attributes_for :subgroups
 
+  validate :expiration_date_validness, :activation_date_validness
+  validate :week_number_existance
+
   def name
     [lecturer, full_discipline, 'ауд: ' + classroom.full_name, timeslot, groups_string].select{ |e| e != ''}.join(', ')
   end
@@ -173,4 +176,17 @@ class Pair < ActiveRecord::Base
       end
     end
   end
+  
+  def activation_date_validness
+    errors.add_to_base "Дата начала ведения данной пары должна быть установлена!" if active_at.blank?
+  end
+
+  def expiration_date_validness
+    errors.add_to_base "Дата окончания ведения данной пары должна быть установлена!" if expired_at.blank?
+  end
+
+  def week_number_existance
+    errors.add_to_base "Номер недели должен быть указан" unless (0..2).include? week
+  end
+
 end
