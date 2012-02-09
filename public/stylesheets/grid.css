@@ -149,3 +149,11 @@ img {
 
 .empty {
   background-color: #aaffaa; }
+  
+#dates_block {
+  display: none;
+}
+
+.subgroup {
+  margin-bottom: 0.5em;
+}

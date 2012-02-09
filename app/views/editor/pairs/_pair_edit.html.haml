@@ -15,16 +15,18 @@
       %br
       %input{:class => "charge_card", :id => "charge_card_name", :size => 20, :value => "#{@pair.charge_card.editor_name if @pair.charge_card}"}
       = f.hidden_field :charge_card_id
+    .subgroups
+      - f.fields_for :subgroups, @pair.subgroups do |s|
+        = render 'subgroup', :s => s
+    %p#dates_block_show
+      %a{:href => ""} Начало и окончание занятий?
     %p{:id => "dates_block"}
       %span{:id => "active_at_label"} Начало занятий
       %br
       = f.text_field :active_at, {:value => @pair.active_at.strftime('%d.%m.%Y'),:size => 10}
       %br
-      %span{:id => "expired_at_label"} Конец занятий
+      %span{:id => "expired_at_label"} Окончание занятий
       %br
       = f.text_field :expired_at, {:value => @pair.expired_at.strftime('%d.%m.%Y'), :size => 10}
-    .subgroups
-      - f.fields_for :subgroups, @pair.subgroups do |s|
-        = render 'subgroup', :s => s
     %p
       = f.submit 'Сохранить'
