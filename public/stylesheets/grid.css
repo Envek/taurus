@@ -149,3 +149,86 @@ img {
 
 .empty {
   background-color: #aaffaa; }
+
+
+#group_form {
+  margin: 0 0 -40px -2px;
+  padding: 5px;
+  border: 1px solid black;
+  background: lavender;
+  width: 200px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.group_editor {
+  float: left;
+  margin-left: -2px;
+}
+
+.group_editor table {
+  border-collapse: collapse;
+  border: 2px solid black;
+  width: 250px;
+}
+
+.group_editor table.legend {
+  width: 200px;
+}
+
+.group_editor table caption {
+  font-size: 200%;
+  font-weight: bold;
+}
+
+.group_editor tbody, .group_editor thead {
+  border: 2px solid black;
+}
+
+.group_editor td,th {
+  border: 1px solid black;
+  background: lavender;
+}
+
+.group_editor.legend .weekday div {
+  writing-mode: tb-rl;
+  -webkit-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  transform: rotate(270deg);
+  margin: 0;
+}
+
+.group_editor.legend th.weekday {
+  width: 25px;
+  max-width: 30px;
+  min-width: 20px;
+}
+
+.group_editor.legend th.weeknum {
+  height: 32px;
+  max-height: 32px;
+  width: 75px;
+  min-width: 75px;
+  max-width: 100px;  
+}
+
+.group_editor.legend col.pairtime {
+  width: 75px;
+  min-width: 75px;
+  max-width: 100px;
+}
+
+.group_editor td.timeslot {
+  height: 67px;
+  position: relative; }
+  overflow: hidden;
+  width: 100%;
+  min-width: 250px;
+  padding: -1px;
+}
+
+.group_editor th.subgroup {
+  width: 50%;
+  min-width: 125px;
+}

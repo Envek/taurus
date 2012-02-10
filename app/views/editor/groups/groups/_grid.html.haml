@@ -1,0 +1,12 @@
+.group_editor{:id => "group_#{group.id}"}
+  %table
+    %caption
+      #{group.name}
+      .closebutton{:class => "group_editor_close", :group_id => "#{group.id}"}
+    %thead
+      %tr
+        %th.subgroup 1 подгруппа
+        %th.subgroup 2 подгруппа
+    - @days.each_with_index do |day, day_counter|
+      %tbody
+        = render :partial => 'row', :collection => @times, :as => :time, :locals => {:group => group, :day => day}

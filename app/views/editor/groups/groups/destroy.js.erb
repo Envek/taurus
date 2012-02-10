@@ -1,0 +1,28 @@
+<% grid_id = escape_javascript "group_#{@id}" %>
+jQuery(document).ready(function($){
+    $('#<%= grid_id %>').fadeOut('fast', function() {
+        $('#<%= grid_id %>').remove();
+        $('#group_name').autocomplete({
+            disabled: false,
+            source: function(request, response) {
+                $.getJSON('/editor/groups/groups.json', {
+                  group: request.term,
+                  except: '<%= escape_javascript @groups.join(',') %>'
+                },
+                function(data) {
+                    var groups = new Array(0);
+                    data.each(function(i) {
+                        groups.push({ label: i.group.name, value: i.group.id });
+                    });
+                    response(groups);
+                });
+            },
+            select: function(event, ui) {
+              $.get('/editor/groups/groups/' + ui.item.value);
+              return false;
+            }
+        });
+        $('#group_name').focus();
+            return false;
+    });
+});

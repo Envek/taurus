@@ -1,0 +1,44 @@
+jQuery(document).ready(function($){
+    $('#group_workspace').append('<%= escape_javascript render :partial => "grid", :locals => {:group => @group} %>');
+    $('.receiver').droppable({
+        accept: '.pair',
+        over: function(){ $(this).addClass('hovered_receiver');},
+        out: function(){ $(this).removeClass('hovered_receiver');},
+        drop: function(event, ui){
+            $.post('/editor/groups/pairs/' + ui.draggable.attr('id'), {
+                _method: 'put',
+                group: $(this).attr('grid_id'),
+                week: $(this).attr('week_number'),
+                subgroup: $(this).attr('subgroup'),
+                day_of_the_week: $(this).attr('day_of_the_week'),
+                pair_number: $(this).attr('pair_number'),
+                container: $(this).attr('id'),
+                index: $('.receiver', $(this).parent()).not('.hidden_receiver').prevAll('.receiver').length
+            }, null, "script");
+            $(this).removeClass('hovered_receiver');
+        }
+    });
+    $('.pair').draggable();
+    // New autocomplete (with opened groups excepted)
+    $('#group_name').autocomplete({
+        disabled: false,
+        source: function(request, response) {
+            $.getJSON('/editor/groups/groups.json', {
+              group: request.term,
+              except: '<%= escape_javascript @groups.join(',') %>'
+            },
+            function(data) {
+                var groups = new Array(0);
+                data.each(function(i) {
+                    groups.push({ label: i.group.name, value: i.group.id });
+                });
+                response(groups);
+            });
+        },
+        select: function(event, ui) {
+          $.get('/editor/groups/groups/' + ui.item.value);
+          return false;
+        }
+    });
+    $('#group_name').val('');
+});

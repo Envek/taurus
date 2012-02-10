@@ -18,7 +18,8 @@ ActionController::Routing::Routes.draw do |map|
     end
     # Pair editor based on groups
     e.namespace :groups do |g|
-      
+      g.resources :groups
+      g.root :controller => 'groups'
     end
     # Miscellaneous reference materials for editor needs
     e.namespace :reference do |r|

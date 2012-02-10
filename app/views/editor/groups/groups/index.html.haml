@@ -1,0 +1,16 @@
+.info
+  %p<
+    <strong>Внимание!</strong> Вы составляете расписание на #{TAURUS_CONFIG["semester"]["current"]["title"]} семестр. Перейти на #{link_to TAURUS_CONFIG["semester"]["other"]["title"]+" семестр", TAURUS_CONFIG["semester"]["other"]["link"]+"editor"}?
+
+#group_form
+  %p
+    Группа:
+    %input{:id => "group_name", :size => 10}
+
+#group_workspace
+  = render :partial => 'legend'
+  - # If group id specified, show it's grid immediately
+  - if @group
+    = render :partial => 'grid', :locals => {:group => @group}
+
+= javascript_include_tag("editors/groups")
