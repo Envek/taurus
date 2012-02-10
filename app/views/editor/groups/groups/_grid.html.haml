@@ -9,4 +9,4 @@
         %th.subgroup 2 подгруппа
     - @days.each_with_index do |day, day_counter|
       %tbody
-        = render :partial => 'row', :collection => @times, :as => :time, :locals => {:group => group, :day => day}
+        = render :partial => 'row', :collection => @times, :as => :time, :locals => {:group => group, :day_counter => day_counter}

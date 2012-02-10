@@ -9,14 +9,14 @@ class Editor::Groups::GroupsController < Editor::BaseController
     @groups = Group.all(:conditions => ['id NOT IN (?) AND name LIKE ?', except, classroom], :select => "id, name")
     # If group id specified, show it's grid immediately
     if @group_id
-      @group = Group.find(@group_id, :include => {:jets => {:charge_card => :pairs}})
+      @group = Group.find(@group_id, :include => {:jets => {:subgroups => {:pair => :charge_card}}})
       @days = Timetable.days
       @times = Timetable.times
       @weeks = Timetable.weeks
       unless @group
         flash[:error] = 'Нет группы с таким названием'
       else
-        @pairs = @group.jets.map {|j| j.charge_card.pairs}.flatten
+        @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
       end
     end
     respond_to do |format|
@@ -29,11 +29,11 @@ class Editor::Groups::GroupsController < Editor::BaseController
     @days = Timetable.days
     @times = Timetable.times
     @weeks = Timetable.weeks
-    @group = Group.find(params[:id], :include => {:jets => {:charge_card => :pairs}})
+    @group = Group.find(params[:id], :include => {:jets => {:subgroups => {:pair => :charge_card}}})
     unless @group
       flash[:error] = 'Нет группы с таким названием'
     else
-      @pairs = @group.jets.map {|j| j.charge_card.pairs}.flatten
+      @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
       grids = YAML.load(cookies[:groups])
       grids << @group.id
       cookies[:groups] = YAML.dump(grids)

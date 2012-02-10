@@ -221,7 +221,7 @@ img {
 
 .group_editor td.timeslot {
   height: 67px;
-  position: relative; }
+  position: relative;
   overflow: hidden;
   width: 100%;
   min-width: 250px;
@@ -231,4 +231,30 @@ img {
 .group_editor th.subgroup {
   width: 50%;
   min-width: 125px;
+}
+
+.group_editor table.timeslot {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  margin: -3px;
+  border: none;
+  border-collapse: collapse;
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  height: 73px;
+  min-height: 73px;
+  max-height: 73px;
+}
+
+.group_editor table.timeslot td[rowspan="1"] {
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+}
+
+.group_editor table.timeslot td[rowspan="2"] {
+  height: 67px;
+  min-height: 67px;
+  max-height: 67px;
 }
