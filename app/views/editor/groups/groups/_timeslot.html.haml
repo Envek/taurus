@@ -9,20 +9,20 @@
     %tbody
       - if both_week_pairs.any? and first_week_pairs.empty? and second_week_pairs.empty?
         %tr
-          = render 'subgroups', :pairs => both_week_pairs, :skipcell => [], :singlerow => true, :cellsintop => []
+          = render 'subgroups', :pairs => both_week_pairs, :skipcell => [], :singlerow => true, :cellsintop => [], :week => 0, :day => day, :pair => pair, :index => pair_group_counter
         %tr
       - else
         - skipcell = []
         - cellsintop = []
         %tr
           - if first_week_pairs.any? or both_week_pairs.any?
-            = render 'subgroups', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop
+            = render 'subgroups', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop, :week => 1, :day => day, :pair_number => pair, :index => pair_group_counter
           - else
-            %td
+            %td{:colspan => 2}
               .receiver{ :id => "#{id}_week1", :grid_id => "#{@group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 1}
         %tr
           - if second_week_pairs.any?
-            = render 'subgroups', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop
+            = render 'subgroups', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop, :week => 2, :day => day, :pair_number => pair, :index => pair_group_counter
           - else
-            %td
+            %td{:colspan => 2}
               .receiver{ :id => "#{id}_week2", :grid_id => "#{@group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 2}

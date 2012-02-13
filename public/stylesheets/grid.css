@@ -69,7 +69,8 @@
 .grid_mgmt_panel {
   position: absolute;
   bottom: 0;
-  right: 0; }
+  right: 0;
+  z-index: 1000; }
   .grid_mgmt_panel .receiver_add,
   .grid_mgmt_panel .receiver_prev,
   .grid_mgmt_panel .receiver_next {
@@ -221,6 +222,8 @@ img {
 
 .group_editor td.timeslot {
   height: 67px;
+  min-height: 67px;
+  max-height: 67px;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -234,6 +237,7 @@ img {
 }
 
 .group_editor table.timeslot {
+  table-layout: fixed;
   box-sizing: content-box;
   -moz-box-sizing: content-box;
   margin: -3px;
@@ -245,6 +249,19 @@ img {
   height: 73px;
   min-height: 73px;
   max-height: 73px;
+  overflow: hidden;
+  position: relative;
+}
+
+.group_editor table.timeslot tr {
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;  
+}
+
+.group_editor table.timeslot td {
+  position: relative;
+  overflow: hidden;
 }
 
 .group_editor table.timeslot td[rowspan="1"] {
@@ -257,4 +274,33 @@ img {
   height: 67px;
   min-height: 67px;
   max-height: 67px;
+}
+
+.group_editor table.timeslot td[colspan="1"] {
+  width: 50%;
+  min-width: 125px;
+  max-width: 125px;
+}
+
+.group_editor table.timeslot td[colspan="2"] {
+  width: 100%;
+  min-width: 250px;
+  max-width: 250px;
+}
+
+.group_editor table.timeslot td.empty {
+  min-width: 125px;
+  min-height: 32px;
+}
+
+.group_editor .pair {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.group_editor .pair_content {
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
