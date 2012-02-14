@@ -2,7 +2,7 @@ class Editor::Groups::GroupsController < Editor::BaseController
 
   def index
     flash[:error] = nil
-    session[:group_editor] = {:groups => []} unless session[:group_editor].include? :groups
+    session[:group_editor] = {:groups => []} unless session[:group_editor]
     @group = Group.find(params[:group_id]) if params[:group_id]
     except = params[:except] ? params[:except].split(',').map { |e| e.to_i } : "0"
     classroom = params[:group].to_s.gsub('%', '\%').gsub('_', '\_') + '%'

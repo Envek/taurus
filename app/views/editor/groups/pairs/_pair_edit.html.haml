@@ -1,5 +1,6 @@
 .update_form{:id => "pair_edit_#{@pair.id.to_s}"}
   - remote_form_for([:editor, :groups, @pair]) do |f|
+    = hidden_field_tag(:group, params[:group_id]) if params[:group_id]
     %p{:id => "week_block"}
       %br
       = f.radio_button :week, 0
