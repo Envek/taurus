@@ -95,6 +95,13 @@ class Pair < ActiveRecord::Base
   def max_subgroups
     self.charge_card.jets.max_by { |jet| jet.subgroups_quantity }.subgroups_quantity
   end
+
+  def guess_expire_date
+    year = Date.today.month > 11 ? Date.today.year+1 : Date.today.year
+    month = Date.today.month > 5 ? ( Date.today.month > 11 ? 6 : 12 ) : 5
+    day = month == 6 ? 30 : 31
+    self.expired_at = Date.new(year, month, day)
+  end
   
   private
   

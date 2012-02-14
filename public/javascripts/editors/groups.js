@@ -29,10 +29,11 @@ jQuery(document).ready(function($) {
     $('#group_name').focus();
 
     $('.receiver').live('dblclick', function() {
-        $.post('/editor/groups/pairs/', {
+        $.get('/editor/groups/pairs/new', {
             container: $(this).attr('id'),
             group_id: $(this).attr('grid_id'),
-            week: $(this).attr('week_number'),
+            week: $(this).attr('week'),
+            subgroup: $(this).attr('sub'),
             day_of_the_week: $(this).attr('day_of_the_week'),
             pair_number: $(this).attr('pair_number')
         }, null, "script");
@@ -40,7 +41,9 @@ jQuery(document).ready(function($) {
     });
 
     $('.edit').live('click', function() {
-      $.get('/editor/groups/pairs/' + $(this).attr('pair_id') + '/edit', null, "script");
+      $.get('/editor/groups/pairs/' + $(this).attr('pair_id') + '/edit', {
+        group_id: $(this).closest(".group_editor").attr('group_id'),
+      }, "script");
       return false;
     });
 

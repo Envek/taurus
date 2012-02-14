@@ -1,0 +1,7 @@
+.subgroup
+  %br
+  = 'Группа ' + s.object.jet.group.name
+  %br
+  - options = [['Без подгрупп', 0], ['Первая подгруппа', 1], ['Вторая подгруппа', 2]]
+  - options += Array.new(3) { |index| ["Подгруппа № %d" % (index+3), index+3] }
+  = s.select :number, options_for_select(options, s.object.number)

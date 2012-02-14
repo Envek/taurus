@@ -1,6 +1,6 @@
 %tr
-  %td.timeslot{:colspan => 2}
+  %td.timeslot{:colspan => 2, :id => "group_editor_grid#{@group.id}_day#{day_counter+1}_pair#{time_counter+1}"}
     - @pair_groups = pairs_split_by_time(pairs_by_timeslot(@pairs, day_counter+1, time_counter+1))
     - if @pair_groups.any?
-      = render :partial => 'timeslot', :collection => @pair_groups, :as => :pair_group, :locals => {:day => day_counter, :pair => time_counter}
-    = render :partial => 'recv_mgmt_panel', :locals => {:rcv_count => @pair_groups.count || 1}
+      = render :partial => '/editor/groups/groups/timeslot', :collection => @pair_groups, :as => :pair_group, :locals => {:day => day_counter+1, :pair => time_counter+1}
+    = render :partial => '/editor/groups/groups/recv_mgmt_panel', :locals => {:rcv_count => @pair_groups.count || 1}
