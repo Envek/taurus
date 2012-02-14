@@ -2,23 +2,11 @@ class Editor::Groups::GroupsController < Editor::BaseController
 
   def index
     flash[:error] = nil
-    request.xhr? ? nil : cookies[:groups] = YAML.dump([0])
-    @group_id = params[:group_id].to_i unless params[:group_id].nil?
+    session[:group_editor] = {:groups => []} unless session[:group_editor].include? :groups
+    @group = Group.find(params[:group_id]) if params[:group_id]
     except = params[:except] ? params[:except].split(',').map { |e| e.to_i } : "0"
     classroom = params[:group].to_s.gsub('%', '\%').gsub('_', '\_') + '%'
     @groups = Group.all(:conditions => ['id NOT IN (?) AND name LIKE ?', except, classroom], :select => "id, name")
-    # If group id specified, show it's grid immediately
-    if @group_id
-      @group = Group.find(@group_id, :include => {:jets => {:subgroups => {:pair => :charge_card}}})
-      @days = Timetable.days
-      @times = Timetable.times
-      @weeks = Timetable.weeks
-      unless @group
-        flash[:error] = 'Нет группы с таким названием'
-      else
-        @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
-      end
-    end
     respond_to do |format|
       format.html
       format.json { render :json => @groups }
@@ -34,11 +22,8 @@ class Editor::Groups::GroupsController < Editor::BaseController
       flash[:error] = 'Нет группы с таким названием'
     else
       @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
-      grids = YAML.load(cookies[:groups])
-      grids << @group.id
-      cookies[:groups] = YAML.dump(grids)
-      @groups = YAML.load(cookies[:groups])
-
+      session[:group_editor][:groups] << @group.id if session[:group_editor].include? :groups
+      @groups = (session[:group_editor] or {})[:groups] or []
       respond_to do |format|
         format.js
       end
@@ -54,14 +39,14 @@ class Editor::Groups::GroupsController < Editor::BaseController
   end
 
   def destroy
-    @id = params[:id]
-    grids = YAML.load(cookies[:groups])
-    grids.delete(@id.to_i)
-    cookies[:groups] = YAML.dump(grids)
-    @groups = YAML.load(cookies[:groups])
+    if session[:group_editor].include? :groups
+      @id = params[:id].to_i
+      session[:group_editor][:groups].delete(@id)
+      @groups = session[:group_editor][:groups]
 
-    respond_to do |format|
-      format.js
+      respond_to do |format|
+        format.js
+      end
     end
   end
   

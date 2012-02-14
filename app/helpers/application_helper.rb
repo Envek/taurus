@@ -20,7 +20,7 @@ module ApplicationHelper
     separators = [activation_dates.min]
     activation_dates = activation_dates - separators
     until activation_dates.empty?
-      sep = pairs.select{|p| p[0].active_at == activation_dates.min}.max_by{|p| p[0].expired_at}.expired_at
+      sep = pairs.select{|p| p[0].active_at == activation_dates.min}.max_by{|p| p[0].expired_at}[0].expired_at
       separators << sep
       activation_dates = activation_dates.find_all { |d| d > sep }
     end
