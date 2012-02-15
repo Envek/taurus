@@ -10,11 +10,11 @@ module ApplicationHelper
   end
 
   def pairs_by_timeslot(pairs, day, pair)
-    pairs.select {|p| p[0].pair_number == pair && p[0].day_of_the_week == day}
+    pairs.select {|p| p[0].pair_number == pair && p[0].day_of_the_week == day} if pairs
   end
   
   def pairs_split_by_time(pairs)
-    return [[]] if pairs.empty?
+    return [[]] if pairs.nil? or pairs.empty?
     # Step 1. Find dates — groups separators
     activation_dates = pairs.map{|p| p[0].active_at}.uniq.sort
     separators = [activation_dates.min]

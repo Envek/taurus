@@ -1,36 +1,18 @@
 class Editor::Groups::PairsController < ApplicationController
 
   def new
-    keys = %w(week day_of_the_week pair_number).map {|k| k.to_sym }
-    allowed_params = keys.map {|i| params[i].nil?? {} : {i => params[i]}}.inject({}) {|r,i| r.merge i }
-    @pair = Pair.new(allowed_params)
-    @pair.active_at = Date.today
-    @pair.guess_expire_date
-    respond_to do |format|
-      format.js { render :edit }
-    end
   end
 
   def create
-    flash[:error] = nil
-    @pair = Pair.new do |p|
-      p.classroom_id = params[:classroom_id]
-      p.day_of_the_week = params[:day_of_the_week]
-      p.pair_number = params[:pair_number]
-      p.week = params[:week]
-      p.active_at = Date.today
-      p.guess_expire_date
-    end
-    @container = params[:container]
-    unless @pair.valid?
-      flash[:error] = @pair.errors[:base].to_a.join('<br />').html_safe
-      @pair = nil
-    else
-      @pair.save
-    end
-
+    keys = %w(week day_of_the_week pair_number).map {|k| k.to_sym }
+    pair_params = keys.map {|i| params[i] or nil}
+    pair_params << nil
+    @pair = Pair.find_or_initialize_by_week_and_day_of_the_week_and_pair_number_and_classroom_id(*pair_params)
+    @pair.active_at = Date.today
+    @pair.guess_expire_date
+    @pair.save
     respond_to do |format|
-      format.js
+      format.js { render :edit }
     end
   end
 
@@ -64,7 +46,11 @@ class Editor::Groups::PairsController < ApplicationController
             subgroup.save
           end
         end
-        redirect_to :action => 'edit'
+        respond_to do |format|
+          @pair.reload
+          @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
+          format.js { render :edit }
+        end
       end
     elsif params.include? :pair_number and params.include? :day_of_the_week
       # If it's a pair movement into another day/pair number
@@ -99,10 +85,9 @@ class Editor::Groups::PairsController < ApplicationController
       unless @pair.valid?
         flash[:error] = @pair.errors[:base].to_a.join('<br />').html_safe
         @pair.reload
-        @pair.charge_card_id = nil
-        @pair.subgroups.destroy_all
-        @pair.save
-        redirect_to :action => 'edit'
+        respond_to do |format|
+          format.js { render :edit }
+        end
       else
         @pair.save
         @pairs = @group.subgroups.map{|s| [s.pair, s.number]}

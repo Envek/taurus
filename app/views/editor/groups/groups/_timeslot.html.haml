@@ -3,7 +3,7 @@
 - both_week_pairs = pair_group.find_all {|p| p[0].week == 0 }
 - id = "group_editor_grid#{@group.id}_day#{day}_pair#{pair}_index#{pair_group_counter}"
 - if both_week_pairs.empty? and first_week_pairs.empty? and second_week_pairs.empty?
-  .receiver{ :id => "#{id}", :grid_id => "#{@group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter }
+  .receiver{ :id => "#{id}_week0", :grid_id => "#{@group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 0 }
 - else
   %table.timeslot{:id => id}
     %tbody

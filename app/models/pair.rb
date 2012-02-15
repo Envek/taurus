@@ -6,7 +6,7 @@ class Pair < ActiveRecord::Base
   accepts_nested_attributes_for :subgroups
 
   def name
-    [lecturer, full_discipline, 'ауд: ' + classroom.full_name, timeslot, groups_string].select{ |e| e != ''}.join(', ')
+    [lecturer, full_discipline, "ауд: #{classroom.try(:full_name)}", timeslot, groups_string].compact.select{ |e| e != ''}.join(', ')
   end
 
   def timeslot
@@ -123,13 +123,15 @@ class Pair < ActiveRecord::Base
     conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?) AND NOT ((pairs.active_at > ? AND expired_at > ?) OR (active_at < ? AND expired_at < ?))',
                   id, day_of_the_week, pair_number, week_conditions, expired_at, expired_at, active_at, active_at]
     if (candidates = Pair.all(:conditions => conditions)).size > 0
-      # classroom busyness
-      if (conflicts = candidates.select { |c| c.classroom_id == classroom.id }).size > 0
-        pairs = conflicts.map { |p| p.name }.join('<br />')
-        errors.add_to_base "Невозможно сохранить пару, так как следующие пары:<br /><br />" +
-        pairs +
-        "<br /><br />уже существуют в этом временном окне этой аудитории."
-        candidates -= conflicts 
+      # classroom busyness (it's okay if there is no classroom yet)
+      unless classroom_id.nil?
+        if (conflicts = candidates.select { |c| c.classroom_id == classroom.id }).size > 0
+          pairs = conflicts.map { |p| p.name }.join('<br />')
+          errors.add_to_base "Невозможно сохранить пару, так как следующие пары:<br /><br />" +
+          pairs +
+          "<br /><br />уже существуют в этом временном окне этой аудитории."
+          candidates -= conflicts 
+        end
       end
       # lecturer busyness
       if (conflicts = candidates.select { |c| 

@@ -10,7 +10,7 @@
       #{pair.short_discipline}
     %abbr{:title => "#{pair.lesson_type}"}
       (#{short_lesson_type})
-    = pair.classroom.full_name
+    = pair.classroom.try(:full_name)
     %br
     - if pair.lecturer && pair.lecturer_id
       %abbr{:title => "#{pair.lecturer_full}"}

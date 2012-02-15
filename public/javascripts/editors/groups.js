@@ -29,7 +29,7 @@ jQuery(document).ready(function($) {
     $('#group_name').focus();
 
     $('.receiver').live('dblclick', function() {
-        $.get('/editor/groups/pairs/new', {
+        $.post('/editor/groups/pairs', {
             container: $(this).attr('id'),
             group_id: $(this).attr('grid_id'),
             week: $(this).attr('week'),
