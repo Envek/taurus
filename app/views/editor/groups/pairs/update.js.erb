@@ -18,13 +18,13 @@ jQuery(document).ready(function($){
     else
       new_timeslot = escape_javascript render :partial => "/editor/groups/groups/row",
         :locals => {:group => g, :day_counter => @pair.day_of_the_week-1, :time_counter => @pair.pair_number-1}
+    end
 %>
     $('<%= "##{prev_id}" %>').parent().replaceWith('<%= prev_timeslot %>');
     <% unless prev_id == new_id %>
     $('<%= "##{new_id}" %>').parent().replaceWith('<%= new_timeslot %>');
     <% end %>
 <%
-    end
   end
 %>
     $('.pair').draggable();
