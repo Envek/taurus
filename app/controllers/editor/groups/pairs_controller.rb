@@ -101,7 +101,7 @@ class Editor::Groups::PairsController < ApplicationController
   def destroy
     flash[:error] = nil
     @id = params[:id].to_i
-    pair = Pair.find_by_id(@id)
+    pair = Pair.find(@id)
     @pair = pair.clone
     @pair.readonly!
     pair.destroy
