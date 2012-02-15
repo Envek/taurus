@@ -1,24 +1,7 @@
 jQuery(document).ready(function($){
     $('#group_workspace').append('<%= escape_javascript render :partial => "grid", :locals => {:group => @group} %>');
-    $('.receiver').droppable({
-        accept: '.pair',
-        over: function(){ $(this).addClass('hovered_receiver');},
-        out: function(){ $(this).removeClass('hovered_receiver');},
-        drop: function(event, ui){
-            $.post('/editor/groups/pairs/' + ui.draggable.attr('id'), {
-                _method: 'put',
-                group: $(this).attr('grid_id'),
-                week: $(this).attr('week'),
-                subgroup: $(this).attr('sub'),
-                day_of_the_week: $(this).attr('day_of_the_week'),
-                pair_number: $(this).attr('pair_number'),
-                container: $(this).attr('id'),
-                index: $(this).attr('index')
-            }, null, "script");
-            $(this).removeClass('hovered_receiver');
-        }
-    });
     $('.pair').draggable();
+    <%= render :partial => "/editor/groups/pairs/droppable", :locals => {:group => @group} %>
     // New autocomplete (with opened groups excepted)
     $('#group_name').autocomplete({
         disabled: false,

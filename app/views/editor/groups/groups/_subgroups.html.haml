@@ -14,7 +14,7 @@
       - cellsintop << 1
     %td{:colspan => 2, :rowspan => (singlerow ? 2 : 1)}
       - pair = to_display.first[0]
-      = render '/editor/groups/groups/pair', :pair => pair, :s => to_display.first[1]
+      = render '/editor/groups/groups/pair', :pair => pair, :s => to_display.first[1], :group => group
   - else
     - if cellsintop.empty?
       - cellsintop << 2
@@ -34,11 +34,11 @@
         - if pair.week == 0 and !singlerow
           - skipcell << sub
         %td{a}
-          = render '/editor/groups/groups/pair', :pair => pair, :s => sp.first[2]
+          = render '/editor/groups/groups/pair', :pair => pair, :s => sp.first[2], :group => group
       - else
         %td.empty{:rowspan=>2}
-          .receiver{ :id => "#{id}_week#{week}_sub#{sub}", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week, :sub => sub}
+          .receiver{ :class => "receiver_#{group.id}", :id => "#{id}_week#{week}_sub#{sub}", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week, :sub => sub}
 - else
   - a = (cellsintop.include?(2) ? {:colspan=>2} : {})
   %td.empty{a}
-    .receiver{ :id => "#{id}_week#{week}", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week}
+    .receiver{ :class => "receiver_#{group.id}", :id => "#{id}_week#{week}", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week}

@@ -24,26 +24,9 @@ jQuery(document).ready(function($){
     <% unless prev_id == new_id %>
     $('<%= "##{new_id}" %>').parent().replaceWith('<%= new_timeslot %>');
     <% end %>
+    <%= render :partial => "droppable", :locals => {:group => g} %>    
 <%
   end
 %>
     $('.pair').draggable();
-    $('.receiver').droppable({
-        accept: '.pair',
-        over: function(){ $(this).addClass('hovered_receiver');},
-        out: function(){ $(this).removeClass('hovered_receiver');},
-        drop: function(event, ui){
-            $.post('/editor/groups/pairs/' + ui.draggable.attr('id'), {
-                _method: 'put',
-                group: $(this).attr('grid_id'),
-                week: $(this).attr('week'),
-                subgroup: $(this).attr('sub'),
-                day_of_the_week: $(this).attr('day_of_the_week'),
-                pair_number: $(this).attr('pair_number'),
-                container: $(this).attr('id'),
-                index: $(this).attr('index')
-            }, null, "script");
-            $(this).removeClass('hovered_receiver');
-        }
-    });
 });
