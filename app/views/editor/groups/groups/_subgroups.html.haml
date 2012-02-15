@@ -37,8 +37,8 @@
           = render '/editor/groups/groups/pair', :pair => pair, :s => sp.first[2]
       - else
         %td.empty{:rowspan=>2}
-          .receiver{ :id => "#{id}_week#{week}_sub#{sub}", :grid_id => "#{@group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week, :sub => sub}
+          .receiver{ :id => "#{id}_week#{week}_sub#{sub}", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week, :sub => sub}
 - else
   - a = (cellsintop.include?(2) ? {:colspan=>2} : {})
   %td.empty{a}
-    .receiver{ :id => "#{id}_week#{week}", :grid_id => "#{@group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week}
+    .receiver{ :id => "#{id}_week#{week}", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week}

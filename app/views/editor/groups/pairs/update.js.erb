@@ -1,15 +1,3 @@
-<%
-  prev_id = "group_editor_grid#{params[:group].to_i}_day#{@prev_pair.day_of_the_week}_pair#{@prev_pair.pair_number}"
-  new_id  = "group_editor_grid#{params[:group].to_i}_day#{@pair.day_of_the_week}_pair#{@pair.pair_number}"
-  prev_timeslot = escape_javascript render :partial => "/editor/groups/groups/row",
-    :locals => {:day_counter => @prev_pair.day_of_the_week-1, :time_counter => @prev_pair.pair_number-1}
-  if prev_id == new_id
-    new_timeslot = prev_timeslot
-  else
-    new_timeslot = escape_javascript render :partial => "/editor/groups/groups/row",
-      :locals => {:day_counter => @pair.day_of_the_week-1, :time_counter => @pair.pair_number-1}
-  end
-%>
 jQuery(document).ready(function($){
     <% if flash[:error] %>
       $('#group_workspace').prepend('<div id="error"></div>');
@@ -19,10 +7,26 @@ jQuery(document).ready(function($){
         modal: true
       });
     <% end %>
+<%
+  Group.for_groups_editor.find(session[:group_editor][:groups]).each do |g|
+    prev_id = "group_editor_grid#{g.id}_day#{@prev_pair.day_of_the_week}_pair#{@prev_pair.pair_number}"
+    new_id  = "group_editor_grid#{g.id}_day#{@pair.day_of_the_week}_pair#{@pair.pair_number}"
+    prev_timeslot = escape_javascript render :partial => "/editor/groups/groups/row",
+      :locals => {:group => g, :day_counter => @prev_pair.day_of_the_week-1, :time_counter => @prev_pair.pair_number-1}
+    if prev_id == new_id
+      new_timeslot = prev_timeslot
+    else
+      new_timeslot = escape_javascript render :partial => "/editor/groups/groups/row",
+        :locals => {:group => g, :day_counter => @pair.day_of_the_week-1, :time_counter => @pair.pair_number-1}
+%>
     $('<%= "##{prev_id}" %>').parent().replaceWith('<%= prev_timeslot %>');
     <% unless prev_id == new_id %>
     $('<%= "##{new_id}" %>').parent().replaceWith('<%= new_timeslot %>');
     <% end %>
+<%
+    end
+  end
+%>
     $('.pair').draggable();
     $('.receiver').droppable({
         accept: '.pair',
