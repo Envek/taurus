@@ -21,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
       g.resources :groups
       g.resources :pairs
       g.resources :classrooms
+      g.resources :charge_cards
       g.root :controller => 'groups'
     end
     # Miscellaneous reference materials for editor needs
