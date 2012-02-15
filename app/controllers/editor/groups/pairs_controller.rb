@@ -26,7 +26,7 @@ class Editor::Groups::PairsController < ApplicationController
 
   def update
     flash[:error] = nil
-    @group = Group.find(params[:group], :include => {:jets => {:subgroups => {:pair => :charge_card}}})
+    @group = Group.for_groups_editor.find(params[:group])
     @pair = Pair.find_by_id(params[:id].to_i, :include => [:subgroups])
     @prev_pair = @pair.clone
     @prev_pair.readonly!
@@ -48,7 +48,7 @@ class Editor::Groups::PairsController < ApplicationController
         end
         respond_to do |format|
           @pair.reload
-          @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
+          @pairs = @group.pairs_with_subgroups
           format.js { render :edit }
         end
       end
@@ -76,7 +76,7 @@ class Editor::Groups::PairsController < ApplicationController
         @pair.save
       end
       respond_to do |format|
-        @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
+        @pairs = @group.pairs_with_subgroups
         format.js
       end
     else
@@ -90,7 +90,7 @@ class Editor::Groups::PairsController < ApplicationController
         end
       else
         @pair.save
-        @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
+        @pairs = @group.pairs_with_subgroups
         respond_to do |format|
           format.js
         end

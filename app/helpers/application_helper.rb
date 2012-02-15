@@ -9,10 +9,6 @@ module ApplicationHelper
     return 1 + ((current_week - startweek_no) % 2)
   end
 
-  def pairs_by_timeslot(pairs, day, pair)
-    pairs.select {|p| p[0].pair_number == pair && p[0].day_of_the_week == day} if pairs
-  end
-  
   def pairs_split_by_time(pairs)
     return [[]] if pairs.nil? or pairs.empty?
     # Step 1. Find dates — groups separators

@@ -17,7 +17,7 @@ class Editor::Groups::GroupsController < Editor::BaseController
     @days = Timetable.days
     @times = Timetable.times
     @weeks = Timetable.weeks
-    @group = Group.find(params[:id], :include => {:jets => {:subgroups => {:pair => :charge_card}}})
+    @group = Group.for_groups_editor.find(params[:id])
     unless @group
       flash[:error] = 'Нет группы с таким названием'
     else
