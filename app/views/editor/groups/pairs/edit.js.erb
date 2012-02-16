@@ -2,7 +2,7 @@ jQuery(document).ready(function($){
 
     $.ajaxSetup({
     "error":function() {   
-        $('.workspace').prepend('<div id="error"></div>');
+        $('#group_workspace').prepend('<div id="error"></div>');
         $('#error').append('<p>Произошла ошибка при выполнении запроса</p>');
         $('#error').dialog({
             draggable: false,
@@ -137,5 +137,17 @@ jQuery(document).ready(function($){
     var index = current.prevAll('.receiver').length;
     var indexparam = $('<input id="pair_index" name="index" type="hidden" value="'+index+'">');
     $('#pair_edit_<%= @pair.id %> > form').append(indexparam);
+
+<%
+  Group.for_groups_editor.find(session[:group_editor][:groups]).each do |g|
+    ts_id  = "group_editor_grid#{g.id}_day#{@pair.day_of_the_week}_pair#{@pair.pair_number}"
+    timeslot = escape_javascript render :partial => "/editor/groups/groups/row",
+        :locals => {:group => g, :day_counter => @pair.day_of_the_week-1, :time_counter => @pair.pair_number-1}
+%>
+    $('<%= "##{ts_id}" %>').parent().replaceWith('<%= timeslot %>');
+    <%= render :partial => "drag_and_drop", :locals => {:group => g} %>    
+<%
+  end
+%>
     
 });
