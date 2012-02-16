@@ -1,4 +1,4 @@
-<% grid_id = escape_javascript "group_#{@id}" %>
+<% grid_id = escape_javascript "group_editor_#{@id}" %>
 jQuery(document).ready(function($){
     $('#<%= grid_id %>').fadeOut('fast', function() {
         $('#<%= grid_id %>').remove();
