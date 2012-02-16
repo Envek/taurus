@@ -30,13 +30,13 @@
       - sp = to_display.find_all{ |elem| elem[1] == sub }
       - if sp.size > 0
         - pair = sp.first[0]
-        - a = {:rowspan=>2}
+        - a = {:rowspan=> singlerow ? 2 : pair.week.zero?? 2 : 1}
         - if pair.week == 0 and !singlerow
           - skipcell << sub
         %td{a}
           = render '/editor/groups/groups/pair', :pair => pair, :s => sp.first[2], :group => group
       - else
-        %td.empty{:rowspan=>2}
+        %td.empty{:rowspan=> singlerow ? 2 : 1}
           .receiver{ :class => "receiver_#{group.id}", :id => "#{id}_week#{week}_sub#{sub}", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair_number}", :index => index, :week => week, :sub => sub}
 - else
   - a = (cellsintop.include?(2) ? {:colspan=>2} : {})

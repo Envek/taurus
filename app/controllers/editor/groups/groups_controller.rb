@@ -21,9 +21,9 @@ class Editor::Groups::GroupsController < Editor::BaseController
     unless @group
       flash[:error] = 'Нет группы с таким названием'
     else
-      @pairs = @group.subgroups.map{|s| [s.pair, s.number]}
-      session[:group_editor][:groups] << @group.id if session[:group_editor].include? :groups
-      @groups = (session[:group_editor] or {})[:groups] or []
+      session[:group_editor] = {:groups => []} unless session[:group_editor]
+      session[:group_editor][:groups] << @group.id unless session[:group_editor][:groups].include? @group.id
+      @groups = session[:group_editor][:groups]
       respond_to do |format|
         format.js
       end

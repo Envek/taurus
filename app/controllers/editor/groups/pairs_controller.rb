@@ -26,7 +26,7 @@ class Editor::Groups::PairsController < ApplicationController
 
   def update
     flash[:error] = nil
-    @group = Group.for_groups_editor.find(params[:group])
+    @group = Group.for_groups_editor.find(params[:group_id])
     @pair = Pair.find_by_id(params[:id].to_i, :include => [:subgroups])
     @prev_pair = @pair.clone
     @prev_pair.readonly!

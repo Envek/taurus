@@ -6,6 +6,7 @@ jQuery(document).ready(function($){
         draggable: false,
         modal: true
       });
+    <% flash[:error] = nil %>
     <% end %>
 <%
   Group.for_groups_editor.find(session[:group_editor][:groups]).each do |g|

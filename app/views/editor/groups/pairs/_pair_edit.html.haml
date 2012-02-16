@@ -1,6 +1,6 @@
 .update_form{:id => "pair_edit_#{@pair.id.to_s}"}
   - remote_form_for([:editor, :groups, @pair]) do |f|
-    = hidden_field_tag(:group, params[:group_id]) if params[:group_id]
+    = hidden_field_tag(:group_id, params[:group_id]) if params[:group_id]
     = hidden_field_tag(:subgroup, params[:subgroup]) if params[:subgroup]
     = f.hidden_field :day_of_the_week
     = f.hidden_field :pair_number

@@ -24,12 +24,13 @@ jQuery(document).ready(function($){
     });
     
     <% if flash[:error] %>
-      $('.workspace').prepend('<div id="error"></div>');
+      $('#group_workspace').prepend('<div id="error"></div>');
       $('#error').append('<%= escape_javascript flash[:error] %>');
       $('#error').dialog({
         draggable: false,
         modal: true
       });
+    <% flash[:error] = nil %>
     <% end %>
 
     $('.edit_pair').submit(function() {
