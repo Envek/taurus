@@ -3,7 +3,7 @@
 - else
   .lecturer #{p.lecturer}  
 .discipline #{p.discipline}
-.auditory Ауд.: #{p.classroom.name} (#{p.classroom.building.name})
+.auditory Ауд.: #{p.classroom ? "#{p.classroom.name} (#{p.classroom.building.name})" : "не указана"}
 - if s and p.max_subgroups > 2 and s != 0
   .subgroup Подгруппа #{s}
 - if ![1,2,9].include?(p.active_at.month) or ![5,6,12].include?(p.expired_at.month)

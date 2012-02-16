@@ -4,9 +4,7 @@
   %br
   = "#{p.discipline}"
   %br
-  = "Ауд.: #{p.classroom.name}"
-  %br
-  = "Корп.: #{p.classroom.building.name}"
+  = p.classroom ? "Ауд.: #{p.classroom.name} (#{p.classroom.building.name})" : "Аудитория не указана!"
   - if ![1,2,9].include?(p.active_at.month) or ![5,6,12].include?(p.expired_at.month)
     %br
     с #{p.active_at} по #{p.expired_at}
