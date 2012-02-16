@@ -101,6 +101,11 @@ jQuery(document).ready(function($){
     $('.charge_card').focus(function() {
         $('.charge_card').val('');
     });
+
+    $('#dates_block_show a').click( function () {
+        $('#dates_block').slideToggle('slow');
+        return false;
+    });
     
     var months = [
         'Январь',
