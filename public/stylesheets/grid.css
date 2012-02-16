@@ -307,6 +307,10 @@ img {
   z-index: 1000;
 }
 
+.group_editor .pair_wrong {
+  background: #FFBB33;
+}
+
 .group_editor .pair_content {
   white-space: nowrap;
   text-overflow: ellipsis;

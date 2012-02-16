@@ -1,5 +1,6 @@
 - short_lesson_type = truncate("#{pair.lesson_type}", :length => 6, :omission => '.')
-.pair{:id => "#{pair.id}", :class => "pair_#{group.id}" }
+- pair_class = "pair_#{group.id}" + (pair.classroom.nil? ? " pair_wrong" : "")
+.pair{:id => "#{pair.id}", :class => pair_class }
   .management_panel
     .edit{:pair_id => "#{pair.id}"}
       = image_tag('edit_16.png')
