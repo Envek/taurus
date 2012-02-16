@@ -63,9 +63,6 @@ class Editor::Groups::PairsController < ApplicationController
       @pair.pair_number = params[:pair_number].to_i if params[:pair_number]
       @pair.week = params[:week] ? params[:week].to_i : 0
       subgroup.number = params[:subgroup] ? params[:subgroup].to_i : 0
-      # Third, if pair become invalid, try to reset to old week and subgroup
-      @pair.week = old_week     if @pair.invalid?
-      subgroup.number = old_sub if subgroup.invalid?
       # So, try to save it
       unless @pair.valid? and subgroup.valid?
         flash[:error] = @pair.errors[:base].to_a.join('<br />').html_safe
