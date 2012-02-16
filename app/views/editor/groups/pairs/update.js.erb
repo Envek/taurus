@@ -25,9 +25,8 @@ jQuery(document).ready(function($){
     <% unless prev_id == new_id %>
     $('<%= "##{new_id}" %>').parent().replaceWith('<%= new_timeslot %>');
     <% end %>
-    <%= render :partial => "droppable", :locals => {:group => g} %>    
+    <%= render :partial => "drag_and_drop", :locals => {:group => g} %>    
 <%
   end
 %>
-    $('.pair').draggable();
 });

@@ -16,3 +16,5 @@
             $(this).removeClass('hovered_receiver');
         }
     });
+
+    $( ".pair_<%= group.id %>" ).draggable({ containment: "#group_editor_<%= group.id %>", revert: true });

@@ -1,7 +1,6 @@
 jQuery(document).ready(function($){
     $('#group_workspace').append('<%= escape_javascript render :partial => "grid", :locals => {:group => @group} %>');
-    $('.pair').draggable();
-    <%= render :partial => "/editor/groups/pairs/droppable", :locals => {:group => @group} %>
+    <%= render :partial => "/editor/groups/pairs/drag_and_drop", :locals => {:group => @group} %>
     // New autocomplete (with opened groups excepted)
     $('#group_name').autocomplete({
         disabled: false,
