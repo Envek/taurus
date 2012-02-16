@@ -311,3 +311,22 @@ img {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.group_editor .receiver::after {
+  content: "Двойной щелчок для создания пары";
+  text-align: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  opacity: 0.33;
+}
+
+.group_editor td[colspan="2"].timeslot > .receiver::after {
+  line-height: 67px;
+}
+
+.group_editor td[colspan="2"] > .receiver::after {
+  line-height: 33px;
+}
