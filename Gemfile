@@ -22,4 +22,5 @@ end
 
 group :development do
   gem "capistrano"
+  gem 'ruby-debug'
 end

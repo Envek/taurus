@@ -9,7 +9,7 @@ class Pair < ActiveRecord::Base
   validate :week_number_existance
 
   def name
-    [lecturer, full_discipline, 'ауд: ' + classroom.full_name, timeslot, groups_string].select{ |e| e != ''}.join(', ')
+    [lecturer, full_discipline, "ауд: #{classroom.try(:full_name)}", timeslot, groups_string].compact.select{ |e| e != ''}.join(', ')
   end
 
   def timeslot
@@ -98,6 +98,13 @@ class Pair < ActiveRecord::Base
   def max_subgroups
     self.charge_card.jets.max_by { |jet| jet.subgroups_quantity }.subgroups_quantity
   end
+
+  def guess_expire_date
+    year = Date.today.month > 11 ? Date.today.year+1 : Date.today.year
+    month = Date.today.month > 5 ? ( Date.today.month > 11 ? 6 : 12 ) : 5
+    day = month == 6 ? 30 : 31
+    self.expired_at = Date.new(year, month, day)
+  end
   
   private
   
@@ -119,13 +126,15 @@ class Pair < ActiveRecord::Base
     conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?) AND NOT ((pairs.active_at > ? AND expired_at > ?) OR (active_at < ? AND expired_at < ?))',
                   id, day_of_the_week, pair_number, week_conditions, expired_at, expired_at, active_at, active_at]
     if (candidates = Pair.all(:conditions => conditions)).size > 0
-      # classroom busyness
-      if (conflicts = candidates.select { |c| c.classroom_id == classroom.id }).size > 0
-        pairs = conflicts.map { |p| p.name }.join('<br />')
-        errors.add_to_base "Невозможно сохранить пару, так как следующие пары:<br /><br />" +
-        pairs +
-        "<br /><br />уже существуют в этом временном окне этой аудитории."
-        candidates -= conflicts 
+      # classroom busyness (it's okay if there is no classroom yet)
+      unless classroom_id.nil?
+        if (conflicts = candidates.select { |c| c.classroom_id == classroom.id }).size > 0
+          pairs = conflicts.map { |p| p.name }.join('<br />')
+          errors.add_to_base "Невозможно сохранить пару, так как следующие пары:<br /><br />" +
+          pairs +
+          "<br /><br />уже существуют в этом временном окне этой аудитории."
+          candidates -= conflicts 
+        end
       end
       # lecturer busyness
       if (conflicts = candidates.select { |c| 

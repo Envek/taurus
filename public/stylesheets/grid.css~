@@ -150,6 +150,7 @@ img {
 
 .empty {
   background-color: #aaffaa; }
+<<<<<<< HEAD
   
 #dates_block {
   display: none;
@@ -157,7 +158,8 @@ img {
 
 .subgroup {
   margin-bottom: 0.5em;
-}
+=======
+
 
 #group_form {
   margin: 0 0 -40px -2px;
@@ -310,4 +312,5 @@ img {
 .group_editor .pair_content {
   white-space: nowrap;
   text-overflow: ellipsis;
+>>>>>>> editors
 }

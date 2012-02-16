@@ -1,0 +1,23 @@
+.group_editor.legend
+  %table.legend
+    %caption &nbsp;
+    %col.weekday
+    %col.pairtime
+    %col.weeknum
+    %thead
+      %tr
+        %th{:colspan => 3} &nbsp;
+    - Timetable.days.each_with_index do |day, day_counter|
+      %tbody
+        - Timetable.times.each_with_index do |time, time_counter|
+          %tr
+            - if time_counter.zero?
+              %th.weekday{:rowspan => Timetable.times.count*2}
+                %div #{day}
+            %th{:rowspan => 2}
+              = raw(time.gsub(" - ", "<br/>—<br/>"))
+            %th.weeknum
+              1 неделя
+          %tr
+            %th.weeknum
+              2 неделя

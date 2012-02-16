@@ -8,21 +8,37 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.namespace :editor do |e|
-    e.resources :classrooms
-    e.resources :pairs
-    e.resources :editor_charge_cards
-    e.resources :classrooms_sheets
-    e.resources :groups
-    e.resource  :groups_list do |list|
-      list.resources :groups
+    # Pair editor based on classrooms
+    e.namespace :classrooms do |c|
+      c.resources :classrooms
+      c.resources :pairs
+      c.resources :charge_cards
+      c.resources :classrooms_sheets
+      c.root :controller => 'classrooms'
     end
-    e.resources :departments
-    e.resources :disciplines
-    e.resources :teaching_places
-    e.resources :charge_cards
-    e.connect 'teaching_plans', :controller => "teaching_plans", :action => "index"
-    e.connect 'teaching_plans/:group_id', :controller => "teaching_plans", :action => "show"
-    e.root :controller => 'classrooms_sheets'
+    # Pair editor based on groups
+    e.namespace :groups do |g|
+      g.resources :groups
+      g.resources :pairs
+      g.resources :classrooms
+      g.resources :charge_cards
+      g.root :controller => 'groups'
+    end
+    # Miscellaneous reference materials for editor needs
+    e.namespace :reference do |r|
+      r.resources :groups
+      r.resource  :groups_list do |list|
+        list.resources :groups
+      end
+      r.resources :departments, :active_scaffold => true
+      r.resources :disciplines, :active_scaffold => true
+      r.resources :teaching_places, :active_scaffold => true
+      r.resources :charge_cards, :active_scaffold => true
+      r.connect 'teaching_plans', :controller => "teaching_plans", :action => "index"
+      r.connect 'teaching_plans/:group_id', :controller => "teaching_plans", :action => "show"
+      r.root :controller => 'classrooms_sheets'
+    end
+    e.root :controller => 'classrooms/classrooms_sheets'
   end
 
   map.namespace :dept_head do |d|

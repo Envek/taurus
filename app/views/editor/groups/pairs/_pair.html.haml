@@ -1,0 +1,29 @@
+- short_lesson_type = truncate("#{pair.lesson_type}", :length => 6, :omission => '.')
+.pair{:id => "#{pair.id}"}
+  .management_panel
+    .edit{:pair_id => "#{pair.id}"}
+      = image_tag('edit_16.png')
+    .destroy{:pair_id => "#{pair.id}"}
+      = image_tag('delete_16.png')
+  .pair_content
+    %abbr{:title => "#{pair.discipline}"}
+      = "#{pair.short_discipline}"
+    %br
+    %abbr{:title => "#{pair.lesson_type}"}
+      = "#{short_lesson_type}"
+    %br
+    - if pair.lecturer && pair.lecturer_id
+      %abbr{:title => "#{pair.lecturer_full}"}
+        = link_to "#{pair.lecturer}", timetable_lecturer_path(pair.lecturer_id), :target => '_blank'
+    - if pair.assistant && pair.assistant_id
+      , 
+      %abbr{:title => "#{pair.assistant_full}"}
+        = link_to "#{pair.assistant}", timetable_lecturer_path(pair.assistant_id), :target => '_blank'
+    %br
+    - if pair.groups
+      - pair.groups.each_with_index do |group, i|
+        = ", " unless i == 0
+        = link_to "#{group.name}", timetable_group_path(group.id), :target => '_blank'
+    %br
+    = "#{pair.active_at} — #{pair.expired_at}"
+

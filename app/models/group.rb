@@ -11,6 +11,7 @@ class Group < ActiveRecord::Base
 
   named_scope :for_timetable, :include => [{:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}]}]
   named_scope :by_name, lambda { |name| { :conditions => ['groups.name LIKE ?', escape_name(name)] } }
+  named_scope :for_groups_editor, :include => {:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}}}
 
   def course
     this_year = Time.now.year.to_i
@@ -30,6 +31,18 @@ class Group < ActiveRecord::Base
       pairs_array[pair.day_of_the_week - 1][pair.pair_number - 1][pair.week] << [pair, subgroup.number]
     end
     pairs_array
+  end
+
+  def pairs_with_subgroups
+    self.subgroups.all(:include => :pair).map{|s| [s.pair, s.number]}
+  end
+
+  def pairs_with_subgroups_for_timeslot(day, time)
+    subgroups = self.subgroups.all :joins => :pair, :include => :pair, 
+      :conditions => {:pairs => {
+        :day_of_the_week => day, :pair_number => time
+      }}
+    return subgroups.map{|s| [s.pair, s.number]}
   end
 
   private

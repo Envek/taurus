@@ -1,0 +1,15 @@
+jQuery(document).ready(function($){
+    $('#<%= @id %>').fadeOut('fast', function() {
+        $('#<%= @id %>').remove();
+    });
+<%
+  Group.for_groups_editor.find(session[:group_editor][:groups]).each do |g|
+    ts_id  = "group_editor_grid#{g.id}_day#{@pair.day_of_the_week}_pair#{@pair.pair_number}"
+    timeslot = escape_javascript render :partial => "/editor/groups/groups/row",
+      :locals => {:group => g, :day_counter => @pair.day_of_the_week-1, :time_counter => @pair.pair_number-1}
+%>
+    $('<%= "##{ts_id}" %>').parent().replaceWith('<%= timeslot %>');
+<%
+  end
+%>
+});

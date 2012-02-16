@@ -1,0 +1,141 @@
+jQuery(document).ready(function($){
+
+    $.ajaxSetup({
+    "error":function() {   
+        $('.workspace').prepend('<div id="error"></div>');
+        $('#error').append('<p>Произошла ошибка при выполнении запроса</p>');
+        $('#error').dialog({
+            draggable: false,
+            modal: true
+        });
+    }});
+
+    $('#pair_edit_<%= @pair.id %>').remove();
+    $('body').prepend('<%= escape_javascript render :partial => 'pair_edit' %>');
+    var dlg = $('#pair_edit_<%= @pair.id %>').dialog({
+        beforeClose: function(event, ui) {
+            $('#pair_edit_<%= @pair.id %>').remove();
+        },
+        closeText: 'Закрыть',
+        draggable: false,
+        modal: true,
+        position: 'top',
+        title: 'Редактировать пару'
+    });
+    
+    <% if flash[:error] %>
+      $('#group_workspace').prepend('<div id="error"></div>');
+      $('#error').append('<%= escape_javascript flash[:error] %>');
+      $('#error').dialog({
+        draggable: false,
+        modal: true
+      });
+    <% flash[:error] = nil %>
+    <% end %>
+
+    $('.edit_pair').submit(function() {
+        dlg.dialog("close");
+        return false;
+    });
+
+    $('.classroom').autocomplete({
+        disabled: false,
+        minLength: 2,
+        source: function(request, response) {
+            $.getJSON('/editor/groups/classrooms.json', {
+              classroom: request.term,
+              group_id: <%= params[:group_id].to_i %>,
+            },
+            function(data) {
+                var classrooms = new Array(0);
+                data.each(function(i) {
+                    classrooms.push({ label: i.classroom.full_name, value: i.classroom.id });
+                });
+                response(classrooms);
+            });
+        },
+        select: function(event, ui) {
+            if ($('#edit_pair_<%= @pair.id %>')) {
+              $('#pair_classroom_id').val(ui.item.value);
+              $('#classroom_name').val(ui.item.label);
+              $.post($('#edit_pair_<%= @pair.id %>').attr('action'),
+                  $('#edit_pair_<%= @pair.id %>').serialize(),
+                  null, "script");
+            }
+            return false;
+        }
+    });
+    
+    $('.classroom').focus(function() {
+        $('.classroom').val('');
+    });
+    
+    $('.charge_card').autocomplete({
+        disabled: false,
+        minLength: 2,
+        source: function(request, response) {
+            $.getJSON('/editor/groups/charge_cards.json', {
+              charge_card: request.term,
+              group_id: <%= params[:group_id].to_i %>,
+            },
+            function(data) {
+                var charge_cards = new Array(0);
+                data.each(function(i) {
+                    charge_cards.push({ label: i.charge_card.editor_name, value: i.charge_card.id });
+                });
+                response(charge_cards);
+            });
+        },
+        select: function(event, ui) {
+            if ($('#edit_pair_<%= @pair.id %>')) {
+              $('#pair_charge_card_id').val(ui.item.value);
+              $('#charge_card_name').val(ui.item.label);
+              $.post($('#edit_pair_<%= @pair.id %>').attr('action'),
+                  $('#edit_pair_<%= @pair.id %>').serialize() + '&get_subgroups=true&group_id=<%= params[:group_id] %>',
+                  null, "script");
+              }
+            return false;
+        }
+    });
+    
+    $('.charge_card').focus(function() {
+        $('.charge_card').val('');
+    });
+    
+    var months = [
+        'Январь',
+        'Февраль',
+        'Март',
+        'Апрель',
+        'Май',
+        'Июнь',
+        'Июль',
+        'Август',
+        'Сентябрь',
+        'Октябрь',
+        'Ноябрь',
+        'Декабрь'];
+    $('#pair_active_at').datepicker({
+        firstDay: 1,
+        dateFormat: 'dd.mm.yy',
+        monthNames: months,
+        showOn: 'button',
+        buttonImage: '/images/calendar.gif',
+        buttonImageOnly: true
+    });
+    $('#pair_expired_at').datepicker({
+        firstDay: 1,
+        dateFormat: 'dd.mm.yy',
+        monthNames: months,
+        showOn: 'button',
+        buttonImage: '/images/calendar.gif',
+        buttonImageOnly: true
+    });
+    
+    var grid_context = $('.pair#<%= @pair.id %>').parent().parent();
+    var current = $('.receiver', grid_context).not('.hidden_receiver');
+    var index = current.prevAll('.receiver').length;
+    var indexparam = $('<input id="pair_index" name="index" type="hidden" value="'+index+'">');
+    $('#pair_edit_<%= @pair.id %> > form').append(indexparam);
+    
+});

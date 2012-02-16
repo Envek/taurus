@@ -1,0 +1,19 @@
+.info
+  %p<
+    <strong>Внимание!</strong> Вы составляете расписание на #{TAURUS_CONFIG["semester"]["current"]["title"]} семестр. Перейти на #{link_to TAURUS_CONFIG["semester"]["other"]["title"]+" семестр", TAURUS_CONFIG["semester"]["other"]["link"]+"editor"}?
+
+#group_form
+  %p
+    Группа:
+    %input{:id => "group_name", :size => 10}
+
+#group_workspace
+  = render :partial => 'legend'
+  - # If groups are specified, show their grids immediately!
+  - if @group
+    = javascript_tag("jQuery.get('"+url_for([:editor, :groups, @group])+"');")
+  - elsif session[:group_editor].include? :groups and session[:group_editor][:groups].any?
+    - Group.find(session[:group_editor][:groups]).each do |group|
+      = javascript_tag("jQuery.get('"+editor_groups_group_path(group)+"');")
+
+= javascript_include_tag("editors/groups")

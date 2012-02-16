@@ -1,0 +1,28 @@
+- first_week_pairs = pair_group.find_all {|p| p[0].week == 1 }
+- second_week_pairs = pair_group.find_all {|p| p[0].week == 2 }
+- both_week_pairs = pair_group.find_all {|p| p[0].week == 0 }
+- id = "group_editor_grid#{group.id}_day#{day}_pair#{pair}_index#{pair_group_counter}"
+- if both_week_pairs.empty? and first_week_pairs.empty? and second_week_pairs.empty?
+  .receiver{ :class => "receiver_#{group.id}", :id => "#{id}_week0", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 0 }
+- else
+  %table.timeslot{:id => id}
+    %tbody
+      - if both_week_pairs.any? and first_week_pairs.empty? and second_week_pairs.empty?
+        %tr
+          = render '/editor/groups/groups/subgroups', :group => group, :pairs => both_week_pairs, :skipcell => [], :singlerow => true, :cellsintop => [], :week => 0, :day => day, :pair_number => pair, :index => pair_group_counter
+        %tr
+      - else
+        - skipcell = []
+        - cellsintop = []
+        %tr
+          - if first_week_pairs.any? or both_week_pairs.any?
+            = render '/editor/groups/groups/subgroups', :group => group, :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop, :week => 1, :day => day, :pair_number => pair, :index => pair_group_counter
+          - else
+            %td{:colspan => 2}
+              .receiver{ :class => "receiver_#{group.id}", :id => "#{id}_week1", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 1}
+        %tr
+          - if second_week_pairs.any?
+            = render '/editor/groups/groups/subgroups', :group => group, :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop, :week => 2, :day => day, :pair_number => pair, :index => pair_group_counter
+          - else
+            %td{:colspan => skipcell.empty?? 2 : 1}
+              .receiver{ :class => "receiver_#{group.id}", :id => "#{id}_week2", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 2}
