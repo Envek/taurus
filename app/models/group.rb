@@ -45,6 +45,10 @@ class Group < ActiveRecord::Base
     return subgroups.map{|s| [s.pair, s.number]}
   end
 
+  def department
+    Department.first :joins => {:specialities => :groups}, :conditions => {:groups => {:id => self.id}}
+  end
+
   private
 
   def self.escape_name(name)
