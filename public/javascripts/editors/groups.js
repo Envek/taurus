@@ -76,15 +76,19 @@ jQuery(document).ready(function($) {
     
     // Добавление ещё одного receiver-блока для создания ещё одной пары в том же временном окне
     $('.receiver_add').live('click', function() {
-        var grid_context = $(this).parent().parent();
-        var newrcv = $('.receiver', grid_context).first().clone().empty();
-        var rcvid = newrcv.attr('id');
-        var index = $('.receiver', grid_context).length;
-        rcvid = rcvid.substring(0, rcvid.lastIndexOf('_index')) + '_index' + index;
-        newrcv.attr('id', rcvid);
+        var timeslot= $(this).parent().parent();
+        var newrcv = $('<div class="receiver">');
+        var index = $('.receiver', timeslot).length + $('.timeslot', timeslot).length;
+        var grid_id = timeslot.attr('grid_id');
+        newrcv.attr("id", timeslot.attr('id')+"_index"+index);
+        newrcv.attr("grid_id", grid_id);
+        newrcv.attr("day_of_the_week", timeslot.attr('day_of_the_week'));
+        newrcv.attr("pair_number", timeslot.attr('pair_number'));
+        newrcv.attr("week", timeslot.attr('week'));
         newrcv.attr('index', index);
-        newrcv.removeClass('hidden_receiver');
-        $('.receiver', grid_context).addClass('hidden_receiver');
+        newrcv.addClass('receiver_'+grid_id);
+        $('.receiver', timeslot).addClass('hidden');
+        $('.timeslot', timeslot).addClass('hidden');
         newrcv.droppable({
             accept: '.pair',
             over: function(){ $(this).addClass('hovered_receiver');},
@@ -103,32 +107,32 @@ jQuery(document).ready(function($) {
             }
         });
         $(this).parent().before(newrcv);
-        var count = $('.receiver', grid_context).length;
-        $('.receiver_count', grid_context).text(count+"/"+count);
+        var count = $('.receiver', timeslot).length + $('.timeslot', timeslot).length;
+        $('.receiver_count', timeslot).text(count+"/"+count);
     });
     // Переключение между receiver'ами
     $('.receiver_prev').live('click', function() {
-        var grid_context = $(this).parent().parent();
-        var receivers = $('.receiver', grid_context);
+        var timeslot = $(this).parent().parent();
+        var receivers = $.merge($('.receiver', timeslot), $('.timeslot', timeslot));
         var count = receivers.length;
-        var current = receivers.not('.hidden_receiver');
-        if (current.prev().is('.receiver')) {
-            current.addClass('hidden_receiver');
-            current.prev().removeClass('hidden_receiver');
-            var newnum = current.prevAll('.receiver').length; 
-            $('.receiver_count', grid_context).text(newnum+"/"+count);
+        var current = receivers.not('.hidden');
+        if (current.prev().is('.receiver') || current.prev().is('.timeslot')) {
+            current.addClass('hidden');
+            current.prev().removeClass('hidden');
+            var newnum = $.merge(current.prevAll('.receiver'), current.prevAll('.timeslot')).length;
+            $('.receiver_count', timeslot).text(newnum+"/"+count);
         }
     });
     $('.receiver_next').live('click', function() {
-        var grid_context = $(this).parent().parent();
-        var receivers = $('.receiver', grid_context);
+        var timeslot = $(this).parent().parent();
+        var receivers = $.merge($('.receiver', timeslot), $('.timeslot', timeslot));
         var count = receivers.length;
-        var current = receivers.not('.hidden_receiver');
-        if (current.next().is('.receiver')) {
-            current.addClass('hidden_receiver');
-            current.next().removeClass('hidden_receiver');
-            var newnum = current.prevAll('.receiver').length; 
-            $('.receiver_count', grid_context).text((newnum+2)+"/"+count);
+        var current = receivers.not('.hidden');
+        if (current.next().is('.receiver') || current.next().is('.timeslot')) {
+            current.addClass('hidden');
+            current.next().removeClass('hidden');
+            var newnum = $.merge(current.prevAll('.receiver'), current.prevAll('.timeslot')).length+2;
+            $('.receiver_count', timeslot).text(newnum+"/"+count);
         }
     });
     

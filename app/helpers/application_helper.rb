@@ -14,7 +14,6 @@ module ApplicationHelper
     # Step 1. Find dates — groups separators
     activation_dates = pairs.map{|p| p[0].active_at}.uniq.sort
     separators = [activation_dates.min]
-    activation_dates = activation_dates - separators
     until activation_dates.empty?
       sep = pairs.select{|p| p[0].active_at == activation_dates.min}.max_by{|p| p[0].expired_at}[0].expired_at
       separators << sep
@@ -28,7 +27,6 @@ module ApplicationHelper
       group += pairs.find_all {|p| p[0].active_at < date}
       groups << group if group.any?
     end
-    groups += [pairs]
     return groups
   end
 

@@ -2,10 +2,11 @@
 - second_week_pairs = pair_group.find_all {|p| p[0].week == 2 }
 - both_week_pairs = pair_group.find_all {|p| p[0].week == 0 }
 - id = "group_editor_grid#{group.id}_day#{day}_pair#{pair}_index#{pair_group_counter}"
+- ts_class = "hidden" unless pair_group_counter.zero?
 - if both_week_pairs.empty? and first_week_pairs.empty? and second_week_pairs.empty?
-  .receiver{ :class => "receiver_#{group.id}", :id => "#{id}_week0", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 0 }
+  .receiver{ :class => "receiver_#{group.id} #{ts_class}", :id => "#{id}_week0", :grid_id => "#{group.id}", :day_of_the_week => "#{day}", :pair_number => "#{pair}", :index => pair_group_counter, :week => 0 }
 - else
-  %table.timeslot{:id => id}
+  %table.timeslot{:id => id, :class => ts_class}
     %tbody
       - if both_week_pairs.any? and first_week_pairs.empty? and second_week_pairs.empty?
         %tr

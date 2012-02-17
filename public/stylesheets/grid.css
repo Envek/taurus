@@ -334,3 +334,7 @@ img {
 .group_editor td[colspan="2"] > .receiver::after {
   line-height: 33px;
 }
+
+.group_editor .timeslot > .hidden {
+  display: none;
+}
