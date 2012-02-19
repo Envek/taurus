@@ -338,3 +338,10 @@ img {
 .group_editor .timeslot > .hidden {
   display: none;
 }
+
+.ui-autocomplete {
+	max-height: 250px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding-right: 10px;
+}

@@ -40,7 +40,7 @@ jQuery(document).ready(function($){
 
     $('.classroom').autocomplete({
         disabled: false,
-        minLength: 2,
+        minLength: 0,
         source: function(request, response) {
             $.getJSON('/editor/groups/classrooms.json', {
               classroom: request.term,
@@ -67,12 +67,13 @@ jQuery(document).ready(function($){
     });
     
     $('.classroom').focus(function() {
-        $('.classroom').val('');
+        $(this).val('');
+        $(this).autocomplete("search", "");
     });
     
     $('.charge_card').autocomplete({
         disabled: false,
-        minLength: 2,
+        minLength: 0,
         source: function(request, response) {
             $.getJSON('/editor/groups/charge_cards.json', {
               charge_card: request.term,
@@ -99,7 +100,8 @@ jQuery(document).ready(function($){
     });
     
     $('.charge_card').focus(function() {
-        $('.charge_card').val('');
+        $(this).val('');
+        $(this).autocomplete("search", "");
     });
 
     $('#dates_block_show a').click( function () {
