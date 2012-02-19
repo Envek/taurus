@@ -5,12 +5,28 @@ class Classroom < ActiveRecord::Base
 
   validates_presence_of :building
   
-  named_scope :recommended_first_for, lambda { |dept| {
-    :joins => [:building, :department],
-    :order => "classrooms.department_id=#{dept.id} DESC NULLS LAST,
-                 classrooms.department_lock DESC NULLS LAST,
-                 classrooms.name ASC,	buildings.name ASC"
-  }}
+  def self.all_with_recommended_first_for (department)
+    if department.class == Department
+      find_by_sql("(
+        SELECT classrooms.*
+        FROM classrooms JOIN buildings ON classrooms.building_id = buildings.id
+        WHERE classrooms.department_id = #{department.id}
+        ORDER BY
+	        classrooms.department_lock DESC NULLS LAST,
+	        classrooms.name ASC,
+	        buildings.name ASC
+        ) UNION ALL (
+        SELECT classrooms.*
+        FROM classrooms JOIN buildings ON classrooms.building_id = buildings.id
+        WHERE classrooms.department_id <> #{department.id} OR classrooms.department_id IS NULL
+        ORDER BY
+	        classrooms.name ASC,
+	        buildings.name ASC
+        )").each do |c|
+          c.set_recommended_dept(department)
+        end
+    end
+  end
   
   def full_name
     name + ' (' + building.name + ')'
