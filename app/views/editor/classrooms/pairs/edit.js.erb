@@ -48,7 +48,7 @@ jQuery(document).ready(function($){
             function(data) {
                 var charge_cards = new Array(0);
                 data.each(function(i) {
-                    charge_cards.push({ label: i.charge_card.editor_name, value: i.charge_card.id });
+                    charge_cards.push({ label: i.charge_card.editor_name_with_recommendation, value: i.charge_card.id });
                 });
                 response(charge_cards);
             });

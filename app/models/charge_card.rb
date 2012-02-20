@@ -14,6 +14,15 @@ class ChargeCard < ActiveRecord::Base
   validates_presence_of :discipline, :lesson_type, :teaching_place, :weeks_quantity, :hours_per_week
   validates_numericality_of :weeks_quantity, :hours_per_week
 
+  named_scope :with_recommended_first_for, lambda { |department|
+    if department.class == Department
+      {
+        :joins => :teaching_place,
+        :order => "teaching_places.department_id = #{department.id} DESC NULLS LAST, charge_cards.editor_name ASC"
+      }
+    end
+  }
+
   def name
     groups = []
     self.groups.each do |group|
@@ -42,6 +51,15 @@ class ChargeCard < ActiveRecord::Base
     editor_name = ActiveRecord::Base.sanitize(self.name_for_pair_edit)
     # It's not good idea to use raw SQL, but it's the only solution that works
     ActiveRecord::Base.connection.execute("UPDATE charge_cards SET editor_name = #{editor_name} WHERE id = #{self.id};")
+  end
+
+  def set_recommended_dept(dept)
+    @recommended_dept = dept if dept.class == Department
+  end
+
+  def editor_name_with_recommendation
+    recommended = (self.teaching_place.try(:department_id) == @recommended_dept.try(:id))
+    "#{editor_name} #{"(рекомендуется)" if recommended}"
   end
 
   private
