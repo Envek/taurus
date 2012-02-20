@@ -8,7 +8,6 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :forming_year
   validates_format_of :forming_year, :with => /^(20)\d{2}$/,
     :message => '- необходимо вводить год целиком. Допустимы годы от 2000 до 2099'
-  validates_numericality_of :population
 
   named_scope :for_timetable, :include => [{:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}]}]
   named_scope :by_name, lambda { |name| { :conditions => ['groups.name LIKE ?', escape_name(name)] } }
@@ -51,7 +50,7 @@ class Group < ActiveRecord::Base
   end
 
   def descriptive_name
-    "#{name} (#{department.short_name})" + (population.nil? ? "" : " — #{population} чел.")
+    "#{name} #{department ? "(#{department.short_name})" : ""} #{population ? " — #{population} чел." : ""}"
   end
 
   private
