@@ -81,7 +81,7 @@ class Pair < ActiveRecord::Base
   def groups_string
     g = groups.map do |g|
       name = g.name.to_s 
-      if (number = g.subgroups.find_by_pair_id(id).number) == 0
+      if (number = g.subgroups.find_by_pair_id(id).try(:number) || 0) == 0
         subgroup = ''
       else
         subgroup = ' (' + number.to_s + '-я подгруппа)'
