@@ -1,8 +1,9 @@
 .group_editor{:id => "group_editor_#{group.id}", :group_id => group.id}
   %table
     %caption
-      #{group.name}
       .closebutton{:class => "group_editor_close", :group_id => "#{group.id}"}
+      #{group.name}
+      %p.population Учащихся: #{group.population or "(не указано)"} чел.
     %thead
       %tr
         %th.subgroup 1 подгруппа

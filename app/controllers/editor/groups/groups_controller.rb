@@ -6,10 +6,10 @@ class Editor::Groups::GroupsController < Editor::BaseController
     @group = Group.find(params[:group_id]) if params[:group_id]
     except = params[:except] ? params[:except].split(',').map { |e| e.to_i } : "0"
     classroom = params[:group].to_s.gsub('%', '\%').gsub('_', '\_') + '%'
-    @groups = Group.all(:conditions => ['id NOT IN (?) AND name LIKE ?', except, classroom], :select => "id, name")
+    @groups = Group.all(:conditions => ['id NOT IN (?) AND name LIKE ?', except, classroom], :order => "name")
     respond_to do |format|
       format.html
-      format.json { render :json => @groups }
+      format.json { render :json => @groups.to_json(:only => [:id], :methods => [:descriptive_name]) }
     end
   end
 

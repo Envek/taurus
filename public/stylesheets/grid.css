@@ -160,7 +160,7 @@ img {
 }
 
 #group_form {
-  margin: 0 0 -40px -2px;
+  margin: 0 0 -60px -2px;
   padding: 5px;
   border: 1px solid black;
   background: lavender;
@@ -187,6 +187,14 @@ img {
 .group_editor table caption {
   font-size: 200%;
   font-weight: bold;
+  height: 50px;
+  max-height: 50px;
+}
+
+.group_editor table caption p.population {
+  font-size: 50%;
+  font-weight: normal;
+  margin: 0;
 }
 
 .group_editor tbody, .group_editor thead {

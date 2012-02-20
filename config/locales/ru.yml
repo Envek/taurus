@@ -99,6 +99,7 @@ ru:
         forming_year: 'Год формирования'
         name: 'Номер группы'
         speciality: 'Специальность'
+        population: 'Количество обучающихся'
       jet:
         group: 'Группа'
         subgroups_quantity: 'Количество подргупп'
