@@ -4,7 +4,9 @@ class Classroom < ActiveRecord::Base
   belongs_to :department
 
   validates_presence_of :building
-  
+
+  default_scope :joins => :building, :order => "classrooms.name ASC, buildings.name ASC"
+
   def self.all_with_recommended_first_for (department)
     if department.class == Department
       find_by_sql("(
@@ -25,6 +27,8 @@ class Classroom < ActiveRecord::Base
         )").each do |c|
           c.set_recommended_dept(department)
         end
+    else
+      all
     end
   end
   
