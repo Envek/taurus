@@ -4,7 +4,7 @@ class Editor::Groups::GroupsController < Editor::BaseController
     flash[:error] = nil
     session[:group_editor] = {:groups => []} unless session[:group_editor]
     @group = Group.find(params[:group_id]) if params[:group_id]
-    except = params[:except] ? params[:except].split(',').map { |e| e.to_i } : "0"
+    except = session[:group_editor][:groups].any? ? session[:group_editor][:groups] : "0"
     classroom = params[:group].to_s.gsub('%', '\%').gsub('_', '\_') + '%'
     @groups = Group.all(:conditions => ['id NOT IN (?) AND name LIKE ?', except, classroom], :order => "name")
     respond_to do |format|
