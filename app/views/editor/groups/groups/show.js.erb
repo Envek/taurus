@@ -1,5 +1,10 @@
 jQuery(document).ready(function($){
-    $('#group_workspace').append('<%= escape_javascript render :partial => "grid", :locals => {:group => @group} %>');
+    var editor = '<%= escape_javascript render :partial => "grid", :locals => {:group => @group} %>';
+    var editor_id = '#group_editor_<%= @group.id %>';
+    if ($(editor_id).length)
+      $(editor_id).replaceWith(editor);
+    else
+      $('#group_workspace').append(editor);
     <%= render :partial => "/editor/groups/pairs/drag_and_drop", :locals => {:group => @group} %>
     // New autocomplete (with opened groups excepted)
     $('#group_name').autocomplete({
