@@ -7,17 +7,20 @@
     .destroy{:pair_id => "#{pair.id}"}
       = image_tag('delete_16.png')
   .pair_content
-    %abbr{:title => "#{pair.discipline}"}
-      #{pair.short_discipline}
-    %abbr{:title => "#{pair.lesson_type}"}
-      (#{short_lesson_type})
-    = pair.classroom.try(:full_name)
-    %br
-    - if pair.lecturer && pair.lecturer_id
-      %abbr{:title => "#{pair.lecturer_full}"}
-        = link_to "#{pair.lecturer}", timetable_lecturer_path(pair.lecturer_id), :target => '_blank'
-    - if pair.assistant && pair.assistant_id
-      , 
-      %abbr{:title => "#{pair.assistant_full}"}
-        = link_to "#{pair.assistant}", timetable_lecturer_path(pair.assistant_id), :target => '_blank'
-    = "#{pair.active_at} — #{pair.expired_at}"
+    .pair_discipline
+      %abbr{:title => "#{pair.discipline}"}
+        #{pair.short_discipline}
+      %abbr{:title => "#{pair.lesson_type}"}
+        (#{short_lesson_type})
+    .pair_classroom
+      = pair.classroom.try(:full_name)
+    .pair_lecturer
+      - if pair.lecturer && pair.lecturer_id
+        %abbr{:title => "#{pair.lecturer_full}"}
+          = link_to "#{pair.lecturer}", timetable_lecturer_path(pair.lecturer_id), :target => '_blank'
+      - if pair.assistant && pair.assistant_id
+        , 
+        %abbr{:title => "#{pair.assistant_full}"}
+          = link_to "#{pair.assistant}", timetable_lecturer_path(pair.assistant_id), :target => '_blank'
+    .pair_dates
+      = "#{pair.active_at} — #{pair.expired_at}"

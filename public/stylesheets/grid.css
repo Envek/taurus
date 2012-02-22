@@ -285,7 +285,24 @@ img {
   max-height: 32px;
 }
 
+.group_editor table.timeslot td[rowspan="1"] .pair {
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+}
+
+.group_editor table.timeslot td[rowspan="1"] .pair .pair_classroom {
+  float: left;
+  margin-right: 1em;
+}
+
 .group_editor table.timeslot td[rowspan="2"] {
+  height: 67px;
+  min-height: 67px;
+  max-height: 67px;
+}
+
+.group_editor table.timeslot td[rowspan="2"] .pair {
   height: 67px;
   min-height: 67px;
   max-height: 67px;
@@ -324,6 +341,13 @@ img {
   text-overflow: ellipsis;
 }
 
+.group_editor .pair .management_panel {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: auto;
+}
+
 .group_editor .receiver::after {
   content: "Двойной щелчок для создания пары";
   text-align: center;
@@ -345,6 +369,20 @@ img {
 
 .group_editor .timeslot > .hidden {
   display: none;
+}
+
+.group_editor .grid_mgmt_panel {
+  visibility: hidden;
+  position: absolute;
+  top: -1px;
+  bottom: auto;
+  right: -1px;
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.group_editor td.timeslot:hover .grid_mgmt_panel {
+  visibility: visible;
 }
 
 .ui-autocomplete {
