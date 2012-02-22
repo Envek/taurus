@@ -1,5 +1,10 @@
 jQuery(document).ready(function($){
 
+    function show_autocomplete () {
+        $(this).val('');
+        $(this).autocomplete("search", "");
+    }
+
     $.ajaxSetup({
     "error":function() {   
         $('#group_workspace').prepend('<div id="error"></div>');
@@ -66,11 +71,9 @@ jQuery(document).ready(function($){
         }
     });
     
-    $('.classroom').focusin(function() {
-        $(this).val('');
-        $(this).autocomplete("search", "");
-    });
-    
+    $('.classroom').focusin(show_autocomplete);
+    $('.classroom').dblclick(show_autocomplete);
+
     $('.charge_card').autocomplete({
         disabled: false,
         minLength: 0,
@@ -99,10 +102,8 @@ jQuery(document).ready(function($){
         }
     });
     
-    $('.charge_card').focusin(function() {
-        $(this).val('');
-        $(this).autocomplete("search", "");
-    });
+    $('.charge_card').focusin(show_autocomplete);
+    $('.charge_card').dblclick(show_autocomplete);
 
     $('#dates_block_show a').click( function () {
         $('#dates_block').slideToggle('slow');
