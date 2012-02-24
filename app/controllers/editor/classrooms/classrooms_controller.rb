@@ -8,7 +8,7 @@ class Editor::Classrooms::ClassroomsController < Editor::BaseController
     classroom = params[:classroom].to_s.gsub('%', '\%').gsub('_', '\_') + '%'
     respond_to do |format|
       format.html
-      format.json { render :json => Classroom.all(:conditions => ['id NOT IN (?) AND name LIKE ?', except, classroom],
+      format.json { render :json => Classroom.all(:conditions => ['classrooms.id NOT IN (?) AND classrooms.name LIKE ?', except, classroom],
         :include => [:building]).to_json(:only => [:id, :name], :include => { :building => { :only => :name } } )}
     end
   end
