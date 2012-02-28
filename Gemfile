@@ -6,7 +6,6 @@ gem "devise", "~> 1.0.8"
 gem "erubis"
 gem "haml", "~> 3.0.21"
 gem "pdfkit"
-gem "wkhtmltopdf-binary"
 gem "pg"
 gem 'whenever'
 gem 'unicode'

@@ -81,7 +81,6 @@ GEM
     whenever (0.7.2)
       activesupport (>= 2.3.4)
       chronic (~> 0.6.3)
-    wkhtmltopdf-binary (0.9.5.3)
 
 PLATFORMS
   ruby
@@ -102,4 +101,3 @@ DEPENDENCIES
   unicode
   unicorn
   whenever
-  wkhtmltopdf-binary
