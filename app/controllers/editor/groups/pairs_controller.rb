@@ -49,6 +49,7 @@ class Editor::Groups::PairsController < ApplicationController
         @pair.subgroups.destroy_all
         @pair.charge_card.jets.each do |jet|
           subgroup = @pair.subgroups.new(:jet_id => jet.id, :number => 0)
+          subgroup.number = params[:subgroup] if jet.group_id == @group.id and params[:subgroup]
           unless subgroup.valid?
             flash[:error] = subgroup.errors[:base].to_a.join('<br />').html_safe
           else
