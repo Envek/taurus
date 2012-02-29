@@ -7,10 +7,19 @@ class Editor::Groups::PairsController < ApplicationController
     keys = %w(week day_of_the_week pair_number).map {|k| k.to_sym }
     pair_params = keys.map {|i| params[i] or nil}
     pair_params << nil
+    @group = Group.find(params[:group_id])
     @pair = Pair.find_or_initialize_by_week_and_day_of_the_week_and_pair_number_and_classroom_id(*pair_params)
     @pair.active_at = Date.today
     @pair.guess_expire_date
-    @pair.save
+    unless @pair.save
+      conflict_params = [params[:day_of_the_week], params[:pair_number], nil]
+      pairs = Pair.find_all_by_day_of_the_week_and_pair_number_and_classroom_id(*conflict_params)
+      charge_card_ids = @group.charge_cards.map{ |c| c.id }
+      pairs.find_all { |p| charge_card_ids.include? p.charge_card_id or p.charge_card_id.nil? }.each { |p| p.destroy }
+      unless @pair.save
+        flash[:error] = @pair.errors[:base].to_a.join('<br />').html_safe
+      end
+    end
     respond_to do |format|
       format.js { render :edit }
     end
