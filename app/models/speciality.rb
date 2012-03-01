@@ -1,6 +1,7 @@
 class Speciality < ActiveRecord::Base
   belongs_to :department
   has_many :groups
+  has_many :teaching_plans
   
   validates_presence_of :department
   
