@@ -1,6 +1,5 @@
 config/database.yml
 config/taurus.yml
-db/schema.rb
 log/*
 tmp/*
 nbproject/*
