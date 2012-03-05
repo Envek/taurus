@@ -11,7 +11,7 @@
     %ol
       - @results.each do |r|
         %li
-          %p #{r[:discipline].name}
+          %p #{r[:discipline].name} (на кафедре #{r[:discipline].department.name})
           - if r[:semesters].any?
             %ul
               - r[:semesters].each do |s|

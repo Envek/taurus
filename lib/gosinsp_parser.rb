@@ -26,9 +26,15 @@ module GosinspParser
         return speciality, [], ["Вы не можете загружать план для специальности #{speciality.code} «#{speciality.name}»!"]
       end
       plan.css("Документ>План>СтрокиПлана>Строка").each do |row|
-        discipline = Discipline.find_by_name(row["Дис"])
-        discipline = Discipline.find_by_short_name(row["Дис"]) unless discipline
+        # Находим дисциплинну с заданным именем и закреплённую за заданной кафедрой (или не закреплённой за кафедрой)
+        discipline = Discipline.first(:joins => :department, :include => :department,
+          :conditions => {:departments => {:gosinsp_code => [row["Кафедра"], nil]}, :name => row["Дис"]}
+        )
         if discipline
+          if discipline.department.nil?
+            discipline.department = Department.find_by_gosinsp_code(row["Кафедра"])
+            discipline.save
+          end
           result = {:discipline => discipline, :semesters => []}
           row.css("Сем").each do |sem|
             semnum = sem["Ном"].to_i
@@ -49,7 +55,12 @@ module GosinspParser
           end
           results << result
         else
-          errors << "Дисциплина «#{row["Дис"]}» не существует в системе"
+          # Если мы не нашли дисциплину с таким именем на этой кафедре (или вне кафедр)
+          dept = Department.find_by_gosinsp_code(row["Кафедра"])
+          department_ids = Discipline.find_all_by_name(row["Дис"], :select => 'department_id').map{|d| d.department_id}
+          departments = Department.find(department_ids)
+          errors << "Дисциплина «#{row["Дис"]}» не найдена на кафедре #{dept.name}."
+          errors[-1] += " Такая дисциплина найдена на кафедрах: #{departments.map{|d| d.name}.join(', ')}" if departments.any?
         end
       end
     end
