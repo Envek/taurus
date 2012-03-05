@@ -13,6 +13,7 @@ class Editor::Reference::TeachingPlansController < Editor::BaseController
     )
     discipline_ids = (@charge_cards.map{|cc| cc.discipline_id} + @teaching_plans.map{|tp| tp.discipline_id}).uniq
     @disciplines = Discipline.find(discipline_ids, :order => :name)
+    render "application/groups/teaching_plans/show"
   end
 
 end

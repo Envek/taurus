@@ -44,16 +44,16 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace :dept_head do |d|
     d.resources :teaching_places, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
     d.resources :disciplines, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
-    d.resources :groups, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
+    d.resources :groups, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post, :teaching_plan => :get}
     d.resources :lecturers, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
-    d.resources :specialities, :active_scaffold => true
+    d.resources :specialities, :active_scaffold => true, :member => {:teaching_plan => :get}
     d.root :controller => 'teaching_places'
   end
 
   map.namespace :supervisor do |s|
     s.resources :faculties, :active_scaffold => true
-    s.resources :specialities, :active_scaffold => true
-    s.resources :groups, :active_scaffold => true
+    s.resources :specialities, :active_scaffold => true, :member => {:teaching_plan => :get}
+    s.resources :groups, :active_scaffold => true, :member => {:teaching_plan => :get}
     s.resources :classrooms, :active_scaffold => true
     s.resources :lecturers, :active_scaffold => true
     s.connect 'teaching_plans', :controller => "teaching_plans", :action => "new", :method => :get
