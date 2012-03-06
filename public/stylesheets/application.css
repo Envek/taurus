@@ -155,3 +155,11 @@ table.infotable.fullwidth-table {
 table.infotable tr.hidden {
   display: none;
 }
+
+table.teaching_plan colgroup, table.teaching_plan col {
+  border: 2px solid gray;
+}
+
+table.teaching_plan tbody, table.teaching_plan tfoot, table.teaching_plan thead {
+  border: 2px solid gray;
+}

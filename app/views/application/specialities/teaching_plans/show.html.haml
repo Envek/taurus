@@ -9,6 +9,12 @@
 
 - else
   %table.teaching_plan.infotable.fullwidth-table
+    %colgroup
+    - @courses.each do |course|
+      %colgroup
+        %col{:span => 4}
+        %col{:span => 4}
+    %colgroup
     %thead
       %tr
         %th{:rowspan => 3} Дисциплина
