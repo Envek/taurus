@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
     d.resources :disciplines, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
     d.resources :groups, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post, :teaching_plan => :get}
     d.resources :lecturers, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
-    d.resources :specialities, :active_scaffold => true, :member => {:teaching_plan => :get}
+    d.resources :specialities, :active_scaffold => true, :member => {:teaching_plan => :get}, :collection => {:teaching_plan_import => [:get, :post]}
     d.root :controller => 'teaching_places'
   end
 
