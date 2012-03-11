@@ -57,10 +57,14 @@ module GosinspParser
         else
           # Если мы не нашли дисциплину с таким именем на этой кафедре (или вне кафедр)
           dept = Department.find_by_gosinsp_code(row["Кафедра"])
-          department_ids = Discipline.find_all_by_name(row["Дис"], :select => 'department_id').map{|d| d.department_id}
-          departments = Department.find(department_ids)
-          errors << "Дисциплина «#{row["Дис"]}» не найдена на кафедре #{dept.name}."
-          errors[-1] += " Такая дисциплина найдена на кафедрах: #{departments.map{|d| d.name}.join(', ')}" if departments.any?
+          if row["Кафедра"] and dept
+            department_ids = Discipline.find_all_by_name(row["Дис"], :select => 'department_id').map{|d| d.department_id}
+            departments = Department.find(department_ids)
+            errors << "Дисциплина «#{row["Дис"]}» не найдена на кафедре #{dept.name}."
+            errors[-1] += " Такая дисциплина найдена на кафедрах: #{departments.map{|d| d.name}.join(', ')}" if departments.any?
+          else
+            errors << "Дисциплина «#{row["Дис"]}» не найдена и не закреплена ни за какой кафедрой в плане!"
+          end
         end
       end
     end
