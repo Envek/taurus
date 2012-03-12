@@ -4,6 +4,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
   active_scaffold do |config|
     config.actions << :delete
     config.columns = [:code, :name]
+    config.list.sorting = {:code => :asc}
     config.nested.add_link('Группы', [:groups])
     config.action_links.add :teaching_plan, :label => "Учебный план", :type => :member, :page => true
     config.action_links.add :teaching_plan_import, :label => "Импорт учебного плана", :type => :collection, :page => true
@@ -68,9 +69,17 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
 
   def conditions_for_collection
     if dept = current_dept_head.department
-      {:department_id => dept.id}
+      discipline_ids = current_dept_head.department.disciplines.all(:select => "id").map{|d| d.id}
+      conditions = {:discipline_id => discipline_ids, :semester => TAURUS_CONFIG["semester"]["current"]["number"]}
+      ids = TeachingPlan.all(:conditions => conditions, :select => "DISTINCT(speciality_id)").map{ |tp| tp.speciality_id }
+      ["department_id = :department_id OR id IN (:id)", {:department_id => dept.id, :id => ids }]
     else
       {:department_id => nil}
     end
   end
+
+  def current_user
+    return current_dept_head
+  end
+
 end

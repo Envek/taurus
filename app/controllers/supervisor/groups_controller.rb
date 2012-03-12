@@ -21,4 +21,10 @@ class Supervisor::GroupsController < Supervisor::BaseController
     render "application/groups/teaching_plans/show"
   end
 
+protected
+
+  def current_user
+    return nil
+  end
+
 end

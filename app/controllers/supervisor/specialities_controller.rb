@@ -16,4 +16,10 @@ class Supervisor::SpecialitiesController < Supervisor::BaseController
     render "application/specialities/teaching_plans/show"
   end
 
+protected
+
+  def current_user
+    return nil
+  end
+
 end

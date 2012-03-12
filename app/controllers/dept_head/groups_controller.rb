@@ -20,4 +20,10 @@ class DeptHead::GroupsController < DeptHead::BaseController
     render "application/groups/teaching_plans/show"
   end
 
+protected
+
+  def current_user
+    return current_dept_head
+  end
+
 end
