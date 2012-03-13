@@ -4,7 +4,6 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
   active_scaffold do |config|
     config.actions << :delete
     config.columns = [:code, :name]
-    config.list.sorting = {:code => :asc}
     config.nested.add_link('Группы', [:groups])
     config.action_links.add :teaching_plan, :label => "Учебный план", :type => :member, :page => true
     config.action_links.add :teaching_plan_import, :label => "Импорт учебного плана", :type => :collection, :page => true
@@ -76,6 +75,10 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
     else
       {:department_id => nil}
     end
+  end
+
+  def custom_finder_options
+    {:order => "department_id = #{current_dept_head.department_id} DESC, code ASC"}
   end
 
   def current_user
