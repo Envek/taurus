@@ -1,8 +1,11 @@
 source "http://rubygems.org"
 
-gem "rails", "~> 2.3.8"
+gem "rails", "~> 3.0.0"
 
-gem "devise", "~> 1.0.8"
+gem "active_scaffold", "~> 3.0.0"
+gem "recordselect", "~> 3.0.4"
+gem "russian"
+gem "devise", "~> 1.1.0"
 gem "erubis"
 gem "haml", "~> 3.0.21"
 gem "pdfkit"

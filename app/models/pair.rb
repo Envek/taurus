@@ -5,6 +5,8 @@ class Pair < ActiveRecord::Base
 
   accepts_nested_attributes_for :subgroups
 
+  validate :create_validation, :on => :create
+  validate :update_validation, :on => :update
   validate :expiration_date_validness, :activation_date_validness
   validate :week_number_existance
 
@@ -108,7 +110,7 @@ class Pair < ActiveRecord::Base
   
   private
   
-  def validate_on_create    
+  def create_validation
     conditions = { :classroom_id => classroom_id,
                    :day_of_the_week => day_of_the_week,
                    :pair_number => pair_number,
@@ -121,7 +123,7 @@ class Pair < ActiveRecord::Base
     end
   end
   
-  def validate_on_update
+  def update_validation
     week_conditions = week == 0 ? [0, 1, 2] : [0, week]
     conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?) AND NOT ((pairs.active_at > ? AND expired_at > ?) OR (active_at < ? AND expired_at < ?))',
                   id, day_of_the_week, pair_number, week_conditions, expired_at, expired_at, active_at, active_at]

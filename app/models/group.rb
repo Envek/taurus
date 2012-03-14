@@ -9,9 +9,9 @@ class Group < ActiveRecord::Base
   validates_format_of :forming_year, :with => /^(20)\d{2}$/,
     :message => '- необходимо вводить год целиком. Допустимы годы от 2000 до 2099'
 
-  named_scope :for_timetable, :include => [{:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}]}]
-  named_scope :by_name, lambda { |name| { :conditions => ['groups.name LIKE ?', escape_name(name)] } }
-  named_scope :for_groups_editor, :include => {:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}}}
+  scope :for_timetable, includes(:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}])
+  scope :by_name, lambda { |name| where('groups.name LIKE ?', escape_name(name)) }
+  scope :for_groups_editor, includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}})
 
   def course
     this_year = Time.now.year.to_i
@@ -34,19 +34,18 @@ class Group < ActiveRecord::Base
   end
 
   def pairs_with_subgroups
-    self.subgroups.all(:include => :pair).map{|s| [s.pair, s.number]}
+    self.subgroups.includes(:pair).map{|s| [s.pair, s.number]}
   end
 
   def pairs_with_subgroups_for_timeslot(day, time)
-    subgroups = self.subgroups.all :joins => :pair, :include => :pair, 
-      :conditions => {:pairs => {
+    subgroups = self.subgroups.joins(:pair).includes(:pair).where(:pairs => {
         :day_of_the_week => day, :pair_number => time
-      }}
+      })
     return subgroups.map{|s| [s.pair, s.number]}
   end
 
   def department
-    Department.first :joins => {:specialities => :groups}, :conditions => {:groups => {:id => self.id}}
+    Department.joins(:specialities => :groups).where(:groups => {:id => self.id}).first
   end
 
   def descriptive_name

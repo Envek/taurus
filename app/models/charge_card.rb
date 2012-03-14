@@ -14,12 +14,9 @@ class ChargeCard < ActiveRecord::Base
   validates_presence_of :discipline, :lesson_type, :weeks_quantity, :hours_per_week
   validates_numericality_of :weeks_quantity, :hours_per_week
 
-  named_scope :with_recommended_first_for, lambda { |department|
+  scope :with_recommended_first_for, lambda { |department|
     if department.class == Department
-      {
-        :joins => :teaching_place,
-        :order => "teaching_places.department_id = #{department.id} DESC NULLS LAST, charge_cards.editor_name ASC"
-      }
+      joins(:teaching_place).order("teaching_places.department_id = #{department.id} DESC NULLS LAST, charge_cards.editor_name ASC")
     end
   }
 
@@ -64,12 +61,11 @@ class ChargeCard < ActiveRecord::Base
 
   def self.for_autocreation(discipline_id, lesson_type_id, groups)
     groups = [groups].flatten # In case of single group make it look like an array
-    pretendents = all(:joins => :jets, :conditions => {
+    pretendents = joins(:jets).where(
         :discipline_id => discipline_id,
         :lesson_type_id => lesson_type_id,
         :jets => {:group_id => groups}
-      }
-    )
+    ).all
     pretendents = pretendents.find_all {|cc| cc.groups == groups }
     if pretendents.empty?
       return new(:discipline_id => discipline_id, :lesson_type_id => lesson_type_id)

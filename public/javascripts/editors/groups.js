@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
             },
             function(data) {
                 var groups = new Array(0);
-                data.each(function(i) {
+                $.each(data, function(index, i) {
                     groups.push({ label: i.group.descriptive_name, value: i.group.id });
                 });
                 response(groups);

@@ -5,7 +5,7 @@ class Lecturer < ActiveRecord::Base
 
   validates_uniqueness_of :name
   
-  named_scope :by_name, lambda { |name| { :conditions => ['LOWER(lecturers.name) LIKE LOWER(?)', escape_name(name)] } }
+  scope :by_name, lambda { |name| where('LOWER(lecturers.name) LIKE LOWER(?)', escape_name(name)) }
   
   private
 

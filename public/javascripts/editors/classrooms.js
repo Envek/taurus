@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
             },
             function(data) {
                 var classrooms = new Array(0);
-                data.each(function(i) {
+                $.each(data, function(index, i) {
                     classrooms.push({ label: i.classroom.name + ' (' + i.classroom.building.name + ')', value: i.classroom.id });
                 });
                 response(classrooms);

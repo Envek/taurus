@@ -4,7 +4,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
   active_scaffold do |config|
     config.actions << :delete
     config.columns = [:code, :name]
-    config.nested.add_link('Группы', [:groups])
+    config.nested.add_link(:groups)
     config.action_links.add :teaching_plan, :label => "Учебный план", :type => :member, :page => true
     config.action_links.add :teaching_plan_import, :label => "Импорт учебного плана", :type => :collection, :page => true
     config.action_links.add :add_charge_cards, :label => "Автосоздание карт нагрузки", :type => :member, :page => true
@@ -20,7 +20,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
   end
 
   def teaching_plan_import
-    if params[:plan] and params[:plan].class == Tempfile
+    if params[:plan] and params[:plan].class == ActionDispatch::Http::UploadedFile
       @specialities = current_dept_head.department.specialities
       @speciality, @results, @errors = parse_and_fill_teaching_plan(params[:plan].read, @specialities)
       render "supervisor/teaching_plans/fill"

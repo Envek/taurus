@@ -1,5 +1,5 @@
 .update_form{:id => "pair_edit_#{@pair.id.to_s}"}
-  - remote_form_for([:editor, :classrooms, @pair]) do |f|
+  - form_for([:editor, :classrooms, @pair], :remote => true) do |f|
     %p{:id => "week_block"}
       %br
       = f.radio_button :week, 0

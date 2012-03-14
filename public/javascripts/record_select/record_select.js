@@ -1,4 +1,17 @@
-Event.observe(window, 'load', function() {RecordSelect.document_loaded = true});
+document.observe("dom:loaded", function() {
+  RecordSelect.document_loaded = true;
+  document.on('ajax:before', 'div.record-select * li.record a', function(event) {
+    var link = event.findElement();
+    if (link) {
+      if (RecordSelect.notify(link) == false) {
+        event.stop();
+      } else {
+        link.toggleClassName("selected");
+      }
+    }
+    return true;
+  });  
+});    
 
 Form.Element.AfterActivity = function(element, callback, delay) {
   element = $(element);
@@ -22,14 +35,19 @@ RecordSelect.notify = function(item) {
   if (onselect)
   {
     try {
-      onselect(item.parentNode.id.substr(2), (item.down('label') || item).innerHTML, e);
+      onselect(item.parentNode.id.substr(2), (item.down('label') || item).innerHTML.unescapeHTML(), e);
     } catch(e) {
       alert(e);
     }
     return false;
   }
   else return true;
-}
+};
+
+RecordSelect.render_page = function(record_select_id, page) {
+  var page_element = $$('#' + record_select_id + ' ol')[0];
+  if (page_element) Element.replace(page_element, page);
+};
 
 RecordSelect.Abstract = Class.create();
 Object.extend(RecordSelect.Abstract.prototype, {
@@ -284,7 +302,7 @@ RecordSelect.Single.prototype = Object.extend(new RecordSelect.Abstract(), {
 
   onselect: function(id, value) {
     this.set(id, value);
-    if (this.options.onchange) this.options.onchange(id, value);
+    if (this.options.onchange) this.options.onchange.call(this, id, value);
     this.close();
   },
 
@@ -292,7 +310,7 @@ RecordSelect.Single.prototype = Object.extend(new RecordSelect.Abstract(), {
    * sets the id/label
    */
   set: function(id, label) {
-    this.obj.value = label;
+    this.obj.value = label.unescapeHTML();
     this.hidden_input.value = id;
   }
 });
@@ -329,7 +347,6 @@ RecordSelect.Multiple.prototype = Object.extend(new RecordSelect.Abstract(), {
 
   onselect: function(id, value) {
     this.add(id, value);
-    this.close();
   },
 
   /**

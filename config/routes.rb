@@ -1,103 +1,155 @@
-ActionController::Routing::Routes.draw do |map|
-  map.namespace :admin do |a|
-    a.resources :dept_heads, :active_scaffold => true
-    a.resources :editors, :active_scaffold => true
-    a.resources :supervisors, :active_scaffold => true
-    a.resources :admins, :active_scaffold => true
-    a.root :controller => 'dept_heads'
+Taurus::Application.routes.draw do
+
+##### Отображение расписания #####
+
+  root :to => redirect('/timetable/groups')
+
+  namespace :timetable do
+    resources :groups
+    resources :lecturers
+    root :to => redirect('/timetable/groups')
   end
 
-  map.namespace :editor do |e|
-    # Pair editor based on classrooms
-    e.namespace :classrooms do |c|
-      c.resources :classrooms
-      c.resources :pairs
-      c.resources :charge_cards
-      c.resources :classrooms_sheets
-      c.root :controller => 'classrooms'
+##### Редакторский раздел #####
+
+  namespace :editor do
+    root :to => redirect('/editor/groups')
+
+    # Редактор по аудиториям
+    namespace :classrooms do
+      resources :classrooms
+      resources :pairs
+      resources :charge_cards
+      resources :classrooms_sheets
+      root :to => 'classrooms#index'
     end
-    # Pair editor based on groups
-    e.namespace :groups do |g|
-      g.resources :groups
-      g.resources :pairs
-      g.resources :classrooms
-      g.resources :charge_cards
-      g.root :controller => 'groups'
+
+    # Редактор по группам
+    namespace :groups do
+      resources :groups
+      resources :pairs
+      resources :classrooms
+      resources :charge_cards
+      root :to => 'groups#index'
     end
-    # Miscellaneous reference materials for editor needs
-    e.namespace :reference do |r|
-      r.resources :groups
-      r.resource  :groups_list do |list|
-        list.resources :groups
+
+    # Справочные материалы
+    namespace :reference do
+      resources :groups
+      resource :groups_list do
+        resources :groups
       end
-      r.resources :departments, :active_scaffold => true
-      r.resources :disciplines, :active_scaffold => true
-      r.resources :teaching_places, :active_scaffold => true
-      r.resources :charge_cards, :active_scaffold => true
-      r.connect 'teaching_plans', :controller => "teaching_plans", :action => "index"
-      r.connect 'teaching_plans/:group_id', :controller => "teaching_plans", :action => "show"
-      r.root :controller => 'classrooms_sheets'
+      resources :departments do as_routes end
+      resources :disciplines do as_routes end
+      resources :teaching_places do as_routes end
+      resources :charge_cards do as_routes end
+      get 'teaching_plans' => 'teaching_plans#index'
+      get 'teaching_plans/:group_id' => 'teaching_plans#show'
+      root :to => redirect('/editor/reference/classroom_sheets')
     end
-    e.root :controller => 'classrooms/classrooms_sheets'
   end
 
-  map.namespace :dept_head do |d|
-    d.resources :teaching_places, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
-    d.resources :disciplines, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
-    d.resources :groups, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post, :teaching_plan => :get}
-    d.resources :lecturers, :active_scaffold => true, :collection => {:browse => :get}, :member => {:select => :post}
-    d.resources :specialities, :active_scaffold => true,
-      :member => {:teaching_plan => :get, :create_charge_cards => :post, :add_charge_cards => :get},
-      :collection => {:teaching_plan_import => [:get, :post]}
-    d.root :controller => 'teaching_places'
+##### Раздел заведующего кафедрой #####
+
+  namespace :dept_head do
+    resources :teaching_places do
+      as_routes
+      collection do get :browse end
+      member do post :select end
+    end
+    resources :disciplines do
+      as_routes
+      collection do get :browse end
+      member do post :select end
+    end
+    resources :groups do
+      as_routes
+      collection do get :browse end
+      member do
+        post :select
+        get  :teaching_plan
+      end
+    end
+    resources :lecturers do
+      as_routes
+      collection do get :browse end
+      member do post :select end
+    end
+    resources :charge_cards do
+      as_routes
+    end
+    resources :specialities do
+      as_routes
+      collection do
+        get :teaching_plan_import
+        post :teaching_plan_import
+      end
+      member do
+        get :add_charge_cards
+        get :teaching_plan
+        post :create_charge_cards
+      end
+    end
+    root :to => redirect('/dept_head/teaching_places')
   end
 
-  map.namespace :supervisor do |s|
-    s.resources :faculties, :active_scaffold => true
-    s.resources :specialities, :active_scaffold => true, :member => {:teaching_plan => :get}
-    s.resources :groups, :active_scaffold => true, :member => {:teaching_plan => :get}
-    s.resources :classrooms, :active_scaffold => true
-    s.resources :lecturers, :active_scaffold => true
-    s.connect 'teaching_plans', :controller => "teaching_plans", :action => "new", :method => :get
-    s.connect 'teaching_plans/fill', :controller => "teaching_plans", :action => "fill", :method => :post
-    s.root :controller => 'lecturers'
+##### Раздел супервайзера #####
+
+  namespace :supervisor do
+    resources :faculties do as_routes end
+    resources :specialities do
+      as_routes
+      member do get :teaching_plan end
+    end
+    resources :groups do
+      as_routes
+      member do get :teaching_plan end
+    end
+    resources :classrooms do as_routes end
+    resources :lecturers do as_routes end
+    resources :departments do as_routes end
+    get 'teaching_plans' => 'teaching_plans#new'
+    post 'teaching_plans/fill' => 'teaching_plans#fill'
+    root :to => redirect('/supervisor/lecturers')
   end
 
-  map.namespace :timetable do |t|
-    t.resources :groups
-    t.resources :lecturers
-    t.root :controller => 'groups'
+##### Администраторский раздел #####
+
+  namespace :admin do
+    resources :dept_heads do as_routes end
+    resources :editors do as_routes end
+    resources :supervisors do as_routes end
+    resources :admins do as_routes end
+    root :to => redirect('/admin/dept_heads')
   end
 
-  map.resources :classrooms
+##### Аутентификация #####
 
-#  map.admin_root '/admin/departments', :controller => 'admin/dept_heads'
-#  map.editor_root '/editor/classrooms', :controller => 'editor/classrooms'
-#  map.supervisor_root '/supervisor/lecturers', :controller => 'supervisor/lecturers'
-#  map.dept_head_root '/dept_head/lecturers', :controller => 'dept_head/teaching_places'
+  devise_for :admin, :skip => [:sessions]
+  devise_scope :admin do
+    get    'admin/login' => 'devise/sessions#new',      :as => :new_admin_session
+    post   'admin/login' => 'devise/sessions#create',    :as => :admin_session
+    delete 'admin/logout' => 'devise/sessions#destroy', :as => :destroy_admin_session
+  end
+  devise_for :editor, :skip => [:sessions]
+  devise_scope :editor do
+    get    'editor/login' => 'devise/sessions#new',      :as => :new_editor_session
+    post   'editor/login' => 'devise/sessions#create',    :as => :editor_session
+    delete 'editor/logout' => 'devise/sessions#destroy', :as => :destroy_editor_session
+  end
+  devise_for :dept_head, :skip => [:sessions]
+  devise_scope :dept_head do
+    get    'dept_head/login' => 'devise/sessions#new',      :as => :new_dept_head_session
+    post   'dept_head/login' => 'devise/sessions#create',    :as => :dept_head_session
+    delete 'dept_head/logout' => 'devise/sessions#destroy', :as => :destroy_dept_head_session
+  end
+  devise_for :supervisor, :skip => [:sessions]
+  devise_scope :supervisor do
+    get    'supervisor/login' => 'devise/sessions#new',      :as => :new_supervisor_session
+    post   'supervisor/login' => 'devise/sessions#create',    :as => :supervisor_session
+    delete 'supervisor/logout' => 'devise/sessions#destroy', :as => :destroy_supervisor_session
+  end
 
-  map.devise_for :admin, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
-  map.new_admin_session '/admin/login', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
-  map.admin_session '/admin/login', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
-  map.destroy_admin_session '/admin/logout', :controller => 'sessions', :action => 'destroy', :conditions => { :method => :get }
+  match '/:controller(/:action(/:id))'
 
-  map.devise_for :editor, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
-  map.new_editor_session '/editor/login', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
-  map.editor_session '/editor/login', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
-  map.destroy_editor_session '/editor/logout', :controller => 'sessions', :action => 'destroy', :conditions => { :method => :get }
-
-  map.devise_for :supervisor, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
-  map.new_supervisor_session '/supervisor/login', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
-  map.supervisor_session '/supervisor/login', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
-  map.destroy_supervisor_session '/supervisor/logout', :controller => 'sessions', :action => 'destroy', :conditions => { :method => :get }
-
-  map.devise_for :dept_head, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
-  map.new_dept_head_session '/dept_head/login', :controller => 'sessions', :action => 'new', :conditions => { :method => :get }
-  map.dept_head_session '/dept_head/login', :controller => 'sessions', :action => 'create', :conditions => { :method => :post }
-  map.destroy_dept_head_session '/dept_head/logout', :controller => 'sessions', :action => 'destroy', :conditions => { :method => :get }
-
-  map.root :controller => "timetable/groups"
-
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
 end

@@ -6,7 +6,7 @@ class DeptHead::DisciplinesController < DeptHead::BaseController
     config.create.columns = [:name, :short_name]
     config.update.columns = [:name, :short_name]
     config.list.sorting = { :name => :asc }
-    config.nested.add_link 'Карты распределения нагрузки', [:charge_cards]
+    config.nested.add_link :charge_cards
   end
 
   protected

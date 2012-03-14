@@ -1,9 +1,7 @@
 class Editor::Groups::ChargeCardsController < Editor::BaseController
   def index
     charge_card_search = params[:charge_card].to_s.split
-    charge_card = ChargeCard.all :joins => :jets,
-      :select => "charge_cards.id,charge_cards.editor_name",
-      :conditions => {:jets => {:group_id => params[:group_id]}}
+    charge_card = ChargeCard.joins(:jets).where(:jets => {:group_id => params[:group_id]}).select("charge_cards.id,charge_cards.editor_name").all
     charge_card_search.each do |s|
       charge_card = charge_card.select { |c| c.editor_name_include? s }
     end
