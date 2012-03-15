@@ -19,22 +19,15 @@ jQuery(document).ready(function($) {
     $('#group_name').autocomplete({
         disabled: false,
         source: function(request, response) {
-            $.getJSON('/editor/reference/groups_list.json', {}, function(data) {
+            $.getJSON('/editor/reference/groups.json', {
+                group: request.term,
+            },
+            function(data) {
                 var groups = new Array(0);
                 data.each(function(i) {
-                    groups.push(i.group.id);
+                    groups.push({ label: i.group.descriptive_name, value: i.group.id });
                 });
-                $.getJSON('/editor/reference/groups.json', {
-                    group: request.term,
-                    except: groups
-                },
-                function(data) {
-                    var groups = new Array(0);
-                    data.each(function(i) {
-                        groups.push({ label: i.group.name, value: i.group.id });
-                    });
-                    response(groups);
-                });
+                response(groups);
             });
         },
         select: function(event, ui) {
@@ -46,7 +39,7 @@ jQuery(document).ready(function($) {
 
     $('.remove').live('click', function() {
         var group_id = $(this).attr('group_id');
-        $.post('/editor/classrooms/groups_list/groups/' + group_id, {_method: 'delete'});
+        $.post('/editor/reference/groups/' + group_id, {_method: 'delete'});
         $('#group_name').focus();
     });
 

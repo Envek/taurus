@@ -1,10 +1,9 @@
-- groups = @groups_list.groups
 .workspace
   .grid
     %table{:class => 'groups_list'}
       %tr
         %th{:colspan => "2"}
-        - groups.each do |group|
+        - @groups.each do |group|
           %th #{group.name}
       - @days.each_with_index do |day, day_index|
         - @times.each_with_index do |time, time_index|
@@ -12,7 +11,7 @@
             - if time_index == 0
               %th{:rowspan => "#{@times.count}"} #{day}
             %th #{time}
-            - groups.each_with_index do |group, group_index|
+            - @groups.each_with_index do |group, group_index|
               - pairs = @pairs[group_index]
               = render '/timetable/groups/day', :pairs => pairs, :day_counter => day_index, :time_counter => time_index, :day => day, :time => time
 
