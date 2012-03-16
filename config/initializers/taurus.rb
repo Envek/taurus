@@ -1,1 +1,1 @@
-TAURUS_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/taurus.yml")
+TAURUS_CONFIG = YAML.load_file("#{Rails.root}/config/taurus.yml")

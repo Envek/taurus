@@ -1,9 +1,9 @@
 source "http://rubygems.org"
 
-gem "rails", "~> 3.0.0"
+gem "rails", "~> 3.1.0"
 
-gem "active_scaffold", "~> 3.0.0"
-gem "recordselect", "~> 3.0.4"
+gem "active_scaffold", "~> 3.1.0"
+gem "recordselect"
 gem "russian"
 gem "devise", "~> 1.1.0"
 gem "erubis"
