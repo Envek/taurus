@@ -1,4 +1,4 @@
 class Admin < User
   devise :database_authenticatable, :rememberable, :trackable,
-    :validatable
+    :validatable, :encryptable, :encryptor => :sha1
 end
