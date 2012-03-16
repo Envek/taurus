@@ -1,3 +1,10 @@
+//= require jquery
+//= require jquery_ujs
+//= require active_scaffold
+//= require record_select
+//= require_self
+//= require_tree .
+
 jQuery(document).ready(function($) {
 
     // Send CSRF token with every request

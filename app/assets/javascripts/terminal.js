@@ -1,13 +1,14 @@
 jQuery(document).ready(function($){
 
-    timer = setTimeout("window.location.reload(true)", 45000);
+    if ($('body.terminal').size())
+      timer = setTimeout("window.location.reload(true)", 45000);
 
     $('body.terminal').click (function () {
       clearTimeout(timer);
       timer = setTimeout("window.location.reload(true)", 45000);
     });
     
-    $('.number').click(function() {
+    $('.number').unbind('click').bind('click', function() {
         $('#group_name_input_terminal').focus();
         character = $(this).attr('id');
         $('#group_name_input_terminal').val($('#group_name_input_terminal').val() + character);

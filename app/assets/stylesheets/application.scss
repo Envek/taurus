@@ -1,3 +1,10 @@
+/*
+*= require_self
+*= require jquery-ui/redmond
+*= require active_scaffold
+*= require_tree .
+*/
+
 .login {
   margin-left: 35%;
   margin-top: 80px;
@@ -18,7 +25,7 @@
   padding: 0 10px 0 52px;
   border: 1px dotted gray;
   background-color: #eeeeff;
-  background-image: url("/images/information_32.png");
+  background-image: image-url("information_32.png");
   background-position: 10px center;
   background-repeat: no-repeat;
   font-size: 120%; }

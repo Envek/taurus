@@ -19,4 +19,10 @@ Taurus::Application.configure do
   # Report deprecation warnings
   config.active_support.deprecation = :log
 
+  # Do not compress assets
+  config.assets.compress = false
+
+  # Expands the lines which load the assets
+  config.assets.debug = true
+
 end

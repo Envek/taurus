@@ -54,13 +54,11 @@ Taurus::Application.routes.draw do
   namespace :dept_head do
     resources :teaching_places do
       as_routes
-      collection do get :browse end
-      member do post :select end
+      record_select_routes
     end
     resources :disciplines do
       as_routes
-      collection do get :browse end
-      member do post :select end
+      record_select_routes
     end
     resources :groups do
       as_routes
@@ -72,8 +70,7 @@ Taurus::Application.routes.draw do
     end
     resources :lecturers do
       as_routes
-      collection do get :browse end
-      member do post :select end
+      record_select_routes
     end
     resources :charge_cards do
       as_routes

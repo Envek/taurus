@@ -7,3 +7,4 @@ nbproject/*
 .*.sw*
 .idea/*
 .bundle
+.sass-cache/

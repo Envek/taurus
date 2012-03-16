@@ -48,18 +48,32 @@ GEM
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
     chronic (0.6.7)
+    coffee-rails (3.1.1)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.1.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.2.0)
     columnize (0.3.6)
     devise (1.2.1)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
     erubis (2.7.0)
+    execjs (1.3.0)
+      multi_json (~> 1.0)
     haml (3.0.25)
     highline (1.6.11)
     hike (1.2.1)
     i18n (0.6.0)
+    jquery-rails (1.0.19)
+      railties (~> 3.0)
+      thor (~> 0.14)
+    jquery-ui-themes (0.0.4)
     json (1.6.5)
     kgio (2.7.3)
+    libv8 (3.3.10.4)
     linecache (0.46)
       rbx-require-relative (> 0.0.4)
     mail (2.3.3)
@@ -119,16 +133,27 @@ GEM
       linecache (>= 0.3)
     russian (0.6.0)
       i18n (>= 0.5.0)
+    sass (3.1.15)
+    sass-rails (3.1.6)
+      actionpack (~> 3.1.0)
+      railties (~> 3.1.0)
+      sass (>= 3.1.10)
+      tilt (~> 1.3.2)
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    therubyracer (0.9.10)
+      libv8 (~> 3.3.10)
     thor (0.14.6)
     tilt (1.3.3)
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.32)
+    uglifier (1.2.3)
+      execjs (>= 0.3.0)
+      multi_json (>= 1.0.2)
     unicode (0.4.2)
     unicorn (4.2.0)
       kgio (~> 2.6)
@@ -147,9 +172,12 @@ DEPENDENCIES
   active_scaffold (~> 3.1.0)
   backup
   capistrano
+  coffee-rails (~> 3.1.0)
   devise (~> 1.2.0)
   erubis
   haml (~> 3.0.21)
+  jquery-rails
+  jquery-ui-themes
   mail
   net-scp (~> 1.0.4)
   net-ssh (~> 2.1.4)
@@ -160,6 +188,9 @@ DEPENDENCIES
   recordselect
   ruby-debug
   russian
+  sass-rails (~> 3.1.0)
+  therubyracer
+  uglifier
   unicode
   unicorn
   whenever
