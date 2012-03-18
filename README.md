@@ -44,10 +44,10 @@ Cистема составления учебного расписания «Tau
 
 Установите wkhtmltopdf, например так:
 
-  wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.9.9-static-amd64.tar.bz2 
-  tar xvjf wkhtmltopdf-0.9.9-static-amd64.tar.bz2
-  sudo mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf
-  sudo chmod +x /usr/local/bin/wkhtmltopdf
+	wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.9.9-static-amd64.tar.bz2
+	tar xvjf wkhtmltopdf-0.9.9-static-amd64.tar.bz2
+	sudo mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf
+	sudo chmod +x /usr/local/bin/wkhtmltopdf
 
 Отладка
 -------
