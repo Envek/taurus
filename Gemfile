@@ -5,7 +5,7 @@ gem "rails", "~> 3.1.0"
 gem 'jquery-rails'
 gem 'jquery-ui-themes'
 
-gem "active_scaffold", "~> 3.1.0"
+gem "active_scaffold"
 gem "recordselect"
 gem "russian"
 gem "devise", "~> 1.2.0"

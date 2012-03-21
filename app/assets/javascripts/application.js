@@ -13,10 +13,6 @@ jQuery(document).ready(function($) {
       xhr.setRequestHeader("X-CSRF-Token", token);
     });
     
-    // makes Rails to know that jQuery Ajax requests should be processed as .js format
-    $.ajaxSetup({
-        'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
-    });
 
     $('.classroom_row').click(function() {
       window.open('/editor/classrooms/classrooms?classroom_id=' + $(this).attr('id'));

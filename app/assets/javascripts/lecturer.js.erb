@@ -1,8 +1,4 @@
 jQuery(document).ready(function($){
-    // makes Rails to know that jQuery Ajax requests should be processed as .js format
-    $.ajaxSetup({
-        'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
-    });
 
     function showNotify (text, type) {
         var cont = $('<div>', {

@@ -19,7 +19,7 @@ GEM
       rack-mount (~> 0.8.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.0.3)
-    active_scaffold (3.1.20)
+    active_scaffold (3.2.2)
       rails (>= 3.1.3)
     activemodel (3.1.4)
       activesupport (= 3.1.4)
@@ -80,7 +80,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.17.2)
+    mime-types (1.18)
     multi_json (1.1.0)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -169,7 +169,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_scaffold (~> 3.1.0)
+  active_scaffold
   backup
   capistrano
   coffee-rails (~> 3.1.0)
