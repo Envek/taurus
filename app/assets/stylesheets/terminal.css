@@ -34,7 +34,7 @@
 .dummy_div {
   clear: both; }
 
-.group_name, .lecturer_name {
+body.terminal .group_name, body.terminal .lecturer_name {
   width: 40%;
   border-radius: 30px;
   background: #e6e6fa;
@@ -55,8 +55,9 @@
   font-family: Archangelsk;
   font-size: 3em; }
 
-.ui-menu-item {
-  font-size: 2em; }
+body.terminal .ui-menu-item {
+  font-size: 2em;
+}
 
 .back_terminal {
   background-image: none;

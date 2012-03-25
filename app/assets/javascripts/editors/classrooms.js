@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
 
     $('#classroom_name').focus();
 
-    $('.receiver').live('dblclick', function() {
+    $('.workspace').on('dblclick', '.receiver', function() {
         $.post('/editor/classrooms/pairs/', {
             container: $(this).attr('id'),
             classroom_id: $(this).attr('grid_id'),
@@ -39,12 +39,12 @@ jQuery(document).ready(function($) {
         return false;
     });
 
-    $('.edit').live('click', function() {
+    $('.workspace').on('click', '.edit', function() {
       $.get('/editor/classrooms/pairs/' + $(this).attr('pair_id') + '/edit', null, "script");
       return false;
     });
 
-    $('.destroy').live('click', function() {
+    $('.workspace').on('click', '.destroy', function() {
       var pair_id = $(this).attr('pair_id');
       $(this).after('<span id="destroy-confirm">Вы уверены в том, что хотите удалить эту пару?</span>');
       $('#destroy-confirm').dialog({
@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
     });
     
     // Добавление ещё одного receiver-блока для создания ещё одной пары в том же временном окне
-    $('.receiver_add').live('click', function() {
+    $('.workspace').on('click', '.receiver_add', function() {
         var grid_context = $(this).parent().parent();
         var newrcv = $('.receiver', grid_context).first().clone().empty();
         var rcvid = newrcv.attr('id');
@@ -104,7 +104,7 @@ jQuery(document).ready(function($) {
         $('.receiver_count', grid_context).text(count+"/"+count);
     });
     // Переключение между receiver'ами
-    $('.receiver_prev').live('click', function() {
+    $('.workspace').on('click', '.receiver_prev', function() {
         var grid_context = $(this).parent().parent();
         var receivers = $('.receiver', grid_context);
         var count = receivers.length;
@@ -116,7 +116,7 @@ jQuery(document).ready(function($) {
             $('.receiver_count', grid_context).text(newnum+"/"+count);
         }
     });
-    $('.receiver_next').live('click', function() {
+    $('.workspace').on('click', '.receiver_next', function() {
         var grid_context = $(this).parent().parent();
         var receivers = $('.receiver', grid_context);
         var count = receivers.length;

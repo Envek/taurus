@@ -40,14 +40,14 @@ jQuery(document).ready(function($) {
         return false;
     });
 
-    $('.edit').live('click', function() {
+    $('#group_workspace').on('click', '.edit', function() {
       $.get('/editor/groups/pairs/' + $(this).attr('pair_id') + '/edit', {
         group_id: $(this).closest(".group_editor").attr('group_id'),
       }, "script");
       return false;
     });
 
-    $('.destroy').live('click', function() {
+    $('#group_workspace').on('click', '.destroy', function() {
       var pair_id = $(this).attr('pair_id');
       $(this).after('<span id="destroy-confirm">Вы уверены в том, что хотите удалить эту пару?</span>');
       $('#destroy-confirm').dialog({
@@ -75,7 +75,7 @@ jQuery(document).ready(function($) {
     });
     
     // Добавление ещё одного receiver-блока для создания ещё одной пары в том же временном окне
-    $('.receiver_add').live('click', function() {
+    $('#group_workspace').on('click', '.receiver_add', function() {
         var timeslot= $(this).parent().parent();
         var newrcv = $('<div class="receiver">');
         var index = $('.receiver', timeslot).length + $('.timeslot', timeslot).length;
@@ -111,7 +111,7 @@ jQuery(document).ready(function($) {
         $('.receiver_count', timeslot).text(count+"/"+count);
     });
     // Переключение между receiver'ами
-    $('.receiver_prev').live('click', function() {
+    $('#group_workspace').on('click', '.receiver_prev', function() {
         var timeslot = $(this).parent().parent();
         var receivers = $.merge($('.receiver', timeslot), $('.timeslot', timeslot));
         var count = receivers.length;
@@ -123,7 +123,7 @@ jQuery(document).ready(function($) {
             $('.receiver_count', timeslot).text(newnum+"/"+count);
         }
     });
-    $('.receiver_next').live('click', function() {
+    $('#group_workspace').on('click', '.receiver_next', function() {
         var timeslot = $(this).parent().parent();
         var receivers = $.merge($('.receiver', timeslot), $('.timeslot', timeslot));
         var count = receivers.length;

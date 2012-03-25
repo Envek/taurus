@@ -117,7 +117,7 @@ class Pair < ActiveRecord::Base
                    :week => [ 0, week ] }
     if (conflicts = Pair.all(:conditions => conditions)).size > 0
       pairs = conflicts.map { |p| p.name }.join('<br />')
-      errors.add_to_base "Невозможно создать пару, так как следующая пара:<br /><br />" +
+      errors[:base] << "Невозможно создать пару, так как следующая пара:<br /><br />" +
       pairs +
       "<br /><br />уже существует в этом временном окне этой аудитории."
     end
@@ -132,7 +132,7 @@ class Pair < ActiveRecord::Base
       unless classroom_id.nil?
         if (conflicts = candidates.select { |c| c.classroom_id == classroom.id }).size > 0
           pairs = conflicts.map { |p| p.name }.join('<br />')
-          errors.add_to_base "Невозможно сохранить пару, так как следующие пары:<br /><br />" +
+          errors[:base] << "Невозможно сохранить пару, так как следующие пары:<br /><br />" +
           pairs +
           "<br /><br />уже существуют в этом временном окне этой аудитории."
           candidates -= conflicts 
@@ -145,7 +145,7 @@ class Pair < ActiveRecord::Base
              c.charge_card.try(:assistant_teaching_place).try(:lecturer) == charge_card.teaching_place.lecturer)
       }).size > 0
         pairs = conflicts.map { |p| p.name }.join('<br />')
-        errors.add_to_base "Невозможно сохранить пару, так как этот преподаватель уже ведет следующие пары:<br /><br />" +
+        errors[:base] << "Невозможно сохранить пару, так как этот преподаватель уже ведет следующие пары:<br /><br />" +
         pairs +
         "<br /><br />в этом временном окне."
         candidates -= conflicts
@@ -158,7 +158,7 @@ class Pair < ActiveRecord::Base
              c.charge_card.try(:assistant_teaching_place).try(:lecturer) == charge_card.try(:assistant_teaching_place).try(:lecturer))            
         }).size > 0
           pairs = conflicts.map { |p| p.name }.join('<br />')
-          errors.add_to_base "Невозможно сохранить пару, так как ассистирующий преподаватель уже ведет следующие пары:<br /><br />" +
+          errors[:base] << "Невозможно сохранить пару, так как ассистирующий преподаватель уже ведет следующие пары:<br /><br />" +
           pairs +
           "<br /><br />в этом временном окне."
           candidates -= conflicts
@@ -179,7 +179,7 @@ class Pair < ActiveRecord::Base
         end
         if conflicts.size > 0
           pairs = conflicts.map { |p| p.name }.join('<br />')
-          errors.add_to_base "Невозможно сохранить пару, так как у одной или нескольких групп существуют следующие пары:<br /><br />" +
+          errors[:base] << "Невозможно сохранить пару, так как у одной или нескольких групп существуют следующие пары:<br /><br />" +
           pairs +
           "<br /><br />в этом временном окне."
           candidates -= conflicts
@@ -189,15 +189,15 @@ class Pair < ActiveRecord::Base
   end
   
   def activation_date_validness
-    errors.add_to_base "Дата начала ведения данной пары должна быть установлена!" if active_at.blank?
+    errors[:base] << "Дата начала ведения данной пары должна быть установлена!" if active_at.blank?
   end
 
   def expiration_date_validness
-    errors.add_to_base "Дата окончания ведения данной пары должна быть установлена!" if expired_at.blank?
+    errors[:base] << "Дата окончания ведения данной пары должна быть установлена!" if expired_at.blank?
   end
 
   def week_number_existance
-    errors.add_to_base "Номер недели должен быть указан" unless (0..2).include? week
+    errors[:base] << "Номер недели должен быть указан" unless (0..2).include? week
   end
 
 end
