@@ -14,7 +14,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
     @speciality = Speciality.find(params[:id])
     @teaching_plans = TeachingPlan.find_all_by_speciality_id(@speciality.id)
     discipline_ids = @teaching_plans.map{|tp| tp.discipline_id}.uniq
-    @disciplines = Discipline.find(discipline_ids, :order => :name)
+    @disciplines = Discipline.order("name").find(discipline_ids)
     @courses = @teaching_plans.map{|tp| tp.course}.uniq.sort
     render "application/specialities/teaching_plans/show"
   end
@@ -30,26 +30,26 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
 
   def add_charge_cards
     @speciality = Speciality.find(params[:id])
-    discipline_ids = current_dept_head.department.disciplines.all(:select => "id").map{|d| d.id}
+    discipline_ids = current_dept_head.department.disciplines.select("id").map{|d| d.id}
     to_remove_ids = @speciality.groups.map{|g| g.jets}.flatten.map{|j| j.charge_card_id}.uniq
-    @cards_to_remove = ChargeCard.count(:conditions => {:id => to_remove_ids, :discipline_id => discipline_ids})
+    @cards_to_remove = ChargeCard.where(:id => to_remove_ids, :discipline_id => discipline_ids).count
   end
 
   def create_charge_cards
     @speciality = Speciality.find(params[:id])
-    discipline_ids = current_dept_head.department.disciplines.all(:select => "id").map{|d| d.id}
+    discipline_ids = current_dept_head.department.disciplines.select("id").map{|d| d.id}
     conditions = {:speciality_id => @speciality.id, :discipline_id => discipline_ids}
     if params[:remove]
       ids = @speciality.groups.map{|g| g.jets}.flatten.map{|j| j.charge_card_id}.uniq
       deleted = (ChargeCard.destroy_all(:id => ids, :discipline_id => discipline_ids)).count
     end
     created = 0
-    @courses = TeachingPlan.all(:conditions => {:speciality_id => @speciality.id}, :select => "DISTINCT(course)").map{|p| p.course}.sort
+    @courses = TeachingPlan.where(:speciality_id => @speciality.id).select("DISTINCT(course)").map{|p| p.course}.sort
     @courses.each do |course|
       groups = @speciality.groups.select{|g| g.course == course}
       if groups.any?
         conditions.merge!({:course => course, :semester => TAURUS_CONFIG["semester"]["current"]["number"]})
-        plans = TeachingPlan.all(:conditions => conditions)
+        plans = TeachingPlan.where(conditions).all
         plans.each do |plan|
           created += (plan.create_charge_cards_for(groups)).count
         end
@@ -78,7 +78,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
   end
 
   def custom_finder_options
-    {:order => "department_id = #{current_dept_head.department_id} DESC, code ASC"}
+    {:reorder => "department_id = #{current_dept_head.department_id} DESC, code ASC"}
   end
 
   def current_user

@@ -10,5 +10,3 @@
       %input{:id => "classroom_name", :size => 10}
 - if @classroom_id
   = javascript_tag("jQuery.get('"+editor_classrooms_classroom_path(@classroom_id)+"');")
-
-= javascript_include_tag("editors/classrooms")

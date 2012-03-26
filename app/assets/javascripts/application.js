@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
       return false;
     });
 
-    $('#group_name').autocomplete({
+    $('#group_list_name').autocomplete({
         disabled: false,
         source: function(request, response) {
             $.getJSON('/editor/reference/groups.json', {
@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
             },
             function(data) {
                 var groups = new Array(0);
-                data.each(function(i) {
+                $.each(data, function(index, i) {
                     groups.push({ label: i.group.descriptive_name, value: i.group.id });
                 });
                 response(groups);
@@ -40,10 +40,10 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $('.remove').live('click', function() {
+    $('.group_list_remove').live('click', function() {
         var group_id = $(this).attr('group_id');
         $.post('/editor/reference/groups/' + group_id, {_method: 'delete'});
-        $('#group_name').focus();
+        $('#group_list_name').focus();
     });
 
     $('.button').button();

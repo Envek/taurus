@@ -1,12 +1,12 @@
 = stylesheet_link_tag 'terminal'
 = javascript_include_tag 'terminal'
-.workspace
+.timetable_container
   - unless @terminal
     %p{:class => "pdf_link"}
       = link_to "Загрузить PDF", timetable_group_path(@id, :format => :pdf)
   - else
     .back_terminal{:id => "back_terminal_top"}
-  .timetable{:class => "groups"}
+  .timetable
     %table
       %caption= "Расписание учебных пар группы #{@group.name}"
       %col.timecells

@@ -31,6 +31,14 @@
   font-size: 120%; }
 
 /* GroupsList START */
+#group_list_form {
+  clear: both;
+  float: left;
+  padding: 5px;
+  border: 1px solid #000000;
+  background-color: #e6e6fa;
+}
+
 .groups {
   height: 30px; }
 
@@ -51,7 +59,7 @@
   color: #333;
   margin-right: 15px; }
 
-.group_label .remove {
+.group_list_remove {
   float: left;
   text-decoration: none;
   color: #333;
