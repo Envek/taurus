@@ -1,0 +1,196 @@
+/*
+*= require_self
+*= require active_scaffold
+*= require jquery-ui/redmond
+*= require_tree .
+*/
+
+.login {
+  margin-left: 35%;
+  margin-top: 80px;
+  align: center;
+  padding: 30px;
+  width: 30%;
+  background-color: #E6E6FA;
+  border-radius: 8px; }
+
+#error {
+  margin-bottom: 16px;
+  padding: 5px;
+  border: solid 3px #ff5050;
+  background-color: #ffaaaa; }
+
+.info {
+  margin: 8px;
+  padding: 0 10px 0 52px;
+  border: 1px dotted gray;
+  background-color: #eeeeff;
+  background-image: image-url("information_32.png");
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  font-size: 120%; }
+
+/* GroupsList START */
+#group_list_form {
+  clear: both;
+  float: left;
+  padding: 5px;
+  border: 1px solid #000000;
+  background-color: #e6e6fa;
+}
+
+.groups {
+  height: 30px; }
+
+.group_label {
+  float: left;
+  background-color: #EEE;
+  border: solid 1px #999;
+  padding: 5px 10px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  position: relative;
+  margin-right: 10px;
+  font-size: 14px; }
+
+.group_info {
+  float: left;
+  text-decoration: none;
+  color: #333;
+  margin-right: 15px; }
+
+.group_list_remove {
+  float: left;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer; }
+
+.groups_list {
+  border-collapse: collapse;
+  border: 1px black solid; }
+  .groups_list td, .groups_list th {
+    border: 1px black solid; }
+
+/* GroupsList END */
+
+/* Tables */
+table.infotable {
+  border-collapse: collapse;
+  border: 1px solid black;
+  color: black;
+}
+
+table.infotable td, table.infotable th {
+  border: 1px solid silver;
+  padding: 0.15em 0.5em;
+  font-size: 10pt;
+  text-align: left;
+}
+
+table.infotable thead th {
+  background: #555;
+  border-color: gray;
+  color: white;
+  text-align: center;
+}
+
+table.infotable td.numeric-cell, table.infotable th.numeric-cell {
+  text-align: right;
+}
+
+table.infotable td.error-cell, table.infotable th.error-cell {
+  color: red;
+  font-weight: bold;
+}
+
+table.infotable tr {
+  background: white;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+table.infotable tr.red {
+  background-color: #FF7F7F;
+  background: rgba(255, 127, 127, 0.9);
+}
+
+table.infotable tr.red td {
+  border-color: #CC6F6F;
+}
+
+table.infotable tr.gray {
+  background-color: #AFAFAF;
+  background: rgba(175, 175, 175, 0.9);
+}
+
+table.infotable tr.gray td {
+  border-color: #999999;
+}
+    
+table.infotable tr.avg {
+  color: blue;
+  font-weight: bold;
+}
+
+table.infotable tr:nth-child(even) {
+  background: #F0F0F0;
+  background: rgba(200, 200, 200, 0.3);
+}
+
+table.infotable tr:nth-child(even).red {
+  background: #FF6F6F;
+  background: rgba(255, 111, 111, 0.9);
+}
+
+table.infotable tr:nth-child(even).gray {
+  background: #A6A6A6;
+  background: rgba(166, 166, 166, 0.9);
+}
+                
+table.infotable tr.highlight, table.infotable tr:hover, 
+table.infotable tr:nth-child(even):hover,
+table.infotable tr.red.highlight, table.infotable tr.gray.highlight {
+  background: lightyellow;
+  color: red;
+}
+
+table.infotable caption {
+  background: #555;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 0.2em 0.5em;  
+}
+
+table.infotable.fullwidth-table {
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+table.infotable tr.hidden {
+  display: none;
+}
+
+table.teaching_plan colgroup, table.teaching_plan col {
+  border: 2px solid gray;
+}
+
+table.teaching_plan tbody, table.teaching_plan tfoot, table.teaching_plan thead {
+  border: 2px solid gray;
+}
+
+.active-scaffold tr.record.alien-speciality {
+  background: #EEEEEE;
+}
+
+.active-scaffold tr.record.alien-speciality.even-record {
+  background: #F9F9F9;
+}
+
+.active-scaffold tr.record.alien-speciality td.sorted {
+  background: #E0E0E0;
+}
+
+.active-scaffold tr.record.alien-speciality.even-record td.sorted {
+  background: #EEEEEE;
+}

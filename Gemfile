@@ -1,11 +1,14 @@
 source "http://rubygems.org"
 
-gem "rails", "~> 3.0.0"
+gem "rails", "~> 3.1.0"
 
-gem "active_scaffold", "~> 3.0.0"
-gem "recordselect", "~> 3.0.4"
+gem 'jquery-rails'
+gem 'jquery-ui-themes'
+
+gem "active_scaffold"
+gem "recordselect"
 gem "russian"
-gem "devise", "~> 1.1.0"
+gem "devise", "~> 1.2.0"
 gem "erubis"
 gem "haml", "~> 3.0.21"
 gem "pdfkit"
@@ -13,6 +16,15 @@ gem "pg"
 gem 'whenever'
 gem 'unicode'
 gem 'nokogiri'
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails', " ~> 3.1.0"
+  gem 'coffee-rails', " ~> 3.1.0"
+  gem 'uglifier'
+  gem 'therubyracer'
+end
 
 group :production do
   gem 'unicorn'

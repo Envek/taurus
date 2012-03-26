@@ -39,6 +39,9 @@ set :whenever_command, "rvm use #{rvm_ruby_string} && bundle exec whenever"
 set :whenever_identifier, application
 require "whenever/capistrano"
 
+# Для автоматической прекомпиляции assets
+load 'deploy/assets'
+
 after 'deploy:update_code', :roles => :app do
   # Конфиги. Их не трогаем!
   run "rm -f #{current_release}/config/database.yml"

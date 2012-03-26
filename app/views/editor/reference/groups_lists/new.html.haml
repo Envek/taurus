@@ -1,9 +1,9 @@
-.workspace
+.group_list_workspace
   .groups
     = render :partial => '/editor/reference/groups/group', :collection => @groups
-  #form
-    %p
-      = 'Группа:'
-      %br
-      %input{:id => "group_name", :size => 10}
-  = link_to "Показать", editor_reference_groups_list_path, {:target => '_blank', :class => 'button'}
+#group_list_form
+  %p
+    Группа:
+    %br
+    %input{:id => "group_list_name", :size => 10}
+  %p= link_to "Показать", editor_reference_groups_list_path, {:target => '_blank', :class => 'button'}

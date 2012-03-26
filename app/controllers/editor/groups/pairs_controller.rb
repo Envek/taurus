@@ -37,7 +37,7 @@ class Editor::Groups::PairsController < ApplicationController
     flash[:error] = nil
     @group = Group.for_groups_editor.find(params[:group_id])
     @pair = Pair.find_by_id(params[:id].to_i, :include => [:subgroups])
-    @prev_pair = @pair.clone
+    @prev_pair = @pair.dup
     @prev_pair.readonly!
     if params[:get_subgroups] && params[:pair]
       @pair.attributes = params[:pair]

@@ -1,5 +1,5 @@
 class Editor::Reference::TeachingPlacesController < Editor::BaseController
-  active_scaffold :teaching_places do |config|
+  active_scaffold :teaching_place do |config|
     config.actions = [:list, :search, :nested]
     config.list.columns = [:position, :lecturer, :whish]
     config.columns[:lecturer].clear_link

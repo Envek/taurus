@@ -17,5 +17,3 @@
       - group = Group.find(group_id, :select => 'id')
       .group_editor{:id => "group_editor_#{group.id}"}
       = javascript_tag("jQuery.get('"+editor_groups_group_path(group)+"');")
-
-= javascript_include_tag("editors/groups")

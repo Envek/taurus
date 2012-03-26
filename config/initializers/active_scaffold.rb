@@ -1,4 +1,4 @@
-ActiveScaffold.js_framework = :prototype # :prototype is the default, :jquery as a variant
+ActiveScaffold.js_framework = :jquery # :prototype is the default, :jquery as a variant
 
 ActiveScaffold.set_defaults do |config|
   config.actions.exclude :show, :delete

@@ -1,6 +1,6 @@
 = stylesheet_link_tag 'terminal'
 = javascript_include_tag 'terminal'
-.workspace
+.timetable_container
   - unless @terminal
     %p{:class => "pdf_link"}
       = link_to "Загрузить PDF", timetable_lecturer_path(@id, :format => :pdf)
