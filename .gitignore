@@ -8,3 +8,4 @@ nbproject/*
 .idea/*
 .bundle
 .sass-cache/
+public/assets/

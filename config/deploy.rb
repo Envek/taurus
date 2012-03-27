@@ -39,9 +39,6 @@ set :whenever_command, "rvm use #{rvm_ruby_string} && bundle exec whenever"
 set :whenever_identifier, application
 require "whenever/capistrano"
 
-# Для автоматической прекомпиляции assets
-load 'deploy/assets'
-
 after 'deploy:update_code', :roles => :app do
   # Конфиги. Их не трогаем!
   run "rm -f #{current_release}/config/database.yml"
@@ -53,6 +50,9 @@ after 'deploy:update_code', :roles => :app do
   run "rm -f #{current_release}/config/backup.rb"
   run "ln -s #{deploy_to}/shared/config/backup.rb #{current_release}/config/backup.rb"
 end
+
+# Для автоматической прекомпиляции assets
+load 'deploy/assets'
 
 # Далее идут правила для перезапуска unicorn.
 # В случае с Rails 3 приложениями стоит заменять bundle exec unicorn_rails на bundle exec unicorn
