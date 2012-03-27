@@ -154,3 +154,7 @@ body.terminal .ui-menu-item {
   margin-bottom: 10px;
   border-radius: 15px;
 }
+
+.lecturer_name {
+  margin-left: 0;
+}
