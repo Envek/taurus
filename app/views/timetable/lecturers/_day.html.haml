@@ -18,8 +18,8 @@
           - skipcell = []
           %tr
             - if first_week_pairs.any? or both_week_pairs.any?
-            = render 'week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false
+              = render 'week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false
           %tr
             - if second_week_pairs.any?
-            = render 'week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false        
+              = render 'week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false        
 

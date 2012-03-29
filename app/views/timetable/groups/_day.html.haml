@@ -19,8 +19,8 @@
           - cellsintop = []
           %tr
             - if first_week_pairs.any? or both_week_pairs.any?
-            = render '/timetable/groups/week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop
+              = render '/timetable/groups/week_in_day', :pairs => first_week_pairs+both_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop
           %tr
             - if second_week_pairs.any?
-            = render '/timetable/groups/week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop        
+              = render '/timetable/groups/week_in_day', :pairs => second_week_pairs, :skipcell => skipcell, :singlerow => false, :cellsintop => cellsintop
 
