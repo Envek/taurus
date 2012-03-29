@@ -1,0 +1,64 @@
+.about_page_wrapper {
+  text-align: center;
+}
+
+.about_page {
+  font-size: 16px;
+  width: 640px;
+  margin: auto;
+  text-align: justify;
+  text-rendering: optimizeLegibility;
+
+  p {
+    margin: 0.1em 0;
+    text-indent: 1.5em; 
+  }
+
+  a:link, a:visited {
+    text-decoration: none;
+    color: navy;
+  }
+
+  hgroup {
+    text-align: center;
+    margin: 50px 0;
+    
+    p.description {
+      font-size: 85%;
+    }
+    
+    h1 {
+      font: 900%/66% "Archangelsk", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 1.5em;
+  }
+
+  dt, dd {
+    border-bottom: 1px solid silver;
+    margin-bottom: 2px;
+  }
+
+  dt {
+    float: left;
+    width: 40%;
+  }
+  
+  dd {
+    margin-left: 40%;
+  }
+
+  p.version {
+    font-size: 120%;
+  }
+
+  p.revision {
+    font-size: 80%;
+  }
+
+}
