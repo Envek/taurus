@@ -54,6 +54,9 @@ module Taurus
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    # Add custom assets for precompilation at deploy time
+    config.assets.precompile += ['timetable.js', 'timetable.css']
+
     require 'pdfkit'
     config.middleware.use PDFKit::Middleware, :print_media_type => true, :page_size => "A4", :orientation => :landscape, :margin_top => "10mm", :margin_bottom => "10mm", :margin_left => "10mm", :margin_right => "10mm"
 

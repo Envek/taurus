@@ -1,7 +1,8 @@
 class Timetable::LecturersController < ApplicationController
-  layout 'lecturer'
+  layout 'timetable'
 
   def index
+    @terminal_index = params[:terminal]
     template = params[:terminal] ? 'index_terminal' : 'index'
     
     respond_to do |format|

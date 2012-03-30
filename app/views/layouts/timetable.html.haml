@@ -1,0 +1,10 @@
+!!!
+%html{ :lang => I18n.locale }
+  %head
+    %meta{ :charset=>"utf-8" }
+    %title #{yield(:title)} :: Расписание занятий АмГУ :: АС СУР «Taurus»
+    = stylesheet_link_tag "timetable", :media => :all
+    %link{ :rel => "shortcut icon", :href => "/favicon.ico" }
+  %body.timetable{ :class => @terminal_index ? 'terminal' : '' }
+    = yield
+    = javascript_include_tag "timetable"

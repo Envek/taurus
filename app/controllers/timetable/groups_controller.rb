@@ -1,5 +1,5 @@
 class Timetable::GroupsController < ApplicationController
-  layout 'group'
+  layout 'timetable'
   
   def index
     @terminal_index = params[:terminal]

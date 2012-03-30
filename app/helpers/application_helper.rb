@@ -1,6 +1,10 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def title(title_text)
+    content_for(:title) { title_text }
+  end
+
   def week_number (date=Date.today)
     semester_start_year = date.month < 9 ? date.year-1 : date.year
     semester_start = Date.strptime("#{semester_start_year}-09-01")

@@ -86,7 +86,7 @@ body.terminal .ui-menu-item {
   #terminalhelp .helpcontent {
     margin: 0 0.5em; }
     
-.lecturer_name_terminal_wrapper {
+#lecturer_name_terminal_wrapper {
     overflow: hidden;
 }
 

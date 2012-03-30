@@ -82,10 +82,11 @@ jQuery(document).ready(function($){
                 ]
         },
         position: {
-            of: $(".lecturer_name_terminal_wrapper"), // null = attach to input/textarea; use $(sel) to attach elsewhere
+            of: $("#lecturer_name_terminal_wrapper"), // null = attach to input/textarea; use $(sel) to attach elsewhere
             my: 'right top',
             at: 'right top',
-            at2: 'right top' // used when "usePreview" is false
+            at2: 'right top', // used when "usePreview" is false
+            collision: 'none'
         },
         // true: preview added above keyboard; false: original input/textarea used
         usePreview: false,
