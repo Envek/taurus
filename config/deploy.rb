@@ -1,25 +1,19 @@
-# call with `cap -S app="<app>" deploy` to deploy to another instance.
+# call with `cap -S app="<app>" -S domain="<domain>" deploy` to deploy to another instance and/or server.
 
 ssh_options[:forward_agent] = true # Используем локальные ключи, а не ключи сервера
 default_run_options[:pty] = true   # Для того, чтобы можно было вводить пароль
 
-set :application, "taurus"
+set :application, exists?(:app) && app.any? ? app : "taurus"
 set :rails_env, "production"
-set :domain, "taurus@taurus.amursu.ru" # Это необходимо для деплоя через ssh.
+set :domain, exists?(:domain) && domain.any? ? domain : "taurus@taurus.amursu.ru" # Это необходимо для деплоя через ssh.
 
-# Prevents error if not parameter passed, assumes that default 'cap deploy'
-# command should deploy default application instance
-set(:app, application) unless exists?(:app)
-unless app.nil?
-   set :application, app
-end
 set :deploy_to, "/srv/#{application}"
 
 set :use_sudo, false
 set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
 set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
 
-set :rvm_ruby_string, 'ree@taurus' # Это указание на то, какой Ruby интерпретатор мы будем использовать.
+set :rvm_ruby_string, 'ree' # Это указание на то, какой Ruby интерпретатор мы будем использовать.
 set :rvm_type, :user # Указывает на то, что мы будем использовать rvm, установленный у пользователя, от которого происходит деплой, а не системный rvm.
 
 set :scm, :git
@@ -31,13 +25,20 @@ role :web, domain
 role :app, domain
 role :db,  domain, :primary => true
 
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Для работы rvm
 require 'rvm/capistrano' # Для работы rvm
 require 'bundler/capistrano' # Для работы bundler. При изменении гемов bundler автоматически обновит все гемы на сервере, чтобы они в точности соответствовали гемам разработчика.
 
-set :whenever_command, "rvm use #{rvm_ruby_string} && bundle exec whenever"
+set :whenever_command, "bundle exec whenever"
 set :whenever_identifier, application
 require "whenever/capistrano"
+
+# Автосоздание конфигов при необходимости
+after 'deploy:update_code', :roles => :app do
+  run "test -d #{deploy_to}/shared/config || mkdir #{deploy_to}/shared/config"
+  run "test -f #{deploy_to}/shared/config/database.yml || cp #{current_release}/config/database.yml.example #{deploy_to}/shared/config/database.yml"
+  run "test -f #{deploy_to}/shared/config/taurus.yml || cp #{current_release}/config/taurus.yml.example #{deploy_to}/shared/config/taurus.yml"
+  run "test -f #{deploy_to}/shared/config/backup.rb || cp #{current_release}/config/backup.rb.example #{deploy_to}/shared/config/backup.rb"
+end
 
 after 'deploy:update_code', :roles => :app do
   # Конфиги. Их не трогаем!
