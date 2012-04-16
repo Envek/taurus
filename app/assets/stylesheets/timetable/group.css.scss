@@ -1,0 +1,132 @@
+div.group_timetable {
+
+  label {
+    display: block;
+  }
+
+  .timetable_input {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0;
+    font: bold 2em sans-serif;
+    height: 1.8em;
+    display: block;
+    float: left;
+
+    /* Thanks Twitter Bootstrap for that code */
+    margin-bottom: 0;
+    -webkit-border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    padding: 4px;
+    color: #555;
+    border: 1px solid #CCC;
+    -webkit-box-align: center;
+    vertical-align: middle;
+  }
+
+  .timetable_input + button {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20%;
+    font: bold 2em sans-serif;
+    height: 1.8em;
+    margin: 0;
+    display: block;
+    margin-left: -1px;
+  }
+
+  .search_box {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 1em 1em 0;
+    width: 350px;
+    position: fixed;
+    top: 49px;
+    bottom: 90px;
+    z-index: 2;
+    border-right: 1px solid silver;
+    background: #F0F0F9;
+    -moz-box-shadow: 1px 1px 10px 0 rgba(0,0,0,0.25);
+    -webkit-box-shadow: 1px 1px 10px 0 rgba(0,0,0,0.25);
+    box-shadow: 1px 1px 10px 0 rgba(0,0,0,0.25);
+    background-image: -o-linear-gradient(top, #dfdfe6 0%, #F0F0F9 50%, #dfdfe6 100%);
+    background-image: -moz-linear-gradient(top, #dfdfe6 0%, #F0F0F9 50%, #dfdfe6 100%);
+    background-image: -webkit-linear-gradient(top, #dfdfe6 0%, #F0F0F9 50%, #dfdfe6 100%);
+    background-image: -ms-linear-gradient(top, #dfdfe6 0%, #F0F0F9 50%, #dfdfe6 100%);
+    background-image: linear-gradient(top, #dfdfe6 0%, #F0F0F9 50%, #dfdfe6 100%);
+  }
+
+  .keyboard {
+    margin: 0 -5%;
+
+    .key {
+      float: left;
+      margin: 4%;
+      padding: 5% 2%;
+      width: 25.3%;
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .key.group_letter {
+      width: 17%;
+      padding: 4% 2%;
+      font-size: 1.2em;
+    }
+    
+    .key.backspace, .key.clear {
+      color: maroon;
+    }
+
+  }
+
+  .list_box {
+    margin: 0 0 0 350px;
+
+    .group {
+      padding: 0.5em 1em;
+      border-bottom: 1px dotted silver;
+      clear: both;
+
+      h3 {
+        margin: 0;
+        padding: 0.1em 1em 0.1em 0;
+        font-size: 2em;
+        float: left;
+        clear: left;
+        width: 150px;
+      }
+      
+      .desc {
+        color: gray;
+        min-height: 2.5em;
+        overflow: hidden;
+        
+        p {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      
+      a.button {
+        display: block;
+        width: 200px;
+        float: right;
+        font-size: 1.5em;
+      }
+      
+    }
+
+  }
+
+  .ajax_messages_container {
+    padding-left: 350px;
+  }
+}

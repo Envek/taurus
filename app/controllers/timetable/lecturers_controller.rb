@@ -1,5 +1,4 @@
-class Timetable::LecturersController < ApplicationController
-  layout 'timetable'
+class Timetable::LecturersController < Timetable::BaseController
 
   def index
     @terminal_index = params[:terminal]
@@ -12,7 +11,6 @@ class Timetable::LecturersController < ApplicationController
   end
 
   def show
-    @terminal = params[:terminal] ? true : false
     @id = params[:id].to_i
     unless @lecturer = Lecturer.find_by_id(@id)
       suffix = @terminal ? '?terminal=true' : ''
