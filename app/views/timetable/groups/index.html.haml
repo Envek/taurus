@@ -19,7 +19,7 @@
   .list_box
     - @groups.each do |group|
       .group
-        %h3 #{group.name}
+        %h2 #{group.name}
         = link_to "Расписание", timetable_group_path(group), :class => "button link_to_timetable"
         .desc
           %p.course #{group.course} курс, #{group.speciality.try(:department).try(:faculty).try(:name)}
@@ -30,3 +30,6 @@
     .ajax_message.ajax_loading Ищем группы по вашему запросу…
     .ajax_message.ajax_error Произошла ошибка при выполнении запроса. Пожалуйста, попробуйте ещё раз чуть позже.
     .ajax_message.ajax_not_found Мы не нашли таких групп! Может быть, вы ошиблись при вводе?
+
+  - if @terminal
+    = render "/timetable/terminal_help"

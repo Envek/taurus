@@ -9,6 +9,8 @@
 *= require timetable/terminal
 *= require about
 
+*= require timetable/narrow-screen
+
 */
 
 @mixin simple_gradient($top_color, $bottom_color) {
@@ -27,7 +29,7 @@ body.timetable {
 
   p { margin: 0; }
 
-  & > header, & > nav , & > footer {
+  & > header, & > nav, & > footer {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     position: fixed;
@@ -38,7 +40,6 @@ body.timetable {
   }
 
   & > header, & > nav {
-    position: fixed;
     top: 0;
     @include simple_gradient(#d2d2d9, #dfdfe6);
   }

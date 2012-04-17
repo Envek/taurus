@@ -1,7 +1,7 @@
 <%
 content = <<eos
 '<div class=\"group\">
-  <h3>'+group.name+'</h3>
+  <h2>'+group.name+'</h2>
   <a href=\"/timetable/groups/'+group.id+'\" class=\"button link_to_timetable\">Расписание</a>
   <div class=\"desc\">
     <p class=\"course\">'+group.course+' курс'+(spec ? ', '+spec.department.faculty.name : '')+'</p>

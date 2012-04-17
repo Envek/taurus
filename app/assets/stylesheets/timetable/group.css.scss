@@ -93,8 +93,9 @@ div.group_timetable {
       padding: 0.5em 1em;
       border-bottom: 1px dotted silver;
       clear: both;
+      overflow: hidden;
 
-      h3 {
+      h2 {
         margin: 0;
         padding: 0.1em 1em 0.1em 0;
         font-size: 2em;
@@ -102,7 +103,7 @@ div.group_timetable {
         clear: left;
         width: 150px;
       }
-      
+
       .desc {
         color: gray;
         min-height: 2.5em;
