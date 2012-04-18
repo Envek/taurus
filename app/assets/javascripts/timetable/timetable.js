@@ -18,6 +18,8 @@ jQuery(document).ready(function($){
       input.val(input.val().slice(0, -1));
     } else if ( key.hasClass("clear") ) {
       input.val("");
+    } else if ( key.hasClass("whitespace") ) {
+      input.val(input.val() + " ");
     } else {
       input.val(input.val() + $(this).text());
     }

@@ -1,12 +1,17 @@
 class Timetable::LecturersController < Timetable::BaseController
 
   def index
-    @terminal_index = params[:terminal]
-    template = params[:terminal] ? 'index_terminal' : 'index'
-    
+    @lecturers = Lecturer.order(:name)
+    @lecturers = @lecturers.by_name(params[:lecturer].strip) if params[:lecturer] && params[:lecturer].strip.any?
     respond_to do |format|
-      format.html { render template }
-      format.json { render :json => Lecturer.by_name(params[:lecturer]).to_json(:only => [:id, :name]) }
+      format.html do
+        if @lecturers.count == 1
+          redirect_to timetable_lecturer_path(@lecturers.first)
+        end
+      end
+      format.json do
+        render :json => @lecturers.to_json(:only => [:id, :name])
+      end
     end
   end
 
