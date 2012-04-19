@@ -33,4 +33,10 @@ jQuery(document).ready(function($){
     return false;
   });
 
+  // Back button will move you back in history
+  $('.back_button').on('click', function() {
+    history.back();
+    return false;
+  });
+
 });
