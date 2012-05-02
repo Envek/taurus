@@ -93,7 +93,7 @@ div.lecturer_timetable_search {
 
     .key {
       float: left;
-      margin: $key_margin;
+      margin: $key_margin - 0.05em; // Strange Opera behaviour fix here
       width: $key_width;
       text-align: center;
       font-size: 1em;

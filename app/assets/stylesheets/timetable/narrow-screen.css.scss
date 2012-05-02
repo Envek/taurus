@@ -29,7 +29,12 @@
         font-size: 1em;
       }
     }
-    
+
+    #back_button_top {
+      position: static;
+      margin: 0.5em auto -0.5em;
+    }    
+
     & > footer {
       height: auto;
 
@@ -37,14 +42,19 @@
         font-size: 2em;
       }
 
+      .today {
+        float: none;
+      }
+
       .info {
         position: static;
         text-align: left;
+        float: none;
       }
 
     }
 
-    div.group_timetable {
+    div.group_timetable_search {
 
       .search_box {
         position: static;
@@ -92,7 +102,7 @@
 
     }
 
-    div.lecturer_timetable {
+    div.lecturer_timetable_search {
 
       .search_box {
         position: static;
