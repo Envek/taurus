@@ -27,6 +27,10 @@ jQuery(document).ready(function($){
     input.trigger('input');
   });
 
+  // Workaround. IE for some reason doesn't support .on('input')
+  if (/msie/i.test(navigator.userAgent) && !/opera/i.test(navigator.userAgent))
+    $('.timetable_input').on('keyup', function (event) { $(this).trigger('input'); });
+
   // Login menu
   $('.login_menu>li>a').on('click', function() {
     $('.login_menu menu').slideToggle();
