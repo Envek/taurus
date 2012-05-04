@@ -2,7 +2,7 @@
 content = <<eos
 '<div class=\"group\">
   <h2>'+group.name+'</h2>
-  <a href=\"/timetable/groups/'+group.id+'\" class=\"button link_to_timetable\">Расписание</a>
+  <a href=\"/timetable/groups/'+group.id+location.search+'\" class=\"button link_to_timetable\">Расписание</a>
   <div class=\"desc\">
     <p class=\"course\">'+group.course+' курс'+(spec ? ', '+spec.department.faculty.name : '')+'</p>
     <p class=\"speciality\">'+(spec ? spec.code+' «'+ spec.name+'»' : '')+'</p>
@@ -19,10 +19,9 @@ jQuery(document).ready(function($) {
       url: "/timetable/groups.json",
       data: {group: $(this).val()},
       dataType: 'json',
-      timeout: 5000,
+      timeout: 10000,
       beforeSend: function (jqXHR, settings) {
         $(".ajax_message").hide();
-        $(".list_box").empty();
         $(".ajax_loading").show();
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -30,6 +29,7 @@ jQuery(document).ready(function($) {
       },
       success: function (data, textStatus, jqXHR) {
         if (data.length) {
+          $(".list_box").empty();
           $.each(data, function (i, elem) {
             group = elem.group;
             spec = group.speciality;

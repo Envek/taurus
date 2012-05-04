@@ -14,7 +14,7 @@
       %p Ваш браузер устарел и правильная работа системы в нём не гарантируется! Пожалуйста, обновите ваш браузер.
     %header
       %h1
-        #{link_to image_tag("timetable_logo.png", :alt => "Расписание занятий АмГУ"), root_path}
+        #{link_to image_tag("timetable_logo.png", :alt => "Расписание занятий АмГУ"), url_for(timetable_groups_path)}
     %nav
       = render "timetable_main_menu"
     = yield

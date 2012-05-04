@@ -2,7 +2,7 @@
 content = <<eos
 '<div class=\"lecturer\">
   <h2>'+lecturer.name+'</h2>
-  <a href=\"/timetable/lecturers/'+lecturer.id+'\" class=\"button link_to_timetable\">Расписание</a>
+  <a href=\"/timetable/lecturers/'+lecturer.id+location.search+'\" class=\"button link_to_timetable\">Расписание</a>
 </div>'
 eos
 content.gsub!(/\n\s*/, "")
@@ -15,10 +15,9 @@ jQuery(document).ready(function($) {
       url: "/timetable/lecturers.json",
       data: {lecturer: $(this).val()},
       dataType: 'json',
-      timeout: 5000,
+      timeout: 10000,
       beforeSend: function (jqXHR, settings) {
         $(".ajax_message").hide();
-        $(".list_box").empty();
         $(".ajax_loading").show();
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -26,6 +25,7 @@ jQuery(document).ready(function($) {
       },
       success: function (data, textStatus, jqXHR) {
         if (data.length) {
+          $(".list_box").empty();
           $.each(data, function (i, elem) {
             lecturer = elem.lecturer;
             $(<%= content %>).appendTo(".list_box");
