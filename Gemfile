@@ -38,5 +38,6 @@ end
 
 group :development do
   gem "capistrano"
+  gem "rvm-capistrano"
   gem 'ruby-debug'
 end
