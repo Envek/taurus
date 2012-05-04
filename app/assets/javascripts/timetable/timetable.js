@@ -9,6 +9,10 @@ jQuery(document).ready(function($){
     timer = setTimeout("window.location.reload(true)", 45000);
   });
 
+  $('.list_box').on('click', '.group, .lecturer', function () {
+    location.href = $('a', this).attr("href");
+  });
+
   // Handles keyboard click
   $('.key').on('click', function () {
     var key   = $(this);
