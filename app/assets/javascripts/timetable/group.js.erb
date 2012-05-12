@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
       url: "/timetable/groups.json",
       data: {group: $(this).val()},
       dataType: 'json',
-      timeout: 10000,
+      timeout: 15000,
       beforeSend: function (jqXHR, settings) {
         $(".ajax_message").hide();
         $(".ajax_loading").show();
