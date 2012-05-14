@@ -129,6 +129,7 @@ ru:
         number: 'Номер'
         full_time: 'Очная форма обучения'
         academic_year: 'Академический год'
+        charge_card_count: 'Количество карт нагрузки'
 
     description:
       charge_card:

@@ -25,4 +25,8 @@ class Semester < ActiveRecord::Base
     "#{year}/#{year+1}"
   end
 
+  def charge_card_count
+    charge_cards.count
+  end
+
 end
