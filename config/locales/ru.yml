@@ -83,6 +83,7 @@ ru:
         hours_quantity: 'Общее количество часов'
         hours_per_week: 'Количество часов в неделю'
         weeks_quantity: 'Количество недель'
+        semester: 'Семестр'
       classroom:
         building: 'Корпус'
         capacity: 'Вместимость'
