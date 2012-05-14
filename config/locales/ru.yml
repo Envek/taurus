@@ -64,6 +64,11 @@ ru:
         few: 'Преподаватели'
         many: 'Преподаватели'
         other: 'Преподаватели'
+      semester:
+        one: 'Семестр'
+        few: 'Семестры'
+        many: 'Семестры'
+        other: 'Семестры'
 
     attributes:
       building:
@@ -119,6 +124,12 @@ ru:
         lecturer: 'Преподаватель'
         position: 'Должность'
         whish: 'Пожелания'
+      semester:
+        year: 'Год'
+        number: 'Номер'
+        full_time: 'Очная форма обучения'
+        academic_year: 'Академический год'
+
     description:
       charge_card:
         teaching_place: 'Внимание! При смене преподавателя все имеющиеся пары для этой карты будут удалены!'

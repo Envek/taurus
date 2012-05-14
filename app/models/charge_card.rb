@@ -2,6 +2,7 @@ class ChargeCard < ActiveRecord::Base
   before_update :remove_pairs
   after_save :update_editor_name
 
+  belongs_to :semester
   belongs_to :discipline
   belongs_to :teaching_place
   belongs_to :assistant_teaching_place, :class_name => "TeachingPlace", :foreign_key => "assistant_id"
