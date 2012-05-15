@@ -17,7 +17,7 @@ class ChargeCard < ActiveRecord::Base
 
   scope :with_recommended_first_for, lambda { |department|
     if department.class == Department
-      joins(:teaching_place).order("teaching_places.department_id = #{department.id} DESC NULLS LAST, charge_cards.editor_name ASC")
+      includes(:teaching_place).order("teaching_places.department_id = #{department.id} DESC NULLS LAST, charge_cards.editor_name ASC")
     end
   }
 

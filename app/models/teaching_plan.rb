@@ -16,6 +16,7 @@ class TeachingPlan < ActiveRecord::Base
       if card.save
         created << card
         card.groups = groups unless card.groups == groups
+        card.update_editor_name
       end
     end
     if self.practics
@@ -26,6 +27,7 @@ class TeachingPlan < ActiveRecord::Base
         if card.save
           created << card
           card.groups = [group] unless card.groups == [group]
+          card.update_editor_name
         end
       end
     end
@@ -37,6 +39,7 @@ class TeachingPlan < ActiveRecord::Base
         if card.save
           created << card
           card.groups = [group] unless card.groups == [group]
+          card.update_editor_name
         end
       end
     end
