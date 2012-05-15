@@ -13,12 +13,20 @@ class Group < ActiveRecord::Base
   scope :by_name, lambda { |name| where('groups.name ILIKE ?', escape_name(name)) }
   scope :for_groups_editor, includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}})
 
+  cattr_accessor :current_semester
+
   def course
-    this_year = Time.now.year.to_i
-    course = this_year - forming_year
-    course += 1 if forming_year <= this_year and Time.now.month.to_i >= 7
-    course = '(1)' if forming_year > this_year or (forming_year == this_year and Time.now.month.to_i < 7)
+    this_year = current_semester.nil?? Time.now.year.to_i : current_semester.year
+    course = this_year - forming_year + 1
+    unless current_semester
+      course -= 1 if Time.now.month.to_i < 8
+    end
+    course = '[1]' if course < 1
     return course
+  end
+
+  def course_in(semester)
+    semester.year - forming_year + 1
   end
 
   def get_pairs
