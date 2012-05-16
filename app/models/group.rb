@@ -29,14 +29,14 @@ class Group < ActiveRecord::Base
     semester.year - forming_year + 1
   end
 
-  def get_pairs
+  def get_pairs(semester)
     days = Timetable.days
     times = Timetable.times
     weeks = Timetable.weeks
     pairs_array = Array.new(days.size).map!{Array.new(times.size).map!{Array.new(weeks.size + 1).map!{Array.new}}}
     subgroups.each do |subgroup|
       pair = subgroup.pair
-      pairs_array[pair.day_of_the_week - 1][pair.pair_number - 1][pair.week] << [pair, subgroup.number]
+      pairs_array[pair.day_of_the_week - 1][pair.pair_number - 1][pair.week] << [pair, subgroup.number] if pair.in_semester?(semester)
     end
     pairs_array
   end
@@ -45,10 +45,10 @@ class Group < ActiveRecord::Base
     self.subgroups.includes(:pair).map{|s| [s.pair, s.number]}
   end
 
-  def pairs_with_subgroups_for_timeslot(day, time)
+  def pairs_with_subgroups_for_timeslot(day, time, semester)
     subgroups = self.subgroups.joins(:pair).includes(:pair).where(:pairs => {
-        :day_of_the_week => day, :pair_number => time
-      })
+        :day_of_the_week => day, :pair_number => time,
+      }).where('("pairs"."expired_at" >= ? AND "pairs"."expired_at" <= ?) OR ("pairs"."active_at" >= ? AND "pairs"."active_at" <= ?)', semester.start, semester.end, semester.start, semester.end)
     return subgroups.map{|s| [s.pair, s.number]}
   end
 
