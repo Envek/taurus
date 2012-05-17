@@ -20,7 +20,9 @@ class CreateSemesters < ActiveRecord::Migration
     say_with_time "Create initial semester and make all charge cards belong to it." do
       year = Date.today.year - (Date.today.month < 6 ? 1 : 0)
       number = Date.today.month < 6 ? 2 : 1
-      semester = Semester.create!(:year => year, :number => number, :full_time => true, :open => true)
+      start = (number == 1) ? Date.civil(Date.today.year, 9, 1) : Date.civil(Date.today.year+1, 1, 15);
+      s_end = (number == 1) ? Date.civil(Date.today.year, 12, 31) : Date.civil(Date.today.year+1, 5, 31);
+      semester = Semester.create!(:year => year, :number => number, :full_time => true, :start => start, :end => s_end, :open => true)
       execute "UPDATE charge_cards SET semester_id = #{semester.id}"
     end
   end
