@@ -92,3 +92,19 @@ div.timetable {
   font-size: 25px;
   margin: 0;
 }
+
+.ajax_spinner {
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  display: none;
+}
+
+.ajax_spinner_image {
+  width: 128px;
+  height: 128px;
+  background: image-url("AmurSU_spinner_128.gif") top left no-repeat;
+  text-align: center;
+  margin: auto;
+}
