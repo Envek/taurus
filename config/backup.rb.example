@@ -1,21 +1,28 @@
 Backup::Model.new(:taurus, 'Taurus backup configuration') do
 
-  db_config = taurus_conf= YAML.load_file("#{File.dirname(__FILE__)}/database.yml")
-  
   database PostgreSQL do |db|
-    db.name               = db_config["production"]["database"]
-    db.username           = db_config["production"]["username"]
-    db.password           = db_config["production"]["password"]
-    db.host               = db_config["production"]["host"]
+    db.name               = 'taurus'
+    db.username           = 'taurus_user'
+    db.password           = 'taurus_password'
+    db.host               = 'taurus.amursu.ru'
     db.port               = 5432
+    db.skip_tables        = ['sessions', 'sessions_id_seq']
+    db.additional_options = ['--clean']
   end
 
-  compress_with Gzip do |compression|
-    compression.fast = true
+  compress_with Bzip2
+
+  store_with SCP do |server|
+    server.username = 'backup_user'
+    server.password = 'backup_pass'
+    server.ip       = 'backup_ip'
+    server.port     = 22
+    server.path     = '/path/to/backups'
+    server.keep     = 50
   end
 
   store_with Local do |local|
-    local.path = '~/backups/taurus/'
+    local.path = '~/backups'
     local.keep = 50
   end
 
