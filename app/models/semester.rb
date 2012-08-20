@@ -27,6 +27,10 @@ class Semester < ActiveRecord::Base
     to_label
   end
 
+  def to_human
+    "#{number}-й #{full_time ? 'очный' : 'заочный' } семестр #{academic_year} учебного года"
+  end
+
   def academic_year
     "#{year}/#{year+1}"
   end
