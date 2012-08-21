@@ -1,5 +1,4 @@
 class ChargeCard < ActiveRecord::Base
-  before_update :remove_pairs
   after_save :update_editor_name
 
   belongs_to :semester
@@ -14,6 +13,7 @@ class ChargeCard < ActiveRecord::Base
 
   validates_presence_of :discipline, :lesson_type, :weeks_quantity, :hours_per_week
   validates_numericality_of :weeks_quantity, :hours_per_week
+  validate :pairs_validity, :on => :update
 
   scope :with_recommended_first_for, lambda { |department|
     if department.class == Department
@@ -80,8 +80,10 @@ class ChargeCard < ActiveRecord::Base
 
   private
 
-  def remove_pairs
-    pairs.destroy_all if teaching_place_id_changed?
+  def pairs_validity
+    pairs.each do |pair|
+      errors[:base] << pair.errors.full_messages.join(", ") if pair.invalid?
+    end
   end
 end
 
