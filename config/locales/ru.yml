@@ -113,6 +113,8 @@ ru:
       lecturer:
         name: 'ФИО'
         whish: 'Пожелания'
+        departments: 'Кафедры'
+        teaching_places: 'Кафедры'
       pair:
         building: 'Корпус'
         classroom: 'Аудитория'
@@ -123,6 +125,7 @@ ru:
         department: 'Кафедра'
       teaching_place:
         lecturer: 'Преподаватель'
+        department: 'Кафедра'
         position: 'Должность'
         whish: 'Пожелания'
       semester:

@@ -1,0 +1,2 @@
+module Supervisor::DisciplinesHelper
+end

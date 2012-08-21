@@ -1,0 +1,2 @@
+module Supervisor::JetsHelper
+end

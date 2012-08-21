@@ -108,6 +108,15 @@ post 'semesters/change' => 'application#set_current_semester'
     end
     resources :classrooms do as_routes end
     resources :lecturers do as_routes end
+    resources :teaching_places do
+      as_routes
+      record_select_routes
+    end
+    resources :charge_cards do as_routes end
+    resources :disciplines do
+      as_routes
+      record_select_routes
+    end
     resources :departments do as_routes end
     resources :semesters do as_routes end
     get 'teaching_plans' => 'teaching_plans#new'
