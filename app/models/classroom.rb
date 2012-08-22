@@ -5,7 +5,7 @@ class Classroom < ActiveRecord::Base
 
   validates_presence_of :building
 
-  default_scope joins(:building).order("classrooms.name ASC, buildings.name ASC")
+  default_scope includes(:building).order("classrooms.name ASC, buildings.name ASC")
 
   def self.all_with_recommended_first_for (department)
     if department.class == Department
