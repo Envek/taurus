@@ -8,6 +8,10 @@ jQuery(document).ready(function($){
       });
     <% flash[:error] = nil %>
     <% end %>
+      $("#pair_edit_<%= @pair.id %> .warnings").empty();
+    <% @pair.warnings.each do |warning| %>
+      $("#pair_edit_<%= @pair.id %> .warnings").append("<p><%= escape_javascript t(warning, :scope => 'activerecord.warnings.pair') %></p>");
+    <% end %>
 <%
   Group.for_groups_editor.find(session[:group_editor][:groups]).each do |g|
     prev_id = "group_editor_grid#{g.id}_day#{@prev_pair.day_of_the_week}_pair#{@prev_pair.pair_number}"

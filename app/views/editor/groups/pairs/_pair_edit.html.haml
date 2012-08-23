@@ -27,6 +27,9 @@
     .subgroups
       - f.fields_for :subgroups, @pair.subgroups do |s|
         = render 'subgroup', :s => s
+    .warnings
+      - @pair.warnings.each do |warning|
+        %p= t(warning, :scope => 'activerecord.warnings.pair')
     %p#dates_block_show
       %a{:href => "#"} Начало и окончание занятий?
     %p{:id => "dates_block"}

@@ -2,6 +2,9 @@
 - pair_class = "pair_#{group.id}" + (pair.classroom.nil? ? " pair_wrong" : "")
 .pair{:id => "#{pair.id}", :class => pair_class }
   .management_panel
+    - if pair.warnings.any?
+      - warning_string = pair.warnings.map{|w| t(w, :scope => 'activerecord.warnings.pair')}.join(", ")
+      .warning_sign{:title => warning_string} ⚠
     .edit{:pair_id => "#{pair.id}"}
       = image_tag('edit_16.png')
     .destroy{:pair_id => "#{pair.id}"}

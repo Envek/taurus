@@ -107,6 +107,10 @@ class Pair < ActiveRecord::Base
     self.charge_card.jets.max_by { |jet| jet.subgroups_quantity }.subgroups_quantity
   end
   
+  def warnings
+    @warnings ||= check_for_warnings
+  end
+
   private
   
   def create_validation
@@ -197,6 +201,26 @@ class Pair < ActiveRecord::Base
 
   def week_number_existance
     errors[:base] << "Номер недели должен быть указан" unless (0..2).include? week
+  end
+
+  def check_for_warnings
+    warnings = []
+    # Check for classroom capacity accounting subgroups
+    if classroom.try(:capacity) and charge_card.try(:jets)
+      populations = charge_card.jets.map do |jet|
+        if jet.try(:group).try(:population)
+          p = jet.group.population
+          unless subgroups.find{|s| s.jet_id == jet.id}.number.zero? and jet.subgroups_quantity.zero?
+            p = (p.to_f / jet.subgroups_quantity).ceil
+          end
+          p
+        end
+      end.compact
+      if populations.any? and populations.sum > classroom.capacity
+        warnings << :classroom_not_large_enough
+      end
+    end
+    return warnings
   end
 
 end

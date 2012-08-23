@@ -11,6 +11,10 @@ jQuery(document).ready(function($){
         modal: true
       });
     <% end %>
+    $("#pair_edit_<%= @pair.id %> .warnings").empty();
+    <% @pair.warnings.each do |warning| %>
+      $("#pair_edit_<%= @pair.id %> .warnings").append("<p><%= escape_javascript t(warning, :scope => 'activerecord.warnings.pair') %></p>");
+    <% end %>
     $('#<%= @pair.id %>').remove();
     if ($('#td<%= escape_javascript container %>').length == 0) {
       $('#td_grid<%= @pair.classroom_id %>_week1_day<%= @pair.day_of_the_week %>_time<%= @pair.pair_number %>').replaceWith('<%= escape_javascript render :partial => "/editor/classrooms/classrooms/container", :locals => {:pair => @pair, :colspan => 2} %>');
