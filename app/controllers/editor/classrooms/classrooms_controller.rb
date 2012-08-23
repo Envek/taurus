@@ -2,14 +2,13 @@ class Editor::Classrooms::ClassroomsController < Editor::BaseController
 
   def index
     flash[:error] = nil
-    request.xhr? ? nil : cookies[:classrooms] = YAML.dump([0])
-    @classroom_id = params[:classroom_id]
-    except = params[:except] ? params[:except].split(',').map { |e| e.to_i } : "0"
+    session[:classroom_editor] = {:classrooms => []} unless session[:classroom_editor]
+    except = session[:classroom_editor][:classrooms].any? ? session[:classroom_editor][:classrooms] : "0"
     classroom = params[:classroom].to_s.gsub('%', '\%').gsub('_', '\_') + '%'
+    @classrooms = Classroom.where(['classrooms.id NOT IN (?) AND classrooms.name LIKE ?', except, classroom]).includes(:building)
     respond_to do |format|
       format.html
-      format.json { render :json => Classroom.all(:conditions => ['classrooms.id NOT IN (?) AND classrooms.name LIKE ?', except, classroom],
-        :include => [:building]).to_json(:only => [:id, :name], :include => { :building => { :only => :name } } )}
+      format.json { render :json => @classrooms.to_json(:only => [:id, :name], :include => { :building => { :only => :name } } )}
     end
   end
 
@@ -17,16 +16,13 @@ class Editor::Classrooms::ClassroomsController < Editor::BaseController
     @days = Timetable.days
     @times = Timetable.times
     @weeks = Timetable.weeks
-    @classroom = Classroom.find_by_id(params[:id], :include => :pairs)
+    @classroom = Classroom.includes(:pairs).find(params[:id])
     unless @classroom
       flash[:error] = 'Нет аудитории с таким названием'
     else
       @pairs = @classroom.pairs.in_semester(current_semester).order("active_at ASC")
-      grids = YAML.load(cookies[:classrooms])
-      grids << @classroom.id
-      cookies[:classrooms] = YAML.dump(grids)
-      @classrooms = YAML.load(cookies[:classrooms])
-
+      session[:classroom_editor] = {:classrooms => []} unless session[:classroom_editor]
+      session[:classroom_editor][:classrooms] << @classroom.id unless session[:classroom_editor][:classrooms].include? @classroom.id
       respond_to do |format|
         format.js
       end
@@ -42,14 +38,12 @@ class Editor::Classrooms::ClassroomsController < Editor::BaseController
   end
 
   def destroy
-    @id = params[:id]
-    grids = YAML.load(cookies[:classrooms])
-    grids.delete(@id.to_i)
-    cookies[:classrooms] = YAML.dump(grids)
-    @classrooms = YAML.load(cookies[:classrooms])
-
-    respond_to do |format|
-      format.js
+    if session[:classroom_editor].include? :classrooms
+      @id = params[:id].to_i
+      session[:classroom_editor][:classrooms].delete(@id)
+      respond_to do |format|
+        format.js
+      end
     end
   end
 end
