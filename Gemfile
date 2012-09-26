@@ -31,9 +31,10 @@ group :production do
   gem 'unicorn'
 
   # Backup automated system
-  gem 'backup'
-  gem 'net-ssh', "~> 2.1.4"
-  gem 'net-scp', "~> 1.0.4"
+  gem 'backup', '~> 3.0'
+  gem 'net-ssh', '~> 2.3.0'
+  gem 'net-scp'
+  gem 'dropbox-sdk', '~> 1.2.0'
   gem 'mail'
 end
 
