@@ -21,6 +21,13 @@ class ApplicationController < ActionController::Base
     current_admin || current_supervisor || current_dept_head || current_editor
   end
 
+  def change_current_semester
+    set_current_semester
+    redirect_to (request.referer.blank?? timetable_groups_path : request.referer)
+  end
+
+protected
+
   def set_current_semester
     unless params[:semester_id]
       unless session[:current_semester_id]
@@ -35,8 +42,7 @@ class ApplicationController < ActionController::Base
     end
     @current_semester = Semester.first unless @current_semester
     Group.current_semester = @current_semester
-    session[:current_semester_id] = @current_semester.id if user_signed_in?
-    redirect_to (request.referer.blank?? timetable_groups_path : request.referer) if params[:semester_id]
+    session[:current_semester_id] = @current_semester.id
   end
 
 end

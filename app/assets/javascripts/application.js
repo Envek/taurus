@@ -3,14 +3,10 @@
 //= require active_scaffold
 //= require record_select
 //= require_self
+//= require common
 //= require_tree ./editors
 
 jQuery(document).ready(function($) {
-
-    $('.semester_change+button').remove();
-    $('.semester_change').change(function() {
-      $(this).parent().submit();
-    });
 
     $('.classroom_row').click(function() {
       window.open('/editor/classrooms/classrooms?classroom_id=' + $(this).attr('id'));
