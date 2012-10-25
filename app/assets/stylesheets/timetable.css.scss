@@ -330,3 +330,25 @@ button, .button, .key {
     }
 
 }
+
+.export_pane {
+  overflow: hidden;
+  margin: 1em 0.5em;
+  
+  div {
+    float: right;
+  }
+}
+
+.export.button {
+  float: left;
+  font: normal 14px "Tahoma", sans-serif;
+}
+
+.excel_export::before {
+  content: "";
+  min-width: 16px;
+  min-height: 16px;
+  background: image-url("excel.png") top left no-repeat;
+  padding-left: 25px;
+}

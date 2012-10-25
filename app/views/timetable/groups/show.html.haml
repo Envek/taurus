@@ -15,4 +15,7 @@
     %tbody
       = render :partial => 'time', :collection => @times
 
+.export_pane
+  %div= link_to "Скачать в формате Excel", timetable_group_path(@group, :format => :xlsx), :class => "button export excel_export"
+
 = link_to "Назад", timetable_groups_path, :class => "button back_button", :id => "back_button_bottom"
