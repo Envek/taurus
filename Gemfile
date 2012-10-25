@@ -17,6 +17,7 @@ gem 'whenever'
 gem 'unicode'
 gem 'nokogiri'
 gem 'validates_timeliness'
+gem 'axlsx_rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
