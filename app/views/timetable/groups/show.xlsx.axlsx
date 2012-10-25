@@ -1,0 +1,175 @@
+wb = xlsx_package.workbook
+
+# Cell styles
+styles = {}
+wb.styles do |s|
+  styles[:top_cell] = s.add_style :sz => 12, :font_name => 'Times New Roman', :alignment => { :horizontal=> :center, :vertical => :center }, :border => { :style => :thin, :color =>"00000000" }
+  styles[:header_cell] = s.add_style :sz => 12, :font_name => 'Times New Roman', :alignment => { :horizontal=> :center, :vertical => :center, :wrapText => true }, :border => { :style => :thin, :color =>"00000000" }
+  styles[:empty_pair_cell] = s.add_style :sz => 8, :font_name => 'Tahoma', :alignment => { :vertical => :center }, :border => { :style => :thin, :color =>"00000000" }
+end
+
+# Printing preparations
+margins = {:left => 0.5/2.54, :right => 0.5/2.54, :top => 0.5/2.54, :bottom => 0.5/2.54, :header => 0, :footer => 0}
+setup = {:fit_to_width => 1, :fit_to_height => 1, :orientation => :landscape}
+
+# Export timetable
+wb.add_worksheet(:name => @group.name, :page_margins => margins, :page_setup => setup) do |sheet|
+
+  # Headers
+  sheet.add_row ["Расписание занятий группы #{@group.name}", (1..(@days.count*2+1)).map{""}].flatten, :style => (1..(@days.count*2+2)).map{ styles[:top_cell] }
+  sheet.add_row ["Время", "Неделя", @days.map{|d| [d, ""]}].flatten, :style => (1..(@days.count*2+2)).map{ styles[:header_cell] }
+  sheet.merge_cells("A1:#{('A'.ord+@days.count*2+1).chr}1")
+  @days.each_with_index { |day, i| sheet.merge_cells("#{('A'.ord+2+i*2).chr}2:#{('A'.ord+3+i*2).chr}2") }
+  header_height = 2
+
+  current_row = header_height + 1
+
+  # Timetable framework
+  @times.each do |time|
+    @weeks.each_with_index do |week, index|
+      sheet.add_row [(index.zero?? time : ""), week, @days.map{|d| ["", ""]}].flatten, :style => [styles[:header_cell], styles[:header_cell], (1..(@days.count*2)).map{ styles[:empty_pair_cell] }].flatten, :height => 50
+      current_row += 1
+    end
+    sheet.merge_cells("A#{current_row-@weeks.count}:A#{current_row-1}")
+  end
+
+  # Put pairs in it
+  @days.each_with_index do |day, day_counter|
+    @times.each_with_index do |time, time_counter|
+      weektime_cells = @weeks.each_with_index.map do |week, idx|
+        [
+          "#{('A'.ord+2+day_counter*2).chr}#{header_height+1+time_counter*2+idx}",
+          "#{('A'.ord+2+day_counter*2+1).chr}#{header_height+1+time_counter*2+idx}",
+        ]
+      end
+      weektime_area = "#{weektime_cells.first.first}:#{weektime_cells.last.last}"
+
+      both_week_pairs = @pairs[day_counter][time_counter][0]
+      first_week_pairs = @pairs[day_counter][time_counter][1]
+      second_week_pairs = @pairs[day_counter][time_counter][2]
+
+      if both_week_pairs.empty? and first_week_pairs.empty? and second_week_pairs.empty?
+        sheet.merge_cells(weektime_area)
+      else
+        if both_week_pairs.any? and !first_week_pairs.any? and !second_week_pairs.any?
+          # Only one pair for both weeks and all subgroups
+          if both_week_pairs.count == 1 and both_week_pairs[0][1] == 0
+            sheet[weektime_cells.first.first].value = pair_plaintext(*both_week_pairs[0])
+            sheet.merge_cells(weektime_area)
+          else # More than one two week pair. Check for subgroups
+            first_subs = both_week_pairs.select{|p,s| s==1}
+            sheet[weektime_cells.first.first].value = pair_plaintext(*first_subs[0]) if first_subs.any?
+            second_subs = both_week_pairs.select{|p,s| s==2}
+            sheet[weektime_cells.first.last].value = pair_plaintext(*second_subs[0]) if second_subs.any?
+            other_subs = both_week_pairs - first_subs - second_subs
+            other_subs.each do |other_sub|
+              if first_subs.empty?
+                sheet[weektime_cells.first.first].value = pair_plaintext(*other_sub)
+                first_subs = [other_sub]
+                next
+              elsif second_subs.empty?
+                sheet[weektime_cells.first.last].value = pair_plaintext(*other_sub)
+                second_subs = [other_sub]
+                next
+              end
+            end
+            sheet.merge_cells("#{weektime_cells.first.first}:#{weektime_cells.last.first}")
+            sheet.merge_cells("#{weektime_cells.first.last}:#{weektime_cells.last.last}")
+          end
+        else # There is first and second week pairs (both week pairs can be present too)
+          column_business = [false, false]
+          if both_week_pairs.any?
+            # TODO: The code below should be DRYed
+            first_subs = both_week_pairs.select{|p,s| s==1}
+            if first_subs.any?
+              sheet[weektime_cells.first.first].value = pair_plaintext(*first_subs[0]) 
+              column_business[0] = true
+            end
+            second_subs = both_week_pairs.select{|p,s| s==2}
+            if second_subs.any?
+              sheet[weektime_cells.first.last].value = pair_plaintext(*second_subs[0])
+              column_business[1] = true
+            end
+            other_subs = both_week_pairs - first_subs - second_subs
+            other_subs.each do |other_sub|
+              if first_subs.empty?
+                sheet[weektime_cells.first.first].value = pair_plaintext(*other_sub)
+                first_subs = [other_sub]
+                column_business[0] = true
+                next
+              elsif second_subs.empty?
+                sheet[weektime_cells.first.last].value = pair_plaintext(*other_sub)
+                second_subs = [other_sub]
+                column_business[1] = true
+                next
+              end
+            end
+            sheet.merge_cells("#{weektime_cells.first.first}:#{weektime_cells.last.first}") if column_business[0]
+            sheet.merge_cells("#{weektime_cells.first.last}:#{weektime_cells.last.last}") if column_business[1]
+            # The code above should be DRYed
+          end
+          if first_week_pairs.any?
+            all_subs = first_week_pairs.select{|p,s| s==0}
+            if not column_business.any? and all_subs.any?
+              sheet[weektime_cells.first.first].value = pair_plaintext(*all_subs[0])
+              sheet.merge_cells("#{weektime_cells.first.first}:#{weektime_cells.first.last}")
+            else
+              first_subs = first_week_pairs.select{|p,s| s==1}
+              second_subs = first_week_pairs.select{|p,s| s==2}
+              if not column_business.first and first_subs.any?
+                sheet[weektime_cells.first.first].value = pair_plaintext(*first_subs[0])
+              end
+              if not column_business.last and second_subs.any?
+                sheet[weektime_cells.first.last].value = pair_plaintext(*second_subs[0])
+              end
+              other_subs = first_week_pairs - first_subs - second_subs
+              other_subs.each do |other_sub|
+                if first_subs.empty?
+                  sheet[weektime_cells.first.first].value = pair_plaintext(*other_sub)
+                  first_subs = [other_sub]
+                  next
+                elsif second_subs.empty?
+                  sheet[weektime_cells.first.last].value = pair_plaintext(*other_sub)
+                  second_subs = [other_sub]
+                  next
+                end
+              end
+            end
+          end
+          if second_week_pairs.any?
+            all_subs = second_week_pairs.select{|p,s| s==0}
+            if not column_business.any? and all_subs.any?
+              sheet[weektime_cells.last.first].value = pair_plaintext(*all_subs[0])
+              sheet.merge_cells("#{weektime_cells.last.first}:#{weektime_cells.last.last}")
+            else
+              first_subs = second_week_pairs.select{|p,s| s==1}
+              second_subs = second_week_pairs.select{|p,s| s==2}
+              if not column_business.first and first_subs.any?
+                sheet[weektime_cells.last.first].value = pair_plaintext(*first_subs[0])
+              end
+              if not column_business.last and second_subs.any?
+                sheet[weektime_cells.last.last].value = pair_plaintext(*second_subs[0])
+              end
+              other_subs = second_week_pairs - first_subs - second_subs
+              other_subs.each do |other_sub|
+                if first_subs.empty?
+                  sheet[weektime_cells.last.first].value = pair_plaintext(*other_sub)
+                  first_subs = [other_sub]
+                  next
+                elsif second_subs.empty?
+                  sheet[weektime_cells.last.last].value = pair_plaintext(*other_sub)
+                  second_subs = [other_sub]
+                  next
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  # Page adjusting
+  sheet.column_widths *[10, 10, ((1..(@days.count*2)).map{15})].flatten
+
+end

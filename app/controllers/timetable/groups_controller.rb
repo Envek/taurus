@@ -32,5 +32,11 @@ class Timetable::GroupsController < Timetable::BaseController
       @weeks = Timetable.weeks
       @pairs = @group.get_pairs(current_semester)
     end
+    respond_to do |format|
+      format.html
+      format.xlsx do
+        render :xlsx => 'show', :filename => "Расписание занятий группы #{@group.name}.xlsx"
+      end
+    end
   end
 end
