@@ -15,6 +15,16 @@ class Group < ActiveRecord::Base
 
   cattr_accessor :current_semester
 
+  # Use group name instead of id in URLs
+  def to_param
+    name
+  end
+
+  # Search by name by default (for clean URLs)
+  def self.from_param(param)
+    self.find_by_name! param
+  end
+
   def course
     this_year = current_semester.nil?? Time.now.year.to_i : current_semester.year
     course = this_year - forming_year + 1

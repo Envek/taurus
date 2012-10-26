@@ -2,6 +2,9 @@
 
 = link_to "Назад", timetable_groups_path, :class => "button back_button", :id => "back_button_top"
 
+- if flash[:notice]
+  %p.notice= flash[:notice]
+
 .timetable.group_timetable
   %h2 Расписание учебных пар группы #{@group.name}
   %table

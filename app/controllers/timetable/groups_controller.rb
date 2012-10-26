@@ -10,7 +10,7 @@ class Timetable::GroupsController < Timetable::BaseController
         end
       end
       format.json do
-        render :json => @groups.to_json(:only => [:id, :name], :methods => [:course], :include => {
+        render :json => @groups.to_json(:only => [:name], :methods => [:course], :include => {
           :speciality => {:only => [:code, :name], :include => {
             :department => {:only => [], :include => {
               :faculty => {:only => :name}
@@ -22,16 +22,19 @@ class Timetable::GroupsController < Timetable::BaseController
   end
   
   def show
-    @id = params[:id].to_i
-    unless @group = Group.for_timetable.find_by_id(@id)
-      suffix = @terminal ? '?terminal=true' : ''
-      redirect_to :controller => 'timetable/groups' + suffix
-    else
-      @days = Timetable.days
-      @times = Timetable.times
-      @weeks = Timetable.weeks
-      @pairs = @group.get_pairs(current_semester)
+    begin
+      @group = Group.for_timetable.from_param(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      # Not found? Well, may be this is old bookmarked address? Try find by id.
+      @group = Group.for_timetable.find(params[:id])
+      redirect_to timetable_group_path(@group), :status => 301, :notice => "Вы зашли на эту страницу по устаревшей ссылке! Обновите закладки в вашем браузере! Правильная ссылка: #{self.class.helpers.link_to(URI.unescape(timetable_group_url(@group)), timetable_group_path(@group))}".html_safe
+      expires_in 1.year, :public => true
+      return
     end
+    @days = Timetable.days
+    @times = Timetable.times
+    @weeks = Timetable.weeks
+    @pairs = @group.get_pairs(current_semester)
     respond_to do |format|
       format.html
       format.xlsx do

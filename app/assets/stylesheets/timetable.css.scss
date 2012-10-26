@@ -331,6 +331,19 @@ button, .button, .key {
 
 }
 
+p.notice {
+  margin: 2em 1em 1em !important;
+  padding: 1em 2em;
+  background-color: #D9EDF7;
+  border-color: #BCE8F1;
+  color: #3A87AD;
+  border-radius: 4px 4px 4px 4px;
+  
+  a:link, a:visited {
+    color: navy;
+  }
+}
+
 .export_pane {
   overflow: hidden;
   margin: 1em 0.5em;
