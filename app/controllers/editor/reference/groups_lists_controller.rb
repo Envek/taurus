@@ -10,7 +10,7 @@ class Editor::Reference::GroupsListsController < Editor::BaseController
     @weeks = Timetable.weeks
     @pairs = []
     @groups.each do |group|
-      @pairs << group.get_pairs
+      @pairs << group.get_pairs(@current_semester)
     end
   end
 
