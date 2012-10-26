@@ -44,8 +44,10 @@ class AddGosinspIndexToDepartments < ActiveRecord::Migration
 
     amursu_depts.each_with_index do |dept_name, index|
       dept = Department.find_by_name(dept_name)
-      dept.gosinsp_code = index+1 if dept
-      dept.save
+      if dept
+        dept.gosinsp_code = index+1
+        dept.save
+      end
     end
   end
 
