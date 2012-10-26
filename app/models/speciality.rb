@@ -3,8 +3,6 @@ class Speciality < ActiveRecord::Base
   has_many :groups
   has_many :teaching_plans
   
-  validates_presence_of :department
-  
   def to_label
     "#{name} (#{code})"
   end
