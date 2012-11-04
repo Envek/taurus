@@ -1,0 +1,19 @@
+[
+<% @pairs.flatten.each_slice(2) do |pair, subgroup| %>
+	{
+		"pair": {
+			"day_of_the_week": <%= pair.day_of_the_week.to_json.html_safe %>,
+			"pair_number": <%= pair.pair_number.to_json.html_safe %>,
+			"week": <%= pair.week.to_json.html_safe %>,
+			"subgroup": <%= subgroup.to_json.html_safe %>,
+			"classroom": <%= pair.classroom.name.to_json.html_safe %>,
+			"discipline": <%= pair.short_discipline.to_json.html_safe %>,
+			"discipline_full": <%= pair.discipline.to_json.html_safe %>,
+			"lecturer": <%= pair.lecturer.to_json.html_safe %>,
+			"lecturer_full": <%= pair.lecturer_full.to_json.html_safe %>,
+			"assistant": <%= pair.assistant.to_json.html_safe %>,
+			"assistant_full": <%= pair.assistant_full.to_json.html_safe %>
+		}
+	},
+<% end %>
+]

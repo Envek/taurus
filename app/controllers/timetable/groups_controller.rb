@@ -39,6 +39,7 @@ class Timetable::GroupsController < Timetable::BaseController
     respond_to do |format|
       format.html
       format.xml
+      format.json
       format.xlsx do
         render :xlsx => 'show', :filename => "Расписание занятий группы #{@group.name}.xlsx"
       end
