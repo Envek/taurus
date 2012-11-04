@@ -9,6 +9,7 @@ class Timetable::GroupsController < Timetable::BaseController
           redirect_to timetable_group_path(@groups.first)
         end
       end
+      format.xml
       format.json do
         render :json => @groups.to_json(:only => [:name], :methods => [:course], :include => {
           :speciality => {:only => [:code, :name], :include => {
@@ -37,6 +38,7 @@ class Timetable::GroupsController < Timetable::BaseController
     @pairs = @group.get_pairs(current_semester)
     respond_to do |format|
       format.html
+      format.xml
       format.xlsx do
         render :xlsx => 'show', :filename => "Расписание занятий группы #{@group.name}.xlsx"
       end
