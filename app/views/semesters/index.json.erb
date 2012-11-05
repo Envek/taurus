@@ -1,0 +1,13 @@
+[
+<% @semesters.each do |semester| %>
+	{
+		"semester": {
+			"year": <%= semester.year.to_json.html_safe %>,
+			"number": <%= semester.number.to_json.html_safe %>,
+			"full_time": <%= semester.full_time.to_json.html_safe %>,
+			"start": <%= semester.start.to_json.html_safe %>,
+			"end": <%= semester.end.to_json.html_safe %>
+		}
+	},
+<% end %>
+]

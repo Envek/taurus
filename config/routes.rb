@@ -13,6 +13,7 @@ Taurus::Application.routes.draw do
 ##### Общее #####
 
 post 'semesters/change' => 'application#change_current_semester'
+resources :semesters, :only => [:index]
 
 ##### Редакторский раздел #####
 
