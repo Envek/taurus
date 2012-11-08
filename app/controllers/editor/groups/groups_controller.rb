@@ -9,7 +9,7 @@ class Editor::Groups::GroupsController < Editor::BaseController
     @groups = Group.all(:conditions => ['id NOT IN (?) AND name LIKE ?', except, classroom], :order => "name")
     respond_to do |format|
       format.html
-      format.json { render :json => @groups.to_json(:only => [:id], :methods => [:descriptive_name]) }
+      format.json { render :json => @groups.to_json(:only => [:name], :methods => [:descriptive_name]) }
     end
   end
 
@@ -17,7 +17,7 @@ class Editor::Groups::GroupsController < Editor::BaseController
     @days = Timetable.days
     @times = Timetable.times
     @weeks = Timetable.weeks
-    @group = Group.for_groups_editor.find(params[:id])
+    @group = Group.for_groups_editor.from_param(params[:id])
     unless @group
       flash[:error] = 'Нет группы с таким названием'
     else

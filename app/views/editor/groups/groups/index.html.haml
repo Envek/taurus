@@ -14,6 +14,6 @@
     = javascript_tag("jQuery.get('"+url_for([:editor, :groups, @group])+"');")
   - elsif session[:group_editor].include? :groups and session[:group_editor][:groups].any?
     - session[:group_editor][:groups].each do |group_id|
-      - group = Group.find(group_id, :select => 'id')
+      - group = Group.find(group_id, :select => 'id, name')
       .group_editor{:id => "group_editor_#{group.id}"}
       = javascript_tag("jQuery.get('"+editor_groups_group_path(group)+"');")
