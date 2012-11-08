@@ -34,4 +34,8 @@ module ApplicationHelper
     return groups
   end
 
+  def markdown(text)
+    MarkdownHandler.parser.render(text).html_safe
+  end
+
 end
