@@ -14,6 +14,7 @@ Taurus::Application.routes.draw do
 
 post 'semesters/change' => 'application#change_current_semester'
 resources :semesters, :only => [:index]
+match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page => /(\w*\/?\w*)*/, :defaults => { :page => 'index' }, :as => :help
 
 ##### Редакторский раздел #####
 

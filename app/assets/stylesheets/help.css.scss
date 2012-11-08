@@ -1,0 +1,45 @@
+// Place all the styles related to the help controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+p.breadcrumbs {
+  padding: 1em;
+  color: gray;
+  font-size: 75%;
+}
+
+article.help_text {
+  padding: 0 1em;
+  font-size: 85%;
+
+  h1 {
+    font-size: 140%;
+  }
+
+  h2 {
+    font-size: 125%;
+  }
+
+  h3 {
+    font-size: 105%;
+  }
+
+  h4 {
+    font-size: 100%;
+  }
+
+  p {
+    text-align: justify;
+    text-indent: 1.5em;
+    margin-bottom: 0.25em;
+    word-break: hyphenate;
+  }
+
+  code {
+    outline: 1px dotted gray;
+    background: #F0F0F0;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+}

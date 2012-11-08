@@ -1,0 +1,19 @@
+%p.breadcrumbs
+  - if params[:page] == 'index'
+    Справка
+    - title "Справка"
+  - else
+    = link_to "Справка", help_path
+    <span class="divider">/</span>
+    - parts = @page.split("/")
+    - parts = parts[0..-2] if parts.last == "index"
+    - parts[0..-2].each_index do |i|
+      - part = parts[0..i].join("/")
+      = link_to File.readlines(Rails.root+"app/views/help/"+(part + "/index.md.erb")).first, help_path+"/"+part
+      <span class="divider">/</span>
+    - page_title = File.readlines(Rails.root+"app/views/help/"+(@page+".md.erb")).first
+    - title page_title
+    = page_title
+
+%article.help_text
+  = markdown(@content)
