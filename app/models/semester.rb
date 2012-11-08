@@ -3,6 +3,7 @@ class Semester < ActiveRecord::Base
 
   validates :full_time, :inclusion => { :in => [true, false] }
   validates :open, :inclusion => { :in => [true, false] }
+  validates :published, :inclusion => { :in => [true, false] }
   validates :number, :presence => true,
                      :uniqueness   => { :scope => [:year, :full_time] },
                      :numericality => { :only_integer => true },
@@ -16,6 +17,7 @@ class Semester < ActiveRecord::Base
   validates_date :start, :before => :end
   validates_date :end, :after => :start
 
+  scope :published, where(:published => true)
   scope :sorted, order('"semesters"."year" DESC, "semesters"."number" DESC, "semesters"."full_time" DESC')
   default_scope where(:open => true).sorted
 

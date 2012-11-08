@@ -31,7 +31,7 @@
             Вы смотрите расписание на
             .semester_change_block
               = form_tag '/semesters/change', :method => 'post' do |f|
-                = select_tag :semester_id, options_for_select(Semester.all.map { |s| [s.to_human, s.id] }, current_semester.id), :class => :semester_change
+                = select_tag :semester_id, options_for_select(Semester.published.map { |s| [s.to_human, s.id] }, current_semester.id), :class => :semester_change
                 <button type="submit">Сменить</button>
           %p #{link_to "Амурский государственный университет", "//www.amursu.ru"}, 2009—#{Taurus::Version::Date.year}.
           %p Версия <abbr title="программного обеспечения">#{link_to "ПО", "/about"}</abbr> от #{I18n.l Taurus::Version::Date, :format => :long} года.
