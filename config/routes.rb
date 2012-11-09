@@ -106,6 +106,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     end
     resources :groups do
       as_routes
+      collection do get :browse end
       member do get :teaching_plan end
     end
     resources :classrooms do as_routes end
