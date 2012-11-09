@@ -15,6 +15,8 @@ class Group < ActiveRecord::Base
 
   cattr_accessor :current_semester
 
+  after_update :update_charge_cards_editor_titles, :if => :name_changed?
+
   # Use group name instead of id in URLs
   def to_param
     name
@@ -86,6 +88,12 @@ class Group < ActiveRecord::Base
   def authorized_for_delete?
     return true unless current_user
     self.speciality.try(:department_id) == current_user.department_id
+  end
+
+  def update_charge_cards_editor_titles
+    charge_cards.each do |card|
+      card.save!
+    end
   end
 
 end
