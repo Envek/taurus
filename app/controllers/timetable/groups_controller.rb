@@ -1,12 +1,18 @@
 class Timetable::GroupsController < Timetable::BaseController
 
   def index
-    @groups = Group.includes({:speciality => {:department => :faculty}}).order(:name)
+    @groups = Group.includes(:speciality => {:department => :faculty})\
+                  .joins(:subgroups => {:pair => :charge_card}, :speciality => {:department => :faculty})\
+                  .where(:subgroups => {:pairs => {:charge_cards => {:semester_id => @current_semester.id}}})\
+                  .order(:name).uniq
     @groups = @groups.by_name(params[:group]) if params[:group]
     respond_to do |format|
       format.html do
-        if @groups.count == 1
+        if params[:group] and @groups.count == 1 
           redirect_to timetable_group_path(@groups.first)
+        end
+        if stale?(:last_modified => [Group.maximum(:updated_at), Pair.maximum(:updated_at)].max.utc)
+          expire_fragment('timetable_groups_list')
         end
       end
       format.xml

@@ -17,13 +17,14 @@
       - %w(А Б К М О С Э -).each do |letter|
         .key.group_letter #{letter}
   .list_box
-    - @groups.each do |group|
-      .group
-        %h2 #{group.name}
-        = link_to "Расписание", timetable_group_path(group), :class => "button link_to_timetable"
-        .desc
-          %p.course #{group.course} курс, #{group.speciality.try(:department).try(:faculty).try(:name)}
-          %p.speciality #{"#{group.speciality.try(:code)} «#{group.speciality.try(:name)}»" if group.speciality}
+    - cache('timetable_groups_list') do
+      - @groups.each do |group|
+        .group
+          %h2 #{group.name}
+          = link_to "Расписание", timetable_group_path(group), :class => "button link_to_timetable"
+          .desc
+            %p.course #{group.course} курс, #{group.speciality.try(:department).try(:faculty).try(:name)}
+            %p.speciality #{"#{group.speciality.try(:code)} «#{group.speciality.try(:name)}»" if group.speciality}
 
   .ajax_messages_container
     .ajax_spinner
