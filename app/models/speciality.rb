@@ -1,7 +1,7 @@
 class Speciality < ActiveRecord::Base
   belongs_to :department
-  has_many :groups
-  has_many :teaching_plans
+  has_many :groups, :dependent => :destroy
+  has_many :teaching_plans, :dependent => :destroy
   
   def to_label
     "#{name} (#{code})"

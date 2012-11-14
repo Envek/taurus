@@ -1,5 +1,5 @@
 class Classroom < ActiveRecord::Base
-  has_many :pairs
+  has_many :pairs, :dependent => :nullify
   belongs_to :building
   belongs_to :department
 
