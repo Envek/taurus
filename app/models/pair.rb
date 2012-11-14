@@ -210,7 +210,7 @@ class Pair < ActiveRecord::Base
       populations = charge_card.jets.map do |jet|
         if jet.try(:group).try(:population)
           p = jet.group.population
-          unless subgroups.find{|s| s.jet_id == jet.id}.number.zero? and jet.subgroups_quantity.zero?
+          unless subgroups.find{|s| s.jet_id == jet.id}.number.zero? or jet.subgroups_quantity.zero?
             p = (p.to_f / jet.subgroups_quantity).ceil
           end
           p
