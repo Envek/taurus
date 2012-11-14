@@ -8,6 +8,7 @@ class Jet < ActiveRecord::Base
   validates_presence_of :group, :charge_card, :subgroups_quantity
   validates_numericality_of :subgroups_quantity
   validates_exclusion_of :subgroups_quantity, :in => 1..1
+  validates :group_id, :uniqueness => { :scope => :charge_card_id }
 
 private
 
