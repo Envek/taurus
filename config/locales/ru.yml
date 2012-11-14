@@ -158,3 +158,10 @@ ru:
     warnings:
       pair:
         classroom_not_large_enough: 'Вместимости аудитории недостаточно для размещения потока'
+
+    errors:
+      models:
+        charge_card:
+          attributes:
+            assistant_teaching_place:
+              cannot_be_the_same_person: " не может быть тем же лицом, что и преподаватель. (Один и тот же человек не может одновременно и вести пару и ассистировать себе.)"

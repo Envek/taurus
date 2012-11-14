@@ -14,6 +14,7 @@ class ChargeCard < ActiveRecord::Base
   validates_presence_of :discipline, :lesson_type, :weeks_quantity, :hours_per_week
   validates_numericality_of :weeks_quantity, :hours_per_week
   validate :pairs_validity, :on => :update
+  validate :lecturer_and_assistant_validation
 
   scope :with_recommended_first_for, lambda { |department|
     if department.class == Department
@@ -85,5 +86,12 @@ class ChargeCard < ActiveRecord::Base
       errors[:base] << pair.errors.full_messages.join(", ") if pair.invalid?
     end
   end
+
+  def lecturer_and_assistant_validation
+    if teaching_place.present? and assistant_teaching_place.present? and teaching_place == assistant_teaching_place
+      errors.add(:assistant_teaching_place, :cannot_be_the_same_person)
+    end
+  end
+
 end
 
