@@ -33,4 +33,12 @@ protected
       @record.semester = current_semester
   end
 
+  # It's a hack, that allows to change groups in charge card edit.
+  # TODO: Remove it after bugfix in active_scaffold 
+  def before_update_save(record)
+    record.jets.each do |jet|
+      jet.save if jet.group_id_changed?
+    end
+  end
+
 end
