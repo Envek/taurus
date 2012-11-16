@@ -17,7 +17,7 @@
       - %w(А Б К М О С Э -).each do |letter|
         .key.group_letter #{letter}
   .list_box
-    - cache('timetable_groups_list') do
+    - cache("timetable_groups_list_semester_#{@current_semester.id}") do
       - @groups.each do |group|
         .group
           %h2 #{group.name}

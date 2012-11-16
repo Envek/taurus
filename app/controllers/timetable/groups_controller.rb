@@ -11,9 +11,14 @@ class Timetable::GroupsController < Timetable::BaseController
         if params[:group] and @groups.count == 1 
           redirect_to timetable_group_path(@groups.first)
         end
-        if stale?(:last_modified => [Group.maximum(:updated_at), Pair.maximum(:updated_at)].max.utc)
-          expire_fragment('timetable_groups_list')
+        # Caching management
+        index_modify_timestamp = [Group.maximum(:updated_at), Pair.joins(:charge_card).where(:charge_cards => {:semester_id => @current_semester.id}).maximum(:updated_at)].compact.max.utc
+        cache_time = Time.rfc2822(request.headers["If-Modified-Since"]).utc rescue nil 
+        if cache_time.nil? or cache_time < index_modify_timestamp
+          expire_fragment("timetable_groups_list_semester_#{@current_semester.id}")
         end
+        response.headers['Last-Modified'] = @terminal ? Time.now.utc.httpdate : index_modify_timestamp.httpdate
+        expires_in (@terminal ? 1.minute : 1.day), :public => true
       end
       format.xml
       format.json do
