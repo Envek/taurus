@@ -114,11 +114,10 @@ class Pair < ActiveRecord::Base
   private
   
   def create_validation
-    conditions = { :classroom_id => classroom_id,
-                   :day_of_the_week => day_of_the_week,
-                   :pair_number => pair_number,
-                   :week => [ 0, week ] }
-    if (conflicts = Pair.all(:conditions => conditions)).size > 0
+    week_conditions = week == 0 ? [0, 1, 2] : [0, week]
+    conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?) AND NOT ((pairs.active_at > ? AND expired_at > ?) OR (active_at < ? AND expired_at < ?))',
+                  id, day_of_the_week, pair_number, week_conditions, expired_at, expired_at, active_at, active_at]
+    if (conflicts = Pair.where(conditions)).size > 0
       pairs = conflicts.map { |p| p.name }.join('<br />')
       errors[:base] << "Невозможно создать пару, так как следующая пара:<br /><br />" +
       pairs +
