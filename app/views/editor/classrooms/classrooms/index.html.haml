@@ -10,3 +10,7 @@
       %input{:id => "classroom_name", :size => 10}
 - if @classroom_id
   = javascript_tag("jQuery.get('"+editor_classrooms_classroom_path(@classroom_id)+"');")
+- elsif session[:classroom_editor].include? :classrooms and session[:classroom_editor][:classrooms].any?
+  - session[:classroom_editor][:classrooms].each do |classroom_id|
+    - classroom = Classroom.find(classroom_id)
+    = javascript_tag("jQuery.get('"+editor_classrooms_classroom_path(classroom)+"');")
