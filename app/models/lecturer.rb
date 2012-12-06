@@ -6,8 +6,20 @@ class Lecturer < ActiveRecord::Base
   validates_uniqueness_of :name
   
   scope :by_name, lambda { |name| where('LOWER(lecturers.name) LIKE LOWER(?)', escape_name(name)) }
-  
-  private
+
+  after_update :update_charge_cards_editor_titles, :if => :name_changed?
+
+  protected
+
+  def update_charge_cards_editor_titles
+    ChargeCard.transaction(:requires_new => true) do
+      charge_cards.find_in_batches(:include => ChargeCard.association_dependencies) do |cards|
+        cards.each do |card|
+          card.save(:validate => false)
+        end
+      end
+    end
+  end
 
   def self.escape_name(name)
     name.to_s.gsub('%', '\%').gsub('_', '\_') + '%'

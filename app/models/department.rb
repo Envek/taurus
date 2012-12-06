@@ -2,11 +2,26 @@ class Department < ActiveRecord::Base
   belongs_to :faculty
   has_many :classrooms, :dependent => :nullify
   has_many :disciplines, :dependent => :destroy
+  has_many :charge_cards, :through => :disciplines
   has_many :teaching_places, :dependent => :destroy
   has_many :lecturers, :through => :teaching_places
   has_many :specialities, :dependent => :destroy
   has_many :dept_heads, :dependent => :destroy
   
   validates_numericality_of :gosinsp_code, :allow_nil => true
+
+  after_update :update_charge_cards_editor_titles, :if => :name_changed?
+
+  protected
+
+  def update_charge_cards_editor_titles
+    ChargeCard.transaction(:requires_new => true) do
+      charge_cards.find_in_batches(:include => ChargeCard.association_dependencies) do |cards|
+        cards.each do |card|
+          card.save(:validate => false)
+        end
+      end
+    end
+  end
 
 end

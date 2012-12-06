@@ -79,6 +79,10 @@ class ChargeCard < ActiveRecord::Base
     end
   end
 
+  def self.association_dependencies
+    [:discipline, :groups, {:jets => :group}, :lesson_type, {:teaching_place => [:lecturer, :department]}, {:assistant_teaching_place => [:lecturer, :department]}]
+  end
+
   private
 
   def pairs_validity

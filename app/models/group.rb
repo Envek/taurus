@@ -91,8 +91,12 @@ class Group < ActiveRecord::Base
   end
 
   def update_charge_cards_editor_titles
-    charge_cards.each do |card|
-      card.save!
+    ChargeCard.transaction(:requires_new => true) do
+      charge_cards.find_in_batches(:include => ChargeCard.association_dependencies) do |cards|
+        cards.each do |card|
+          card.save(:validate => false)
+        end
+      end
     end
   end
 
