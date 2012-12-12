@@ -5,7 +5,7 @@ class Editor::Classrooms::ClassroomsController < Editor::BaseController
     session[:classroom_editor] = {:classrooms => []} unless session[:classroom_editor]
     except = session[:classroom_editor][:classrooms].any? ? session[:classroom_editor][:classrooms] : "0"
     classroom = params[:classroom].to_s.gsub('%', '\%').gsub('_', '\_') + '%'
-    @classrooms = Classroom.where(['classrooms.id NOT IN (?) AND classrooms.name LIKE ?', except, classroom]).includes(:building)
+    @classrooms = Classroom.where(['classrooms.id NOT IN (?) AND classrooms.name ILIKE ?', except, classroom]).includes(:building)
     respond_to do |format|
       format.html
       format.json { render :json => @classrooms.to_json(:only => [:id, :name], :include => { :building => { :only => :name } } )}

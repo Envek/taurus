@@ -5,7 +5,7 @@ class Editor::Groups::ClassroomsController < ApplicationController
     dept = group.department
     classroom = Classroom.all_with_recommended_first_for(dept)
     classroom_search.each do |s|
-      classroom = classroom.select { |c| c.full_name.include? s }
+      classroom = classroom.select { |c| Unicode::downcase(c.full_name).include? Unicode::downcase(s) }
     end
     respond_to do |format|
       format.json { render :json => classroom.to_json(:only => [:id], :methods => [:name_with_recommendation])}
