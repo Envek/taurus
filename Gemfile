@@ -45,3 +45,10 @@ group :development do
   gem "rvm-capistrano"
   gem 'ruby-debug'
 end
+
+gem 'rspec-rails', :group => [:development, :test]
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'capybara'
+end
