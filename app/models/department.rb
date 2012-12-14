@@ -8,7 +8,11 @@ class Department < ActiveRecord::Base
   has_many :specialities, :dependent => :destroy
   has_many :dept_heads, :dependent => :destroy
   
-  validates_numericality_of :gosinsp_code, :allow_nil => true
+  validates :name, :presence => true, :uniqueness => true
+  validates :short_name, :presence => true, :uniqueness => true
+  validates :gosinsp_code, :uniqueness => {:allow_nil => true},
+    :numericality => {:only_integer => true, :greater_than => 0, :allow_nil => true}
+  validates :faculty_id, :presence => true
 
   after_update :update_charge_cards_editor_titles, :if => :name_changed?
 
