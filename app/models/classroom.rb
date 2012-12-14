@@ -3,7 +3,7 @@ class Classroom < ActiveRecord::Base
   belongs_to :building
   belongs_to :department
 
-  validates_presence_of :building
+  validates :name, :presence => true, :uniqueness => {:scope => :building_id}
 
   default_scope includes(:building).order("classrooms.name ASC, buildings.name ASC")
 
@@ -33,13 +33,13 @@ class Classroom < ActiveRecord::Base
   end
   
   def full_name
-    name + ' (' + building.name + ')'
+    "#{self.name}#{' ('+self.building.name+')' if self.building}"
   end
   
   def descriptive_name
     dept = "Кафедра #{self.department.short_name}." if self.department
     cap = self.capacity ? "#{self.capacity} человек" : "не указана"
-    "#{self.name} (#{self.building.name}).	Вместимость: #{cap}. #{dept}"
+    "#{self.full_name}.	Вместимость: #{cap}. #{dept}"
   end
 
   def set_recommended_dept(dept)
