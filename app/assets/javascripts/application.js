@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require active_scaffold
 //= require record_select
+//= require select2
 //= require_self
 //= require common
 //= require_tree ./editors
