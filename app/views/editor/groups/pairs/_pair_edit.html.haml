@@ -17,13 +17,11 @@
     %p{:id => "charge_card_block"}
       = 'Карта нагрузки'
       %br
-      %input{:class => "charge_card", :id => "charge_card_name", :size => 20, :value => "#{@pair.charge_card.editor_name if @pair.charge_card}"}
-      = f.hidden_field :charge_card_id
+      = f.select :charge_card_id, [[nil, nil]] + @charge_cards.map {|c| [c.editor_name, c.id] }
     %p{:id => "charge_card_block"}
       = 'Аудитория'
       %br
-      %input{:class => "classroom", :id => "classroom_name", :size => 20, :value => "#{@pair.classroom.full_name if @pair.classroom}"}
-      = f.hidden_field :classroom_id
+      = f.select :classroom_id, [[nil, nil]] + @classrooms.map {|c| [c.name_with_recommendation, c.id] }
     .subgroups
       = f.fields_for :subgroups, @pair.subgroups do |s|
         = render 'subgroup', :s => s

@@ -27,7 +27,11 @@ class Editor::Groups::PairsController < ApplicationController
 
   def edit
     @pair = Pair.find_by_id(params[:id])
-
+    @group = Group.for_groups_editor.find(params[:group_id])
+    @charge_cards = ChargeCard.joins(:jets).where(
+      :jets => {:group_id => @group.id}, :semester_id => current_semester.id
+    ).select("charge_cards.id, charge_cards.editor_name").order(:editor_name)
+    @classrooms = Classroom.all_with_recommended_first_for(@group.department)
     respond_to do |format|
       format.js
     end

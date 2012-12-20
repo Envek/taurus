@@ -200,3 +200,7 @@ table.teaching_plan tbody, table.teaching_plan tfoot, table.teaching_plan thead 
 .active-scaffold tr.record.alien-speciality.even-record td.sorted {
   background: #EEEEEE;
 }
+
+.edit_pair select, .edit_pair .select2-container {
+  width: 100%;
+}
