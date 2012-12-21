@@ -28,6 +28,7 @@ group :assets do
   gem 'select2-rails'
   gem 'uglifier'
   gem 'therubyracer'
+  gem 'libv8', '~> 3.11.8' # For therubyracer gem
 end
 
 group :production do

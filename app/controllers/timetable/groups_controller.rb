@@ -3,7 +3,7 @@ class Timetable::GroupsController < Timetable::BaseController
   def index
     @groups = Group.includes(:speciality => {:department => :faculty})\
                   .joins(:subgroups => {:pair => :charge_card}, :speciality => {:department => :faculty})\
-                  .where(:subgroups => {:pairs => {:charge_cards => {:semester_id => @current_semester.id}}})\
+                  .where(:charge_cards => {:semester_id => @current_semester.id})\
                   .order(:name).uniq
     @groups = @groups.by_name(params[:group]) if params[:group]
     respond_to do |format|
