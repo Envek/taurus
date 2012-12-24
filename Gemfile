@@ -49,8 +49,11 @@ group :development do
 end
 
 gem 'rspec-rails', :group => [:development, :test]
+gem 'rspec',       :group => [:development, :test]
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'factory_girl', '~> 2.1.0'
   gem 'capybara'
+  gem 'poltergeist'
 end
