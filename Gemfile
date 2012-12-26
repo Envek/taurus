@@ -55,5 +55,6 @@ group :test do
   gem 'factory_girl_rails'
   gem 'factory_girl', '~> 2.1.0'
   gem 'capybara'
+  gem 'launchy'
   gem 'poltergeist'
 end
