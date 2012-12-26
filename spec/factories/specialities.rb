@@ -3,7 +3,7 @@ FactoryGirl.define do
 
   factory :speciality do
     sequence(:name) { |i| "Speciality #{i}" }
-    sequence(:code) { |i| "#{i%10}"*6 + ".62" }
+    sequence(:code) { |i| ("%06d" % i) + ".62" }
     association :department
   end
 
