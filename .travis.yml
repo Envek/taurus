@@ -1,0 +1,22 @@
+language: ruby
+bundler_args: --without development assets production
+rvm:
+  - ree
+  - 1.8.7
+  - rbx-18mode
+  - jruby-18mode
+before_script:
+  - cp config/database.travis.yml config/database.yml
+  - RAILS_ENV=test bundle exec rake db:create
+  - RAILS_ENV=test bundle exec rake db:schema:load
+  # Install latest phantomjs (Travis have not recent version installed)
+  - version=phantomjs-1.7.0-linux-i686
+  - wget http://phantomjs.googlecode.com/files/$version.tar.bz2
+  - tar xjf $version.tar.bz2
+  - mv $version phantomjs
+  - "export PATH=phantomjs/bin:$PATH"
+  - phantomjs --version
+matrix:
+  allow_failures:
+    - rvm: rbx-18mode
+    - rvm: jruby-18mode
