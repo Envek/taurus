@@ -33,7 +33,9 @@ protected
       unless session[:current_semester_id]
         year = Date.today.year - (Date.today.month < 8 ? 1 : 0)
         number = Date.today.month < 8 ? 2 : 1
-        @current_semester = Semester.find_by_year_and_number_and_full_time(year, number, true)
+        @current_semester = Semester.published.where(:year => year, :number => number, :full_time => true).first
+        @current_semester = Semester.published.first unless @current_semester
+        @current_semester = Semester.first unless @current_semester
       else
         @current_semester = Semester.find(session[:current_semester_id])
       end
