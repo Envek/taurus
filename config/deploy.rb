@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # call with `cap -S app="<app>" -S domain="<domain>" deploy` to deploy to another instance and/or server.
 
 ssh_options[:forward_agent] = true # Используем локальные ключи, а не ключи сервера
@@ -13,7 +14,7 @@ set :use_sudo, false
 set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
 set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
 
-set :rvm_ruby_string, 'ree' # Это указание на то, какой Ruby интерпретатор мы будем использовать.
+set :rvm_ruby_string, '1.9.3' # Это указание на то, какой Ruby интерпретатор мы будем использовать.
 set :rvm_type, :user # Указывает на то, что мы будем использовать rvm, установленный у пользователя, от которого происходит деплой, а не системный rvm.
 
 set :scm, :git

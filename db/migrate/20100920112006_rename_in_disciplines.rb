@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class RenameInDisciplines < ActiveRecord::Migration
   def self.up
     rename_column :disciplines, :name, :short_name

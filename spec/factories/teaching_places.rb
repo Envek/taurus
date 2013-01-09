@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- encoding : utf-8 -*-
 FactoryGirl.define do
 
   factory :teaching_place, :aliases => [:assistant_teaching_place] do

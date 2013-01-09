@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddColumnsToChargeCard < ActiveRecord::Migration
   def self.up
     add_column :charge_cards, :hours_per_week, :integer

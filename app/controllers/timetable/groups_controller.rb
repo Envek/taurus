@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Timetable::GroupsController < Timetable::BaseController
 
   def index

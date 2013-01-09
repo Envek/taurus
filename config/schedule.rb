@@ -1,8 +1,9 @@
+# -*- encoding : utf-8 -*-
 env :PATH, ENV['PATH']
 
 app = "taurus"
 rails_env = "production"
-ruby = "ree@taurus"
+ruby = "1.9.3"
 deploy_to  = "/srv/taurus"
 current = "#{deploy_to}/current"
 unicorn_conf = "#{current}/config/unicorn.rb"

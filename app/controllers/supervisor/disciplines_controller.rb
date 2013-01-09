@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Supervisor::DisciplinesController < ApplicationController
   record_select :search_on => :name, :order_by => :name
   active_scaffold :discipline do |conf|

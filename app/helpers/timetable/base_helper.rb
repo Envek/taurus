@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Timetable::BaseHelper
 
   def pair_plaintext(pair, subgroup)

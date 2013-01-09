@@ -1,8 +1,9 @@
+# -*- encoding : utf-8 -*-
 class Timetable::LecturersController < Timetable::BaseController
 
   def index
     @lecturers = Lecturer.order(:name)
-    @lecturers = @lecturers.by_name(params[:lecturer].strip) if params[:lecturer] && params[:lecturer].strip.any?
+    @lecturers = @lecturers.by_name(params[:lecturer].strip) if params[:lecturer].to_s.present?
     respond_to do |format|
       format.html do
         if @lecturers.count == 1

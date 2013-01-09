@@ -45,7 +45,7 @@ end
 group :development do
   gem "capistrano"
   gem "rvm-capistrano"
-  gem 'ruby-debug'
+  gem 'debugger'
   gem 'travis-lint'
 end
 

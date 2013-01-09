@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddCapacityToClassrooms < ActiveRecord::Migration
   def self.up
     add_column :classrooms, :capacity, :integer

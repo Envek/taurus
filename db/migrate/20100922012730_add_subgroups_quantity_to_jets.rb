@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddSubgroupsQuantityToJets < ActiveRecord::Migration
   def self.up
     add_column :jets, :subgroups_quantity, :integer, :default => 0

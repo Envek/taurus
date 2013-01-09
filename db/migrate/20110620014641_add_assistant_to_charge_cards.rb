@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddAssistantToChargeCards < ActiveRecord::Migration
   def self.up
     change_table :charge_cards do |t|

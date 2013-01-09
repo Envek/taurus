@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 deploy_to  = "/srv/taurus"
 rails_root = "#{deploy_to}/current"
 pid_file   = "#{deploy_to}/shared/pids/unicorn.pid"

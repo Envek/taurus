@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateLecturers < ActiveRecord::Migration
   def self.up
     create_table :lecturers do |t|

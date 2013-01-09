@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Groups::PairsController < ApplicationController
 
   def new

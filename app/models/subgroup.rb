@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Subgroup < ActiveRecord::Base
   belongs_to :jet
   belongs_to :pair

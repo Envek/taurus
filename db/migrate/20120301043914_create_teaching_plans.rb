@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateTeachingPlans < ActiveRecord::Migration
   def self.up
     create_table :teaching_plans do |t|

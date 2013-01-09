@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateSemesters < ActiveRecord::Migration
 
   def up

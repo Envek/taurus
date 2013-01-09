@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'devise/orm/active_record'
 
 # Use this hook to configure devise mailer, warden hooks and so forth. The first

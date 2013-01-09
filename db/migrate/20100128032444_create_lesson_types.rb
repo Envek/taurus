@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateLessonTypes < ActiveRecord::Migration
   def self.up
     create_table :lesson_types do |t|

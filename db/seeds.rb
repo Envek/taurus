@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Building.create([
   {:name => 'главный'},
   {:name => '5'},

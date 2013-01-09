@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Supervisor::TeachingPlacesController < Supervisor::BaseController
   active_scaffold :teaching_place do |conf|
     conf.columns = [:department, :lecturer, :position]

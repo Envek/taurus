@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateChargeCards < ActiveRecord::Migration
   def self.up
     create_table :charge_cards do |t|

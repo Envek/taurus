@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Timetable
   cattr_reader :days, :times, :weeks
   

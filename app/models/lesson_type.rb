@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class LessonType < ActiveRecord::Base
   has_many :charge_cards, :dependent => :nullify
 

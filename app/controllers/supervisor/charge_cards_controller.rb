@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Supervisor::ChargeCardsController < ApplicationController
   active_scaffold :charge_card do |conf|
     conf.actions << :delete

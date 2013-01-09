@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Semester < ActiveRecord::Base
   has_many :charge_cards, :dependent => :destroy
 

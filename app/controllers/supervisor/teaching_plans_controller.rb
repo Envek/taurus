@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Supervisor::TeachingPlansController < Supervisor::BaseController
 
   include GosinspParser

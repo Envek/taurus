@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Reference::ChargeCardsController < Editor::BaseController
   active_scaffold :charge_card do |config|
     config.actions = [:list, :search, :nested]

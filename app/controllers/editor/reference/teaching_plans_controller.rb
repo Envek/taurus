@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Reference::TeachingPlansController < Editor::BaseController
 
   def index

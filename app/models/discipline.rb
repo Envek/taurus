@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Discipline < ActiveRecord::Base
   belongs_to :department
   has_many :charge_cards, :dependent => :destroy

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Classrooms::PairsController < Editor::BaseController
   layout nil
   layout 'application', :except => :edit

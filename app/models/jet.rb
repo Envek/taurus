@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Jet < ActiveRecord::Base
   after_create :create_subgroups
 

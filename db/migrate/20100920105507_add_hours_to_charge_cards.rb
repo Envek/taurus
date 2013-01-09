@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddHoursToChargeCards < ActiveRecord::Migration
   def self.up
     add_column :charge_cards, :hours_quantity, :integer

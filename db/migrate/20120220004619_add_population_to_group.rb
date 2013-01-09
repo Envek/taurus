@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddPopulationToGroup < ActiveRecord::Migration
   def self.up
     add_column :groups, :population, :integer

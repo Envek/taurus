@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class TeachingPlan < ActiveRecord::Base
   belongs_to :speciality
   belongs_to :discipline

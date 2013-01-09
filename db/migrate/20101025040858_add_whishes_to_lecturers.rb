@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddWhishesToLecturers < ActiveRecord::Migration
   def self.up
     add_column :lecturers, :whish, :text

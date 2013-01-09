@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Reference::TeachingPlacesController < Editor::BaseController
   active_scaffold :teaching_place do |config|
     config.actions = [:list, :search, :nested]

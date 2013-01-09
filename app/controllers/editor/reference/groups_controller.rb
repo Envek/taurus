@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Reference::GroupsController < Editor::BaseController
   before_filter :find_group
   def index

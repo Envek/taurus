@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Department < ActiveRecord::Base
   belongs_to :faculty
   has_many :classrooms, :dependent => :nullify

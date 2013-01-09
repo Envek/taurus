@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Pair < ActiveRecord::Base
   belongs_to :charge_card
   belongs_to :classroom

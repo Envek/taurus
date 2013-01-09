@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Timetable::BaseController < ApplicationController
   layout 'timetable'
   before_filter :check_for_terminal

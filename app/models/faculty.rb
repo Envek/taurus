@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Faculty < ActiveRecord::Base
   has_many :departments, :dependent => :destroy
 

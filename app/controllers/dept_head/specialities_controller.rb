@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class DeptHead::SpecialitiesController < DeptHead::BaseController
   include GosinspParser
 

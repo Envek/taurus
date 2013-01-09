@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddGosinspIndexToDepartments < ActiveRecord::Migration
   def self.up
     add_column :departments, :gosinsp_code, :integer

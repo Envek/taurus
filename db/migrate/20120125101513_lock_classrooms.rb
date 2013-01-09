@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class LockClassrooms < ActiveRecord::Migration
   def self.up
     change_table :classrooms do |t|

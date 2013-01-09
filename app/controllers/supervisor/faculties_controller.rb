@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Supervisor::FacultiesController < Supervisor::BaseController
    active_scaffold do |config|
     config.actions << :delete

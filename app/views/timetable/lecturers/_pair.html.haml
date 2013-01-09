@@ -1,4 +1,4 @@
-- flow = p.charge_card.groups.map{|g| g.name + ', '}.to_s.chop.chop
+- flow = p.charge_card.groups.map{|g| g.name }.join ", "
 .pair
   = "#{flow}"
   %br

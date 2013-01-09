@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Supervisor::JetsController < ApplicationController
   active_scaffold :jet do |conf|
     conf.columns = [:group, :subgroups_quantity]

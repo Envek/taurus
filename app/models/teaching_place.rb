@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class TeachingPlace < ActiveRecord::Base
   belongs_to :department
   belongs_to :lecturer

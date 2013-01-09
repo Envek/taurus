@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Taurus
   module Version
     Described = (IO::popen('git describe --long') { |gs| gs.read }).strip

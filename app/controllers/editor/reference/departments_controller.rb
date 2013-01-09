@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Reference::DepartmentsController < Editor::BaseController
   active_scaffold :department do |config|
     config.actions = [:list, :search, :nested]

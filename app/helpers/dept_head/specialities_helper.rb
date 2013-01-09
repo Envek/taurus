@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module DeptHead::SpecialitiesHelper
 
   def list_row_class(record)

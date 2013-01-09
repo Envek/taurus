@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Classroom < ActiveRecord::Base
   has_many :pairs, :dependent => :nullify
   belongs_to :building

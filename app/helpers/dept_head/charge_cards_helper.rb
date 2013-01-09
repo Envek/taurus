@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module DeptHead::ChargeCardsHelper
   def options_for_association_conditions(association)
     case association.name

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Taurus::Application.routes.draw do
 
 ##### Отображение расписания #####

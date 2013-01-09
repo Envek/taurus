@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateSpecialities < ActiveRecord::Migration
   def self.up
     create_table :specialities do |t|

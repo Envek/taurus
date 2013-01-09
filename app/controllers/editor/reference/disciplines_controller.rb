@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Reference::DisciplinesController < Editor::BaseController
   record_select :search_on => :name, :order_by => :name
   active_scaffold :discipline do |config|

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ChargeCard < ActiveRecord::Base
   after_save :update_editor_name
 

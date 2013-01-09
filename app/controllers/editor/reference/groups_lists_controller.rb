@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Reference::GroupsListsController < Editor::BaseController
   before_filter :get_groups_list
 

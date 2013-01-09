@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Classrooms::ClassroomsSheetsController < Editor::BaseController
   def index
     @buildings = Building.all

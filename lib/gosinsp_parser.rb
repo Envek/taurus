@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# -*- encoding : utf-8 -*-
 module GosinspParser
 
   def parse_and_fill_teaching_plan(file_plan_contents, allowed_specialities = nil)

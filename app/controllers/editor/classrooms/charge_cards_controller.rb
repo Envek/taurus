@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Editor::Classrooms::ChargeCardsController < Editor::BaseController
   def index
     charge_card_search = params[:charge_card].to_s.split

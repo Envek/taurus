@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Supervisor::SemestersController < ApplicationController
   active_scaffold :semester do |conf|
     conf.actions << :delete

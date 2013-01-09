@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class WeekRenameInPairs < ActiveRecord::Migration
   def self.up
     rename_column :pairs, :week_number, :week
