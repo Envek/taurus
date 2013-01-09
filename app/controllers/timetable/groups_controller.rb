@@ -11,10 +11,6 @@ class Timetable::GroupsController < Timetable::BaseController
         if params[:group] and @groups.count == 1 
           redirect_to timetable_group_path(@groups.first)
         end
-        # Caching management
-        index_modify_timestamp = [Group.maximum(:updated_at), Pair.joins(:charge_card).where(:charge_cards => {:semester_id => @current_semester.id}).maximum(:updated_at)].compact.max.utc
-        response.headers['Last-Modified'] = @terminal ? Time.now.utc.httpdate : index_modify_timestamp.httpdate
-        expires_in (@terminal ? 1.minute : 1.day), :public => true
       end
       format.xml
       format.json do
