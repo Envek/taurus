@@ -9,13 +9,13 @@ feature "Timetable display" do
     @semesters << create(:semester, :published => false)
     @groups = ["257ом", "253ом", "253ос"].map {|name| create(:group, :name => name)}
     @charge_cards = @groups.map do |group|
-      card = create(:charge_card, :semester => @semesters.first)
+      card = create(:charge_card, :semester => @semesters.second)
       card.teaching_place.lecturer.name = "Преподаватель #{group.name}"
       card.teaching_place.lecturer.save
       create(:jet, :group => group, :charge_card => card)
       card
     end
-    @charge_cards << create(:charge_card, :semester => @semesters.second)
+    @charge_cards << create(:charge_card, :semester => @semesters.first)
     create(:jet, :group => @groups.first, :charge_card => @charge_cards.last)
     @pairs = @charge_cards.map do |cc|
       pair = create(:pair, :charge_card => cc)
