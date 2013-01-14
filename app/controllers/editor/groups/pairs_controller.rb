@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Editor::Groups::PairsController < ApplicationController
+  before_filter :preload_data, :except => [:destroy]
 
   def new
   end
@@ -8,7 +9,6 @@ class Editor::Groups::PairsController < ApplicationController
     keys = %w(week day_of_the_week pair_number).map {|k| k.to_sym }
     pair_params = keys.map {|i| params[i] or nil}
     pair_params << nil
-    @group = Group.find(params[:group_id])
     @pair = Pair.find_or_initialize_by_week_and_day_of_the_week_and_pair_number_and_classroom_id(*pair_params)
     @pair.active_at = current_semester.start
     @pair.expired_at = current_semester.end
@@ -28,11 +28,6 @@ class Editor::Groups::PairsController < ApplicationController
 
   def edit
     @pair = Pair.find_by_id(params[:id])
-    @group = Group.for_groups_editor.find(params[:group_id])
-    @charge_cards = ChargeCard.joins(:jets).where(
-      :jets => {:group_id => @group.id}, :semester_id => current_semester.id
-    ).select("charge_cards.id, charge_cards.editor_name").order(:editor_name)
-    @classrooms = Classroom.all_with_recommended_first_for(@group.department)
     respond_to do |format|
       format.js
     end
@@ -40,7 +35,6 @@ class Editor::Groups::PairsController < ApplicationController
 
   def update
     flash[:error] = nil
-    @group = Group.for_groups_editor.find(params[:group_id])
     @pair = Pair.find_by_id(params[:id].to_i, :include => [:subgroups])
     @prev_pair = @pair.dup
     @prev_pair.readonly!
@@ -121,6 +115,16 @@ class Editor::Groups::PairsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  protected
+
+  def preload_data
+    @group = Group.for_groups_editor.find(params[:group_id])
+    @charge_cards = ChargeCard.joins(:jets).where(
+        :jets => {:group_id => @group.id}, :semester_id => current_semester.id
+    ).select("charge_cards.id, charge_cards.editor_name").order(:editor_name)
+    @classrooms = Classroom.all_with_recommended_first_for(@group.department)
   end
 
 end
