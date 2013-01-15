@@ -18,7 +18,7 @@ class ChargeCard < ActiveRecord::Base
   validate :pairs_validity, :on => :update
   validate :lecturer_and_assistant_validation
 
-  scope :with_recommended_first_for, lambda { |department|
+  scope :with_recommended_first_for, ->(department) {
     if department.class == Department
       includes(:teaching_place).order("teaching_places.department_id = #{department.id} DESC NULLS LAST, charge_cards.editor_name ASC")
     end

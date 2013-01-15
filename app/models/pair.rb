@@ -11,7 +11,7 @@ class Pair < ActiveRecord::Base
   validate :expiration_date_validness, :activation_date_validness
   validate :week_number_existance
 
-  scope :in_semester, lambda { |semester| where('("pairs"."expired_at" >= ? AND "pairs"."expired_at" <= ?) OR ("pairs"."active_at" >= ? AND "pairs"."active_at" <= ?)', semester.start, semester.end, semester.start, semester.end) }
+  scope :in_semester, ->(semester) { where('("pairs"."expired_at" >= ? AND "pairs"."expired_at" <= ?) OR ("pairs"."active_at" >= ? AND "pairs"."active_at" <= ?)', semester.start, semester.end, semester.start, semester.end) }
 
   def in_semester?(semester)
     (active_at >= semester.start and active_at <= semester.end) or (expired_at >= semester.start and expired_at <= semester.end)

@@ -7,14 +7,14 @@ class Group < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => { :scope => :forming_year }
   validates :population, :numericality => {:only_integer => true, :greater_than => 0, :allow_nil => true}
-  validates :forming_year, :presence => true, :format => { :with => /^(20)\d{2}$/,
+  validates :forming_year, :presence => true, :format => { :with => /\A(20)\d{2}\z/,
     :message => '- необходимо вводить год целиком. Допустимы годы от 2000 до 2099'
   }
   validates :speciality_id, :presence => true
 
-  scope :for_timetable, includes(:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}])
-  scope :by_name, lambda { |name| where('groups.name ILIKE ?', escape_name(name)) }
-  scope :for_groups_editor, includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}})
+  scope :for_timetable, -> { includes(:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}]) }
+  scope :by_name, ->(name) { where('groups.name ILIKE ?', escape_name(name)) }
+  scope :for_groups_editor, -> { includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}}) }
 
   cattr_accessor :current_semester
 

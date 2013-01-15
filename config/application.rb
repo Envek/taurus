@@ -38,17 +38,6 @@ module Taurus
     # Activate observers that should always be running
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
-    # Don't show passwords in logs
-    config.filter_parameters += [:password]
-
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names.
-    config.time_zone = 'Yakutsk'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
-    config.i18n.default_locale = :ru
-
     # Enable the asset pipeline
     config.assets.enabled = true
 

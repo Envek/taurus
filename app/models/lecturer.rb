@@ -6,7 +6,7 @@ class Lecturer < ActiveRecord::Base
 
   validates_uniqueness_of :name
   
-  scope :by_name, lambda { |name| where('LOWER(lecturers.name) LIKE LOWER(?)', escape_name(name)) }
+  scope :by_name, ->(name) { where('LOWER(lecturers.name) LIKE LOWER(?)', escape_name(name)) }
 
   after_update :update_charge_cards_editor_titles, :if => :name_changed?
 

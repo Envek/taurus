@@ -65,4 +65,11 @@ protected
     @current_ability ||= Ability.new(current_user, params)
   end
 
+  # Workaround for CanCan
+  before_action do
+    resource = controller_name.singularize.to_sym
+    method = "#{resource}_params"
+    params[resource] &&= send(method) if respond_to?(method, true)
+  end
+
 end

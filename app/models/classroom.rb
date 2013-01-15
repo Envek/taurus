@@ -5,11 +5,11 @@ class Classroom < ActiveRecord::Base
   belongs_to :department
   has_and_belongs_to_many :recommended_charge_cards, class_name: "ChargeCard", join_table: "charge_cards_preferred_classrooms"
 
-  serialize :properties, ActiveRecord::Coders::Hstore
+  store_accessor :properties
 
   validates :name, :presence => true, :uniqueness => {:scope => :building_id}
 
-  default_scope includes(:building).order("classrooms.name ASC, buildings.name ASC").joins(:building)
+  default_scope -> { includes(:building).order("classrooms.name ASC, buildings.name ASC").joins(:building) }
 
   def self.all_with_recommended_first_for (department)
     if department.class == Department

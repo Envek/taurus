@@ -18,7 +18,7 @@ Taurus::Application.routes.draw do
 
 post 'semesters/change' => 'application#change_current_semester'
 resources :semesters, :only => [:index]
-match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page => /(\w*\/?\w*)*/, :defaults => { :page => 'index' }, :as => :help
+get 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page => /(\w*\/?\w*)*/, :defaults => { :page => 'index' }, :as => :help
 
 ##### Редакторский раздел #####
 
@@ -159,8 +159,8 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     delete 'user/logout' => 'devise/sessions#destroy', :as => :destroy_user_session
   end
 
-  match "/:rolename/login" => redirect("/user/login")
+  get "/:rolename/login" => redirect("/user/login")
 
-  match '/:controller(/:action(/:id))'
+  get '/:controller(/:action(/:id))'
 
 end

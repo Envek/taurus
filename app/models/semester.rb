@@ -18,9 +18,9 @@ class Semester < ActiveRecord::Base
   validates_date :start, :before => :end
   validates_date :end, :after => :start
 
-  scope :published, where(:published => true)
-  scope :sorted, order('"semesters"."year" DESC, "semesters"."number" DESC, "semesters"."full_time" DESC')
-  default_scope where(:open => true).sorted
+  scope :published, -> { where(:published => true) }
+  scope :sorted, -> { order('"semesters"."year" DESC, "semesters"."number" DESC, "semesters"."full_time" DESC') }
+  default_scope -> { where(:open => true).sorted }
 
   def to_label
     "#{academic_year} #{number}-й #{full_time ? 'очный' : 'заочный' } семестр"

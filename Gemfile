@@ -1,21 +1,22 @@
 source "http://rubygems.org"
 
-gem "rails", "~> 3.2.0"
+gem "rails", "~> 4.0.0"
+gem 'activerecord-deprecated_finders'
+gem 'protected_attributes'
 
 gem 'jquery-rails', '~> 2.1.0'
 gem 'jquery-ui-themes'
 
-gem "active_scaffold", '~> 3.3.0'
+gem "active_scaffold", path: '~/active_scaffold'
 gem "recordselect"
 gem "russian"
-gem "devise", "~> 2.2.0"
+gem "devise", "~> 3.0.0"
 gem "devise-encryptable"
 gem 'cancan'
 gem "erubis"
 gem "haml"
 gem "pdfkit"
 gem "pg"
-gem 'activerecord-postgres-hstore', github: 'engageis/activerecord-postgres-hstore'
 gem 'whenever'
 gem 'unicode'
 gem 'nokogiri'
@@ -28,14 +29,14 @@ gem 'mini_magick'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails', " ~> 3.2.0"
-  gem 'coffee-rails', " ~> 3.2.0"
-  gem 'select2-rails', '~> 3.3.0'
-  gem 'uglifier'
-  gem 'therubyracer'
-  gem 'libv8', '~> 3.11.8' # For therubyracer gem
-end
+gem 'haml-rails'
+gem 'sass-rails', " ~> 4.0.0"
+gem 'coffee-rails', " ~> 4.0.0"
+gem 'select2-rails', '~> 3.3.0'
+gem 'uglifier'
+gem 'therubyracer', platforms: :ruby
+gem 'libv8', '~> 3.11.8' # For therubyracer gem
+
 
 group :production do
   gem 'unicorn'
