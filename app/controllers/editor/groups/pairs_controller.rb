@@ -44,17 +44,19 @@ class Editor::Groups::PairsController < ApplicationController
         flash[:error] = @pair.errors[:base].to_a.join('<br />').html_safe
         @pair.reload
       else
-        @pair.save
-        @pair.subgroups.destroy_all
-        @pair.charge_card.jets.each do |jet|
-          subgroup = @pair.subgroups.new(:jet_id => jet.id, :number => 0)
-          subgroup.number = params[:subgroup] if jet.group_id == @group.id and params[:subgroup]
-          unless subgroup.valid?
-            flash[:error] = subgroup.errors[:base].to_a.join('<br />').html_safe
-          else
-            subgroup.save
+        if @pair.charge_card_id_changed?
+          @pair.subgroups.destroy_all
+          @pair.charge_card.jets.each do |jet|
+            subgroup = @pair.subgroups.new(:jet_id => jet.id, :number => 0)
+            subgroup.number = params[:subgroup] if jet.group_id == @group.id and params[:subgroup]
+            unless subgroup.valid?
+              flash[:error] = subgroup.errors[:base].to_a.join('<br />').html_safe
+            else
+              subgroup.save
+            end
           end
         end
+        @pair.save
         respond_to do |format|
           @pair.reload
           @pairs = @group.pairs_with_subgroups
