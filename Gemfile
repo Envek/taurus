@@ -13,6 +13,7 @@ gem "erubis"
 gem "haml"
 gem "pdfkit"
 gem "pg"
+gem 'activerecord-postgres-hstore', github: 'engageis/activerecord-postgres-hstore'
 gem 'whenever'
 gem 'unicode'
 gem 'nokogiri'

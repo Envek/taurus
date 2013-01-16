@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/engageis/activerecord-postgres-hstore.git
+  revision: 6b6f73de8baff340f35f13348ffb6cafa28f79b3
+  specs:
+    activerecord-postgres-hstore (0.5.3)
+      rails
+      rake
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -247,6 +255,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_scaffold
+  activerecord-postgres-hstore!
   axlsx_rails
   backup (~> 3.0)
   capistrano

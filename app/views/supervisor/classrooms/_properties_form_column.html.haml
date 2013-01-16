@@ -1,0 +1,7 @@
+%dl.as_classroom_edit_properties
+  %dt
+    %label= column.label
+  - t('activerecord.attributes.classroom.property').keys.each do |key|
+    %dd
+      = check_box_tag "record[properties[#{key}]]", "true", (@record.properties or {})[key.to_s]
+      = label_tag "record[properties[#{key}]]", t("activerecord.attributes.classroom.property.#{key}")
