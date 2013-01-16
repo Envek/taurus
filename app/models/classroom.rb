@@ -39,8 +39,8 @@ class Classroom < ActiveRecord::Base
   
   def descriptive_name
     dept = "Кафедра #{self.department.short_name}." if self.department
-    cap = self.capacity ? "#{self.capacity} человек" : "не указана"
-    "#{self.full_name}.	Вместимость: #{cap}. #{dept}"
+    cap = self.capacity ? "#{self.capacity} человек" : "Вместимость не указана"
+    "#{self.full_name}.	#{cap}. #{dept}"
   end
 
   def set_recommended_dept(dept)

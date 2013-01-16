@@ -59,6 +59,12 @@ jQuery(document).ready(function($){
     $("#pair_classroom_id").select2({
         placeholder: 'Выберите аудиторию',
         allowClear: true,
+        formatResult: function (result) {
+            els = result.text.split(".");
+            res = "<strong>"+els[0].split(" ")[0]+"</strong> "+els[0].split(" ")[1]+"<br/>";
+            res += "<small>"+result.text.substring(els[0].length+1)+"</small>";
+            return res;
+        },
     }).change(save_form);
 
     $('#dates_block_show a').click( function () {
