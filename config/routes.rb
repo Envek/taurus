@@ -94,6 +94,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
         post :create_charge_cards
       end
     end
+    resources :classrooms do as_routes end
     root :to => redirect('/dept_head/teaching_places')
   end
 
