@@ -5,6 +5,7 @@ rvm:
   - rbx-19mode
   - jruby-19mode
 before_script:
+  - sudo -u postgres psql template1 -c "CREATE EXTENSION IF NOT EXISTS hstore"
   - cp config/database.travis.yml config/database.yml
   - RAILS_ENV=test bundle exec rake db:create
   - RAILS_ENV=test bundle exec rake db:schema:load
