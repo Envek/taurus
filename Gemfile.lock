@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/Envek/active_scaffold.git
+  revision: 52ff24341a43320b7fabba08cc3da9ba038a4eb8
+  branch: fix_add_existing_record_using_RS
+  specs:
+    active_scaffold (3.3.0.rc)
+      rails (~> 3.2.0)
+
+GIT
   remote: git://github.com/engageis/activerecord-postgres-hstore.git
   revision: 6b6f73de8baff340f35f13348ffb6cafa28f79b3
   specs:
@@ -22,8 +30,6 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
-    active_scaffold (3.2.17)
-      rails (>= 3.1.3)
     activemodel (3.2.11)
       activesupport (= 3.2.11)
       builder (~> 3.0.0)
@@ -254,7 +260,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_scaffold
+  active_scaffold!
   activerecord-postgres-hstore!
   axlsx_rails
   backup (~> 3.0)
