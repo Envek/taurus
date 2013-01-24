@@ -2,7 +2,7 @@
 class Supervisor::ChargeCardsController < ApplicationController
   active_scaffold :charge_card do |conf|
     conf.actions << :delete
-    conf.columns = [:teaching_place, :assistant_teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups]
+    conf.columns = [:teaching_place, :assistant_teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups, :preferred_classrooms]
     conf.create.columns.exclude :groups, :hours_quantity
     conf.update.columns.exclude :groups, :hours_quantity
     conf.list.columns.exclude :jets
@@ -33,6 +33,7 @@ protected
   # It's a hack, that allows to change groups in charge card edit.
   # TODO: Remove it after bugfix in active_scaffold 
   def before_update_save(record)
+    record.preferred_classroom_ids = params[:record][:preferred_classrooms]
     record.jets.each do |jet|
       jet.save if jet.group_id_changed?
     end
