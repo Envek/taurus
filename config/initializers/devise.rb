@@ -98,4 +98,9 @@ Devise.setup do |config|
   # config.default_url_options do
   #   { :locale => I18n.locale }
   # end
+
+  config.reset_password_within = 12.hours
+
+  config.password_length = 6..128
+
 end
