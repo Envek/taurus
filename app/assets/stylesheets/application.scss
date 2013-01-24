@@ -26,6 +26,23 @@ html {
   border: solid 3px #ff5050;
   background-color: #ffaaaa; }
 
+p.error, p.alert, p.notice {
+  margin: auto;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  max-width: 50%;
+}
+
+p.error, p.alert {
+  color: maroon;
+  background-color: #FFCCCC;
+}
+
+p.notice {
+  color: navy;
+  background-color: #CCCCFF;
+}
+
 .info {
   margin: 8px;
   padding: 0 10px 0 52px;

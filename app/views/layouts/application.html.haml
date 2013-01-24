@@ -20,5 +20,9 @@
       %p.error= flash[:error]
     - if flash[:notice]
       %p.notice= flash[:notice]
+    - if notice
+      %p.notice= notice
+    - if alert
+      %p.alert= alert
 
     = yield
