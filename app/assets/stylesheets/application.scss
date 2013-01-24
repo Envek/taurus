@@ -204,3 +204,8 @@ table.teaching_plan tbody, table.teaching_plan tfoot, table.teaching_plan thead 
 .edit_pair select, .edit_pair .select2-container {
   width: 100%;
 }
+
+.select2-container {
+  width: 100%;
+  min-width: 500px;
+}

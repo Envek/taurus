@@ -12,4 +12,10 @@ module DeptHead::ChargeCardsHelper
       super
     end
   end
+
+  def charge_card_preferred_classrooms_form_column(record, options)
+    grouped_classrooms = Building.all.map { |b| [b.name+" корпус", b.classrooms.map { |c| [c.name_with_recommendation, c.id] }] }
+    grouped_classrooms << ["Вне корпусов", Classroom.unscoped.where(building_id: nil).map  { |c| [c.name_with_recommendation, c.id] }]
+    select_tag "record[preferred_classrooms][]", grouped_options_for_select(grouped_classrooms, record.preferred_classroom_ids), :multiple => true
+  end
 end

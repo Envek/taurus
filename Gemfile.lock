@@ -1,7 +1,6 @@
 GIT
-  remote: git://github.com/Envek/active_scaffold.git
-  revision: 52ff24341a43320b7fabba08cc3da9ba038a4eb8
-  branch: fix_add_existing_record_using_RS
+  remote: git://github.com/activescaffold/active_scaffold.git
+  revision: 1141e097be7b87b9a851ef7c76578f3456735ac4
   specs:
     active_scaffold (3.3.0.rc)
       rails (~> 3.2.0)

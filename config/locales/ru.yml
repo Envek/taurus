@@ -84,6 +84,7 @@ ru:
         hours_per_week: 'Количество часов в неделю'
         weeks_quantity: 'Количество недель'
         semester: 'Семестр'
+        preferred_classrooms: 'Предпочитаемые аудитории'
       classroom:
         building: 'Корпус'
         capacity: 'Вместимость'

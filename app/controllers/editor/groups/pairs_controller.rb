@@ -44,7 +44,7 @@ class Editor::Groups::PairsController < ApplicationController
         flash[:error] = @pair.errors[:base].to_a.join('<br />').html_safe
         @pair.reload
       else
-        if @pair.charge_card_id_changed?
+        if @pair.charge_card_id_changed? and @pair.charge_card
           @pair.subgroups.destroy_all
           @pair.charge_card.jets.each do |jet|
             subgroup = @pair.subgroups.new(:jet_id => jet.id, :number => 0)
@@ -56,6 +56,15 @@ class Editor::Groups::PairsController < ApplicationController
             end
           end
         end
+        # If there is preferred classrooms for charge card, try to set it up.
+        if @pair.charge_card_id_changed? and @pair.charge_card and @pair.classroom.nil?
+          @classrooms = @pair.charge_card.preferred_classrooms
+          @classrooms.each do |classroom|
+            @pair.classroom = classroom
+            break if @pair.valid?
+          end
+        end
+        @pair.classroom = nil unless @pair.valid?
         @pair.save
         respond_to do |format|
           @pair.reload

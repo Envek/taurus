@@ -21,7 +21,11 @@
     %p{:id => "charge_card_block"}
       = 'Аудитория'
       %br
-      = f.select :classroom_id, [[nil, nil]] + @classrooms.map {|c| [c.name_with_recommendation, c.id] }
+      - @classrooms.map! { |c| c.current_charge_card_id = @pair.charge_card_id; [c.name_with_recommendation, c.id] }
+      - @pref_class = @classrooms.select{|c| (c[1].in? @pair.charge_card.preferred_classroom_ids) }
+      - @classrooms = @classrooms.reject{|c| (c[1].in? @pair.charge_card.preferred_classroom_ids) }
+      - @classrooms = @pref_class + @classrooms
+      = f.select :classroom_id, [[nil, nil]] + @classrooms
     .subgroups
       = f.fields_for :subgroups, @pair.subgroups do |s|
         = render 'subgroup', :s => s

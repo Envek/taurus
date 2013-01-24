@@ -11,6 +11,7 @@ class ChargeCard < ActiveRecord::Base
   has_many :jets, :dependent => :destroy
   has_many :groups, :through => :jets
   has_many :pairs, :dependent => :destroy
+  has_and_belongs_to_many :preferred_classrooms, class_name: "Classroom", join_table: "charge_cards_preferred_classrooms"
 
   validates_presence_of :discipline, :lesson_type, :weeks_quantity, :hours_per_week
   validates_numericality_of :weeks_quantity, :hours_per_week

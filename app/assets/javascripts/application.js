@@ -42,7 +42,17 @@ jQuery(document).ready(function($) {
     });
 
     $('.button').button();
-    
+
+    // Карточки нагрузки у зав. кафедры
+    setInterval( function () {
+        el = $("#record_preferred_classrooms_");
+        if (el.size() && el.css('display') != "none")
+            $("#record_preferred_classrooms_").select2({
+                formatResult: formatResultedClassroomForSelect2,
+                formatSelection: formatSelectedClassroomForSelect2
+            });
+    }, 1000 );
+
     // Учебные планы у редакторов расписания
 
     // Поиск группы

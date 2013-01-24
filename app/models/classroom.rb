@@ -3,12 +3,13 @@ class Classroom < ActiveRecord::Base
   has_many :pairs, :dependent => :nullify
   belongs_to :building
   belongs_to :department
+  has_and_belongs_to_many :recommended_charge_cards, class_name: "ChargeCard", join_table: "charge_cards_preferred_classrooms"
 
   serialize :properties, ActiveRecord::Coders::Hstore
 
   validates :name, :presence => true, :uniqueness => {:scope => :building_id}
 
-  default_scope includes(:building).order("classrooms.name ASC, buildings.name ASC")
+  default_scope includes(:building).order("classrooms.name ASC, buildings.name ASC").joins(:building)
 
   def self.all_with_recommended_first_for (department)
     if department.class == Department
@@ -34,11 +35,13 @@ class Classroom < ActiveRecord::Base
       all
     end
   end
-  
+
   def full_name
     "#{self.name}#{' ('+self.building.name+')' if self.building}#{': '+self.title if self.title}"
   end
-  
+
+  alias to_label full_name
+
   def descriptive_name
     dept = "Кафедра #{self.department.short_name}." if self.department
     cap = self.capacity ? "#{self.capacity} человек" : "Вместимость не указана"
@@ -49,9 +52,12 @@ class Classroom < ActiveRecord::Base
     @recommended_dept = dept if dept.class == Department
   end
 
+  attr_accessor :current_charge_card_id
+
   def name_with_recommendation
     recommended = self.department_id == @recommended_dept.try(:id) && self.department_lock
-    "#{descriptive_name} #{"(рекомендуется)" if recommended}"
+    preferred = recommended_charge_card_ids.include? current_charge_card_id
+    "#{descriptive_name} #{"(предпочтительно)" if preferred} #{"(рекомендуется)" if recommended}"
   end
 
   def properties_human

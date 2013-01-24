@@ -5,7 +5,7 @@ gem "rails", "~> 3.2.0"
 gem 'jquery-rails'
 gem 'jquery-ui-themes'
 
-gem "active_scaffold", github: "Envek/active_scaffold", branch: 'fix_add_existing_record_using_RS'
+gem "active_scaffold", github: "activescaffold/active_scaffold"
 gem "recordselect"
 gem "russian"
 gem "devise", "~> 1.5.0"
