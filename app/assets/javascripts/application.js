@@ -44,14 +44,17 @@ jQuery(document).ready(function($) {
     $('.button').button();
 
     // Карточки нагрузки у зав. кафедры
-    setInterval( function () {
+    function selectizePreferredClassrooms() {
         el = $("#record_preferred_classrooms_");
         if (el.size() && el.css('display') != "none")
             $("#record_preferred_classrooms_").select2({
                 formatResult: formatResultedClassroomForSelect2,
                 formatSelection: formatSelectedClassroomForSelect2
             });
-    }, 1000 );
+    }
+
+    $(document).on('as:action_success as:element_updated as:element_created', selectizePreferredClassrooms);
+    selectizePreferredClassrooms();
 
     // Учебные планы у редакторов расписания
 
