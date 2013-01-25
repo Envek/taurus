@@ -105,6 +105,8 @@ ru:
         short_name: 'Сокращенное название'
         name: 'Название кафедры'
         gosinsp_code: 'Код в GosInsp'
+        charge_cards_all: 'Кол-во карт нагрузки'
+        charge_cards_today: 'Создано сегодня'
       discipline:
         name: 'Название дисциплины'
         short_name: 'Сокращенное название'
