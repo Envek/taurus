@@ -16,10 +16,6 @@
     - if dept_head_signed_in?
       = render 'layouts/department_menu'
 
-    - if flash[:error]
-      %p.error= flash[:error]
-    - if flash[:notice]
-      %p.notice= flash[:notice]
     - if notice
       %p.notice= notice
     - if alert
