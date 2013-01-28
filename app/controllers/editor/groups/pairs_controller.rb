@@ -58,8 +58,8 @@ class Editor::Groups::PairsController < ApplicationController
         end
         # If there is preferred classrooms for charge card, try to set it up.
         if @pair.charge_card_id_changed? and @pair.charge_card and @pair.classroom.nil?
-          @classrooms = @pair.charge_card.preferred_classrooms
-          @classrooms.each do |classroom|
+          classrooms = @pair.charge_card.preferred_classrooms
+          classrooms.each do |classroom|
             @pair.classroom = classroom
             break if @pair.valid?
           end
