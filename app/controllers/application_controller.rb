@@ -12,22 +12,20 @@ class ApplicationController < ActionController::Base
     @current_semester
   end
 
-  helper_method :user_signed_in?
-  def user_signed_in?
-    admin_signed_in? || supervisor_signed_in? || dept_head_signed_in? || editor_signed_in?
-  end
-
-  helper_method :current_user
-  def current_user
-    current_admin || current_supervisor || current_dept_head || current_editor
-  end
-
   def change_current_semester
     set_current_semester
     redirect_to (request.referer.blank?? timetable_groups_path : request.referer)
   end
 
 protected
+
+  def after_sign_in_path_for(resource)
+    return admin_dept_heads_path if current_user.admin?
+    return supervisor_lecturers_path if current_user.supervisor?
+    return editor_groups_root_path if current_user.editor?
+    return dept_head_teaching_places_path if current_user.department
+    return request.referrer
+  end
 
   def set_current_semester
     unless params[:semester_id]

@@ -35,12 +35,6 @@ jQuery(document).ready(function($){
   if (/msie/i.test(navigator.userAgent) && !/opera/i.test(navigator.userAgent))
     $('.timetable_input').on('keyup', function (event) { $(this).trigger('input'); });
 
-  // Login menu
-  $('.login_menu>li>a').on('click', function() {
-    $('.login_menu menu').slideToggle();
-    return false;
-  });
-
   // Back button will move you back in history
   $('.back_button').on('click', function() {
     history.back();

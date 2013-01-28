@@ -16,12 +16,12 @@ class DeptHead::TeachingPlacesController < DeptHead::BaseController
   protected
 
   def before_create_save(record)
-    @dept ||= current_dept_head.department
+    @dept ||= current_user.department
     record.department_id = @dept.id
   end
 
   def conditions_for_collection
-    @dept ||= current_dept_head.department
+    @dept ||= current_user.department
     {:department_id => @dept.id}
   end
 end

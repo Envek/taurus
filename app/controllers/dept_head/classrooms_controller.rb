@@ -12,7 +12,7 @@ class DeptHead::ClassroomsController < ApplicationController
   end
 
   def beginning_of_chain
-    super.where(department_id: current_dept_head.department_id)
+    super.where(department_id: current_user.department_id)
   end
 
 end 

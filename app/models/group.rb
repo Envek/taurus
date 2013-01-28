@@ -84,13 +84,15 @@ class Group < ActiveRecord::Base
   protected
 
   def authorized_for_update?
-    return true unless current_user
-    self.speciality.try(:department_id) == current_user.department_id
+    return false unless current_user
+    return true if current_user.admin? or current_user.supervisor?
+    return self.speciality.try(:department_id) == current_user.department_id
   end
 
   def authorized_for_delete?
-    return true unless current_user
-    self.speciality.try(:department_id) == current_user.department_id
+    return false unless current_user
+    return true if current_user.admin? or current_user.supervisor?
+    return self.speciality.try(:department_id) == current_user.department_id
   end
 
   def update_charge_cards_editor_titles

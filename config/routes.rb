@@ -141,30 +141,14 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
 
 ##### Аутентификация #####
 
-  devise_for :admin, :skip => [:sessions]
-  devise_scope :admin do
-    get    'admin/login' => 'devise/sessions#new',      :as => :new_admin_session
-    post   'admin/login' => 'devise/sessions#create',    :as => :admin_session
-    delete 'admin/logout' => 'devise/sessions#destroy', :as => :destroy_admin_session
+  devise_for :user, :skip => [:sessions]
+  devise_scope :user do
+    get    'user/login' => 'devise/sessions#new',      :as => :new_user_session
+    post   'user/login' => 'devise/sessions#create',    :as => :user_session
+    delete 'user/logout' => 'devise/sessions#destroy', :as => :destroy_user_session
   end
-  devise_for :editor, :skip => [:sessions]
-  devise_scope :editor do
-    get    'editor/login' => 'devise/sessions#new',      :as => :new_editor_session
-    post   'editor/login' => 'devise/sessions#create',    :as => :editor_session
-    delete 'editor/logout' => 'devise/sessions#destroy', :as => :destroy_editor_session
-  end
-  devise_for :dept_head, :skip => [:sessions]
-  devise_scope :dept_head do
-    get    'dept_head/login' => 'devise/sessions#new',      :as => :new_dept_head_session
-    post   'dept_head/login' => 'devise/sessions#create',    :as => :dept_head_session
-    delete 'dept_head/logout' => 'devise/sessions#destroy', :as => :destroy_dept_head_session
-  end
-  devise_for :supervisor, :skip => [:sessions]
-  devise_scope :supervisor do
-    get    'supervisor/login' => 'devise/sessions#new',      :as => :new_supervisor_session
-    post   'supervisor/login' => 'devise/sessions#create',    :as => :supervisor_session
-    delete 'supervisor/logout' => 'devise/sessions#destroy', :as => :destroy_supervisor_session
-  end
+
+  match "/:rolename/login" => redirect("/user/login")
 
   match '/:controller(/:action(/:id))'
 

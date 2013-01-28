@@ -22,7 +22,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
 
   def teaching_plan_import
     if params[:plan] and params[:plan].class == ActionDispatch::Http::UploadedFile
-      @specialities = current_dept_head.department.specialities
+      @specialities = current_user.department.specialities
       @speciality, @results, @errors = parse_and_fill_teaching_plan(params[:plan].read, @specialities)
       render "supervisor/teaching_plans/fill"
       return
@@ -31,7 +31,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
 
   def add_charge_cards
     @speciality = Speciality.find(params[:id])
-    discipline_ids = current_dept_head.department.disciplines.select("id").map{|d| d.id}
+    discipline_ids = current_user.department.disciplines.select("id").map{|d| d.id}
     to_remove_ids = @speciality.groups.map{|g| g.jets}.flatten.map{|j| j.charge_card_id}.uniq
     @cards_to_remove = ChargeCard.where(:id => to_remove_ids, :discipline_id => discipline_ids, :semester_id => current_semester.id).count
     # List all charge cards to be created
@@ -76,7 +76,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
 
   def create_charge_cards
     @speciality = Speciality.find(params[:id])
-    discipline_ids = current_dept_head.department.disciplines.select("id").map{|d| d.id}
+    discipline_ids = current_user.department.disciplines.select("id").map{|d| d.id}
     conditions = {:speciality_id => @speciality.id, :discipline_id => discipline_ids}
     if params[:remove]
       ids = @speciality.groups.map{|g| g.jets}.flatten.map{|j| j.charge_card_id}.uniq
@@ -100,14 +100,14 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
   protected
 
   def before_create_save(record)
-    if dept = current_dept_head.department
+    if dept = current_user.department
       record.department_id = dept.id
     end
   end
 
   def conditions_for_collection
-    if dept = current_dept_head.department
-      discipline_ids = current_dept_head.department.disciplines.all(:select => "id").map{|d| d.id}
+    if dept = current_user.department
+      discipline_ids = current_user.department.disciplines.all(:select => "id").map{|d| d.id}
       conditions = {:discipline_id => discipline_ids, :semester => current_semester.number}
       ids = TeachingPlan.all(:conditions => conditions, :select => "DISTINCT(speciality_id)").map{ |tp| tp.speciality_id }
       ["department_id = :department_id OR id IN (:id)", {:department_id => dept.id, :id => ids }]
@@ -117,11 +117,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
   end
 
   def custom_finder_options
-    {:reorder => "department_id = #{current_dept_head.department_id} DESC, code ASC"}
-  end
-
-  def current_user
-    return current_dept_head
+    {:reorder => "department_id = #{current_user.department_id} DESC, code ASC"}
   end
 
 end
