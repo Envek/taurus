@@ -9,9 +9,9 @@
   %body
     - if user_signed_in? and current_user.admin?
       = render 'layouts/admin_menu'
-    - if user_signed_in? and current_user.supervisor?
+    - if user_signed_in? and (current_user.supervisor? or current_user.admin?)
       = render 'layouts/supervisor_menu'
-    - if user_signed_in? and current_user.editor?
+    - if user_signed_in? and (current_user.editor? or current_user.supervisor? or current_user.admin?)
       = render 'layouts/editor_menu'
     - if user_signed_in? and current_user.department
       = render 'layouts/department_menu'

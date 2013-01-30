@@ -11,8 +11,6 @@ class DeptHead::ClassroomsController < ApplicationController
     record[:properties] = params[:record][:properties]
   end
 
-  def beginning_of_chain
-    super.where(department_id: current_user.department_id)
-  end
+  # Records are filtered according to CanCan abilities.
 
 end 

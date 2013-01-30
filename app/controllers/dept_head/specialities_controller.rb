@@ -107,7 +107,7 @@ class DeptHead::SpecialitiesController < DeptHead::BaseController
 
   def conditions_for_collection
     if dept = current_user.department
-      discipline_ids = current_user.department.disciplines.all(:select => "id").map{|d| d.id}
+      discipline_ids = current_user.department.disciplines.pluck(:id)
       conditions = {:discipline_id => discipline_ids, :semester => current_semester.number}
       ids = TeachingPlan.all(:conditions => conditions, :select => "DISTINCT(speciality_id)").map{ |tp| tp.speciality_id }
       ["department_id = :department_id OR id IN (:id)", {:department_id => dept.id, :id => ids }]

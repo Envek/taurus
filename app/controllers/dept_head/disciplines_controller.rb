@@ -18,13 +18,7 @@ class DeptHead::DisciplinesController < DeptHead::BaseController
     end
   end
 
-  def conditions_for_collection
-    if @dept ||= current_user.department
-      {:department_id => @dept.id}
-    else
-      {:department_id => nil}
-    end
-  end
+  # Records are filtered according to CanCan abilities.
   
   def record_select_conditions_from_controller
     if @dept ||= current_user.department

@@ -7,6 +7,11 @@ class ApplicationController < ActionController::Base
   clear_helpers
   before_filter :set_current_semester
 
+  rescue_from CanCan::AccessDenied do |exception|
+    raise exception if Rails.env.development?
+    render file: "#{Rails.root}/public/403", formats: [:html], status: 403, layout: false
+  end
+
   helper_method :current_semester
   def current_semester
     @current_semester
@@ -44,6 +49,11 @@ protected
     @current_semester = Semester.first unless @current_semester
     Group.current_semester = @current_semester
     session[:current_semester_id] = @current_semester.id
+  end
+
+  helper_method :current_ability
+  def current_ability
+    @current_ability ||= Ability.new(current_user, params)
   end
 
 end

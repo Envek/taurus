@@ -10,6 +10,7 @@ gem "recordselect"
 gem "russian"
 gem "devise", "~> 2.2.0"
 gem "devise-encryptable"
+gem 'cancan'
 gem "erubis"
 gem "haml"
 gem "pdfkit"

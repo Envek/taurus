@@ -20,8 +20,6 @@ class DeptHead::TeachingPlacesController < DeptHead::BaseController
     record.department_id = @dept.id
   end
 
-  def conditions_for_collection
-    @dept ||= current_user.department
-    {:department_id => @dept.id}
-  end
+  # Records are filtered according to CanCan abilities.
+
 end
