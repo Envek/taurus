@@ -22,13 +22,22 @@ class ApplicationController < ActionController::Base
     redirect_to (request.referer.blank?? timetable_groups_path : request.referer)
   end
 
+  helper_method :current_department
+  def current_department
+    @current_department ||= (params[:department_id] and Department.find(params[:department_id]))
+    @current_department ||= Department.accessible_by(current_ability, :update).where(id: session[:current_department_id]).first
+    @current_department ||= Department.accessible_by(current_ability, :update).first
+    session[:current_department_id] = @current_department.id
+    return @current_department
+  end
+
 protected
 
   def after_sign_in_path_for(resource)
     return admin_dept_heads_path if current_user.admin?
     return supervisor_lecturers_path if current_user.supervisor?
     return editor_groups_root_path if current_user.editor?
-    return dept_head_teaching_places_path if current_user.department
+    return department_teaching_places_path(current_user.department_ids.first) if current_user.department_ids.any?
     return request.referrer
   end
 

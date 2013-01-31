@@ -58,7 +58,10 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
 
 ##### Раздел заведующего кафедрой #####
 
-  namespace :dept_head do
+  get  'dept_head(/*parts)' => 'department/base#change_current_department'
+  get  'department' => 'department/base#change_current_department'
+  post 'department/change' => 'department/base#change_current_department'
+  namespace :department, :path => '/department/:department_id', :department_id => /\d+/ do
     resources :teaching_places do
       as_routes
       record_select_routes
@@ -95,7 +98,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
       end
     end
     resources :classrooms do as_routes end
-    root :to => redirect('/dept_head/teaching_places')
+    root :to => redirect {|params| "/department/#{params[:department_id]}/teaching_places" }
   end
 
 ##### Раздел супервайзера #####

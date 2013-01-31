@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class DeptHead::TeachingPlacesController < DeptHead::BaseController
+class Department::TeachingPlacesController < Department::BaseController
   active_scaffold do |config|
     config.actions << :delete
     config.columns = [:position, :lecturer]
@@ -16,7 +16,7 @@ class DeptHead::TeachingPlacesController < DeptHead::BaseController
   protected
 
   def before_create_save(record)
-    @dept ||= current_user.department
+    @dept ||= current_department
     record.department_id = @dept.id
   end
 

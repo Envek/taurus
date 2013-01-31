@@ -7,13 +7,13 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     = csrf_meta_tag
   %body
-    - if user_signed_in? and current_user.admin?
+    - if user_signed_in? and can? :manage, User
       = render 'layouts/admin_menu'
-    - if user_signed_in? and (current_user.supervisor? or current_user.admin?)
+    - if user_signed_in? and can? :manage, :all
       = render 'layouts/supervisor_menu'
-    - if user_signed_in? and (current_user.editor? or current_user.supervisor? or current_user.admin?)
+    - if user_signed_in? and can? :manage, Pair
       = render 'layouts/editor_menu'
-    - if user_signed_in? and current_user.department
+    - if user_signed_in? and can? :update, Department
       = render 'layouts/department_menu'
 
     - if notice

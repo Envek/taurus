@@ -1,13 +1,13 @@
 # -*- encoding : utf-8 -*-
-module DeptHead::ChargeCardsHelper
+module Department::ChargeCardsHelper
   def options_for_association_conditions(association)
     case association.name
     when :teaching_place
-      {'teaching_places.department_id' => current_user.department.id}
+      {'teaching_places.department_id' => current_department.id}
     when :assistant_teaching_place
-      {'teaching_places.department_id' => current_user.department.id}
+      {'teaching_places.department_id' => current_department.id}
     when :discipline
-      {'disciplines.department_id' => current_user.department.id}
+      {'disciplines.department_id' => current_department.id}
     else
       super
     end

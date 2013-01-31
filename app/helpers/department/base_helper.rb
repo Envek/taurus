@@ -1,3 +1,3 @@
 # -*- encoding : utf-8 -*-
-module DeptHead::BaseHelper
+module Department::BaseHelper
 end

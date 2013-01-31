@@ -3,6 +3,10 @@ jQuery(document).ready(function($) {
   $('.semester_change').change(function() {
     $(this).parent().submit();
   });
+  $('.department_change+button').remove();
+  $('.department_change').change(function() {
+    $(this).parent().submit();
+  });
 });
 
 function formatResultedClassroomForSelect2 (result) {

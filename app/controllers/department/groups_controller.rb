@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class DeptHead::GroupsController < DeptHead::BaseController
+class Department::GroupsController < Department::BaseController
   before_filter :customize_active_scaffold
   record_select :search_on => :name, :order_by => :name
   active_scaffold do |config|
@@ -27,7 +27,7 @@ protected
   def customize_active_scaffold
     actions = [:create, :update, :delete]
     config  = active_scaffold_config
-    if nested? and nested_parent_record.department_id != current_user.department_id
+    if nested? and nested_parent_record.department_id != current_department.id
       actions.each do |action|
         config.actions.exclude action
       end

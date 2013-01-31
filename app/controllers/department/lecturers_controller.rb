@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class DeptHead::LecturersController < DeptHead::BaseController
+class Department::LecturersController < Department::BaseController
   record_select :search_on => :name, :order_by => :name
   active_scaffold do |config|
     config.actions << :delete

@@ -1,4 +1,4 @@
-class DeptHead::ClassroomsController < ApplicationController
+class Department::ClassroomsController < Department::BaseController
   active_scaffold :classroom do |conf|
     conf.actions.exclude :create
     conf.columns = [:building, :name, :title, :department, :department_lock, :capacity, :properties]

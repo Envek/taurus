@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class DeptHead::ChargeCardsController < DeptHead::BaseController
+class Department::ChargeCardsController < Department::BaseController
   active_scaffold do |config|
     config.actions << :delete
     config.columns = [:semester, :teaching_place, :assistant_teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups, :preferred_classrooms]

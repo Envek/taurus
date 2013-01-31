@@ -14,24 +14,25 @@ class Ability
         can :manage, Pair
         can :read, :all
         cannot :read, User
-    elsif user.department_id.present? # DeptHead
+    elsif user.department_ids.any? # DeptHead
+        can :update, Department, id: user.department_ids 
         can :browse, Lecturer
         can :browse, Discipline
         can :create, TeachingPlace
-        can :manage, ChargeCard, discipline: { department_id: user.department_id }
-        can :manage, TeachingPlace, department_id: user.department_id
-        can :manage, Discipline, department_id: user.department_id
-        can :manage, Classroom, department_id: user.department_id
+        can :manage, ChargeCard, discipline: { department_id: user.department_ids }
+        can :manage, TeachingPlace, department_id: user.department_ids
+        can :manage, Discipline, department_id: user.department_ids
+        can :manage, Classroom, department_id: user.department_ids
         can :manage, Jet
         # All the difficulties with teaching plans
         can :read, Speciality
-        can :create, Speciality, department_id: user.department_id
-        can :update, Speciality, department_id: user.department_id
-        can :destroy, Speciality, department_id: user.department_id
+        can :create, Speciality, department_id: user.department_ids
+        can :update, Speciality, department_id: user.department_ids
+        can :destroy, Speciality, department_id: user.department_ids
         can [:read, :browse], Group
-        can :create, Group, speciality: { department_id: user.department_id }
-        can :update, Group, speciality: { department_id: user.department_id }
-        can :destroy, Group, speciality: { department_id: user.department_id }
+        can :create, Group, speciality: { department_id: user.department_ids }
+        can :update, Group, speciality: { department_id: user.department_ids }
+        can :destroy, Group, speciality: { department_id: user.department_ids }
     else
         can :read, Pair
         can :read, Group

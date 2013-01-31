@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class DeptHead::DisciplinesController < DeptHead::BaseController
+class Department::DisciplinesController < Department::BaseController
   record_select :search_on => :name, :order_by => :name
   active_scaffold do |config|
     config.actions << :delete
@@ -13,7 +13,7 @@ class DeptHead::DisciplinesController < DeptHead::BaseController
   protected
 
   def before_create_save(record)
-    if @dept ||= current_user.department
+    if @dept ||= current_department
       record.department_id = @dept.id
     end
   end
@@ -21,7 +21,7 @@ class DeptHead::DisciplinesController < DeptHead::BaseController
   # Records are filtered according to CanCan abilities.
   
   def record_select_conditions_from_controller
-    if @dept ||= current_user.department
+    if @dept ||= current_department
       {:department_id => @dept.id}
     else
       {:department_id => nil}
