@@ -1,8 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Admin::SupervisorsController < Admin::BaseController
-  active_scaffold :user do |config|
-    config.columns = [:name, :login, :email, :password, :password_confirmation]
-  end
+class Admin::SupervisorsController < Admin::UsersController
 
   protected
 

@@ -1,15 +1,15 @@
 # -*- encoding : utf-8 -*-
-class Admin::DeptHeadsController < Admin::BaseController
+class Admin::DeptHeadsController < Admin::UsersController
   active_scaffold :user do |config|
-    config.columns = [:department, :name, :login, :email, :password, :password_confirmation]
-    config.columns[:department].form_ui = :record_select
-    config.columns[:department].clear_link
+    config.columns = [:name, :login, :email, :departments, :password, :password_confirmation]
+    config.list.columns = [:name, :login, :email, :departments, :current_sign_in_at, :current_sign_in_ip]
+    config.columns[:departments].form_ui = :record_select
   end
 
   protected
 
   def beginning_of_chain
-    super.where("department_id IS NOT NULL")
+    super.includes(:departments).where("departments_users.department_id IS NOT NULL")
   end
 
 end

@@ -135,10 +135,15 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
 ##### Администраторский раздел #####
 
   namespace :admin do
+    resources :users do as_routes end
     resources :dept_heads do as_routes end
     resources :editors do as_routes end
     resources :supervisors do as_routes end
     resources :admins do as_routes end
+    resources :departments do
+      as_routes
+      record_select_routes
+    end
     root :to => redirect('/admin/dept_heads')
   end
 
