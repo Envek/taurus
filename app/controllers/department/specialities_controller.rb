@@ -97,27 +97,4 @@ class Department::SpecialitiesController < Department::BaseController
     redirect_to "/department/#{params[:department_id]}/specialities", :notice => "Создано карт нагрузок: #{created}#{", удалено: #{deleted}" if deleted}"
   end
 
-  protected
-
-  def before_create_save(record)
-    if dept = current_department
-      record.department_id = dept.id
-    end
-  end
-
-  def conditions_for_collection
-    if dept = current_department
-      discipline_ids = current_department.disciplines.pluck(:id)
-      conditions = {:discipline_id => discipline_ids, :semester => current_semester.number}
-      ids = TeachingPlan.all(:conditions => conditions, :select => "DISTINCT(speciality_id)").map{ |tp| tp.speciality_id }
-      ["department_id = :department_id OR id IN (:id)", {:department_id => dept.id, :id => ids }]
-    else
-      {:department_id => nil}
-    end
-  end
-
-  def custom_finder_options
-    {:reorder => "department_id = #{current_department.id} DESC, code ASC"}
-  end
-
 end

@@ -83,18 +83,6 @@ class Group < ActiveRecord::Base
 
   protected
 
-  def authorized_for_update?
-    return false unless current_user
-    return true if current_user.admin? or current_user.supervisor?
-    return self.speciality.try(:department_id) == current_department.id
-  end
-
-  def authorized_for_delete?
-    return false unless current_user
-    return true if current_user.admin? or current_user.supervisor?
-    return self.speciality.try(:department_id).include? current_department.id
-  end
-
   def update_charge_cards_editor_titles
     ChargeCard.transaction(:requires_new => true) do
       charge_cards.find_in_batches(:include => ChargeCard.association_dependencies) do |cards|

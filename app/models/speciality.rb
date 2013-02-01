@@ -13,18 +13,4 @@ class Speciality < ActiveRecord::Base
     "#{name} (#{code})"
   end
 
-protected
-
-  def authorized_for_update?
-    return false unless current_user
-    return true if current_user.admin? or current_user.supervisor?
-    return self.department_id == current_department.id
-  end
-
-  def authorized_for_delete?
-    return false unless current_user
-    return true if current_user.admin? or current_user.supervisor?
-    return self.department_id == current_department.id
-  end
-
 end
