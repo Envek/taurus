@@ -1,0 +1,9 @@
+%li #{ link_to 'Редактор по аудиториям', editor_classrooms_root_path, class: (:current if params[:controller] == "editor/classrooms/classrooms") }
+%li #{ link_to 'Редактор по группам', editor_groups_root_path, class: (:current if params[:controller] == "editor/groups/groups") }
+%li #{ link_to 'Занятость аудиторий', editor_classrooms_classrooms_sheets_path, class: (:current if params[:controller] == "editor/classrooms/classrooms_sheets") }
+%li #{ link_to 'Листы расписания', new_editor_reference_groups_list_path, class: (:current if params[:controller] == "editor/reference/groups_list") }
+%li.submenu
+  #{ link_to 'Карты нагрузки', editor_reference_departments_path, class: (:current if %w(departments teaching_plans).any? {|cnt| params[:controller] == "editor/reference/#{cnt}" }) }
+  %menu.submenu
+    %li #{ link_to 'Карты по преподавателям и дисциплинам', editor_reference_departments_path, class: (:current if params[:controller] == "editor/reference/departments") }
+    %li #{ link_to "Учебные планы по группам", url_for(:controller => "reference/teaching_plans", :action => "index"), class: (:current if params[:controller] == "editor/reference/teaching_plans") }

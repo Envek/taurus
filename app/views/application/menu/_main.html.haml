@@ -1,0 +1,24 @@
+- if user_signed_in?
+  %nav
+    %menu.main_menu
+      - if current_user.supervisor? or current_user.admin?
+        = render 'application/menu/supervisor'
+        %li.submenu
+          #{link_to "Редактор расписания", editor_groups_root_path, class: (:current if params[:controller].starts_with?('editor'))}
+          %menu.editor_menu
+            = render 'application/menu/editor'
+        %li.submenu
+          #{link_to "Зав. кафедрой", department_teaching_places_path(current_department.id), class: (:current if params[:controller].starts_with?('department'))}
+          %menu.department_menu
+            = render 'application/menu/department'
+        - if current_user.admin?
+          %li.submenu
+            #{link_to "Пользователи", admin_dept_heads_path, class: (:current if params[:controller].starts_with?('admin'))}
+            %menu.admin_menu
+              = render 'application/menu/admin'
+      - elsif current_user.editor?
+        = render 'application/menu/editor'
+      - else
+        = render 'application/menu/department'
+      %li #{ link_to 'Выход', destroy_user_session_path, :class => "red", :method => :delete }
+      %li.semester= render 'change_semester'
