@@ -57,6 +57,7 @@ GEM
       thor (>= 0.15.4, < 2)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
+    cancan (1.6.8)
     capistrano (2.14.1)
       highline
       net-scp (>= 1.0.0)
@@ -266,6 +267,7 @@ DEPENDENCIES
   activerecord-postgres-hstore!
   axlsx_rails
   backup (~> 3.0)
+  cancan
   capistrano
   capybara
   coffee-rails (~> 3.2.0)

@@ -7,14 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     = csrf_meta_tag
   %body
-    - if admin_signed_in?
-      = render 'layouts/admin_menu'
-    - if supervisor_signed_in?
-      = render 'layouts/supervisor_menu'
-    - if editor_signed_in?
-      = render 'layouts/editor_menu'
-    - if dept_head_signed_in?
-      = render 'layouts/department_menu'
+    
+    = render 'application/menu/main'
 
     - if notice
       %p.notice= notice

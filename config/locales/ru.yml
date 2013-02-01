@@ -69,6 +69,11 @@ ru:
         few: 'Семестры'
         many: 'Семестры'
         other: 'Семестры'
+      user:
+        one: 'Пользователь'
+        few: 'Пользователи'
+        many: 'Пользователи'
+        other: 'Пользователи'
 
     attributes:
       building:
@@ -150,6 +155,15 @@ ru:
         published: 'Опубликован'
         academic_year: 'Академический год'
         charge_card_count: 'Количество карт нагрузки'
+      user:
+        name: 'Имя'
+        login: 'Логин'
+        password: 'Пароль'
+        password_confirmation: 'Подтверждение пароля'
+        departments: 'Кафедры'
+        email: 'Электронная почта'
+        current_sign_in_at: 'Время последнего входа'
+        current_sign_in_ip: 'IP-адрес последнего входа'
 
     description:
       charge_card:

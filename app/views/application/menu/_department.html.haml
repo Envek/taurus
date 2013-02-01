@@ -1,0 +1,5 @@
+= render 'change_department'
+%li #{ link_to 'Преподаватели кафедры', department_teaching_places_path(current_department.id), class: (:current if params[:controller] == "department/teaching_places") }
+%li #{ link_to 'Дисциплины', department_disciplines_path(current_department.id), class: (:current if params[:controller] == "department/disciplines") }
+%li #{ link_to 'Специальности', department_specialities_path(current_department.id), class: (:current if params[:controller] == "department/specialities") }
+%li #{ link_to 'Аудитории', department_classrooms_path(current_department.id), class: (:current if params[:controller] == "department/classrooms") }

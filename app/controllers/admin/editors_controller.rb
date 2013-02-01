@@ -1,6 +1,15 @@
 # -*- encoding : utf-8 -*-
-class Admin::EditorsController < Admin::BaseController
-  active_scaffold :editor do |config|
-    config.columns = [:name, :login, :email, :password, :password_confirmation]
+class Admin::EditorsController < Admin::UsersController
+
+  protected
+
+  def do_new
+    super
+    @record.editor = true
   end
+
+  def beginning_of_chain
+    super.where(editor: true)
+  end
+
 end

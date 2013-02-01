@@ -58,7 +58,10 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
 
 ##### Раздел заведующего кафедрой #####
 
-  namespace :dept_head do
+  get  'dept_head(/*parts)' => 'department/base#change_current_department'
+  get  'department' => 'department/base#change_current_department'
+  post 'department/change' => 'department/base#change_current_department'
+  namespace :department, :path => '/department/:department_id', :department_id => /\d+/ do
     resources :teaching_places do
       as_routes
       record_select_routes
@@ -95,7 +98,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
       end
     end
     resources :classrooms do as_routes end
-    root :to => redirect('/dept_head/teaching_places')
+    root :to => redirect {|params| "/department/#{params[:department_id]}/teaching_places" }
   end
 
 ##### Раздел супервайзера #####
@@ -132,39 +135,28 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
 ##### Администраторский раздел #####
 
   namespace :admin do
+    resources :users do as_routes end
     resources :dept_heads do as_routes end
     resources :editors do as_routes end
     resources :supervisors do as_routes end
     resources :admins do as_routes end
+    resources :departments do
+      as_routes
+      record_select_routes
+    end
     root :to => redirect('/admin/dept_heads')
   end
 
 ##### Аутентификация #####
 
-  devise_for :admin, :skip => [:sessions]
-  devise_scope :admin do
-    get    'admin/login' => 'devise/sessions#new',      :as => :new_admin_session
-    post   'admin/login' => 'devise/sessions#create',    :as => :admin_session
-    delete 'admin/logout' => 'devise/sessions#destroy', :as => :destroy_admin_session
+  devise_for :user, :skip => [:sessions]
+  devise_scope :user do
+    get    'user/login' => 'devise/sessions#new',      :as => :new_user_session
+    post   'user/login' => 'devise/sessions#create',    :as => :user_session
+    delete 'user/logout' => 'devise/sessions#destroy', :as => :destroy_user_session
   end
-  devise_for :editor, :skip => [:sessions]
-  devise_scope :editor do
-    get    'editor/login' => 'devise/sessions#new',      :as => :new_editor_session
-    post   'editor/login' => 'devise/sessions#create',    :as => :editor_session
-    delete 'editor/logout' => 'devise/sessions#destroy', :as => :destroy_editor_session
-  end
-  devise_for :dept_head, :skip => [:sessions]
-  devise_scope :dept_head do
-    get    'dept_head/login' => 'devise/sessions#new',      :as => :new_dept_head_session
-    post   'dept_head/login' => 'devise/sessions#create',    :as => :dept_head_session
-    delete 'dept_head/logout' => 'devise/sessions#destroy', :as => :destroy_dept_head_session
-  end
-  devise_for :supervisor, :skip => [:sessions]
-  devise_scope :supervisor do
-    get    'supervisor/login' => 'devise/sessions#new',      :as => :new_supervisor_session
-    post   'supervisor/login' => 'devise/sessions#create',    :as => :supervisor_session
-    delete 'supervisor/logout' => 'devise/sessions#destroy', :as => :destroy_supervisor_session
-  end
+
+  match "/:rolename/login" => redirect("/user/login")
 
   match '/:controller(/:action(/:id))'
 
