@@ -98,7 +98,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
       end
     end
     resources :classrooms do as_routes end
-    root :to => redirect {|params| "/department/#{params[:department_id]}/teaching_places" }
+    root :to => redirect {|env, req| "/department/#{req.params[:department_id]}/teaching_places" }
   end
 
 ##### Раздел супервайзера #####
