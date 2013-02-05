@@ -97,4 +97,10 @@ class Department::SpecialitiesController < Department::BaseController
     redirect_to "/department/#{params[:department_id]}/specialities", :notice => "Создано карт нагрузок: #{created}#{", удалено: #{deleted}" if deleted}"
   end
 
+  protected
+
+  def before_create_save(record)
+    record.department_id = current_department.id
+  end
+
 end

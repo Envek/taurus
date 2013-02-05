@@ -16,23 +16,20 @@ class Ability
         cannot :read, User
     elsif user.department_ids.any? # DeptHead
         can :update, Department, id: user.department_ids 
-        can :browse, Lecturer
-        can :browse, Discipline
-        can :create, TeachingPlace
-        can :manage, ChargeCard, discipline: { department_id: user.department_ids }
-        can :manage, TeachingPlace, department_id: user.department_ids
-        can :manage, Discipline, department_id: user.department_ids
-        can :manage, Classroom, department_id: user.department_ids
+        can [:read, :browse, :select], Lecturer
+        can [:read, :create], ChargeCard
+        can [:update, :destroy], ChargeCard, discipline: { department_id: user.department_ids }
+        can [:read], TeachingPlace
+        can [:create, :update, :destroy], TeachingPlace, department_id: user.department_ids
+        can [:read, :browse], Discipline
+        can [:create, :update, :destroy], Discipline, department_id: user.department_ids
+        can [:read], Classroom
+        can [:update], Classroom, department_id: user.department_ids
         can :manage, Jet
-        # All the difficulties with teaching plans
-        can :read, Speciality
-        can :create, Speciality, department_id: user.department_ids
-        can :update, Speciality, department_id: user.department_ids
-        can :destroy, Speciality, department_id: user.department_ids
+        can [:read], Speciality
+        can [:create, :update, :destroy], Speciality, department_id: user.department_ids
         can [:read, :browse], Group
-        can :create, Group, speciality: { department_id: user.department_ids }
-        can :update, Group, speciality: { department_id: user.department_ids }
-        can :destroy, Group, speciality: { department_id: user.department_ids }
+        can [:create, :update, :destroy], Group, speciality: { department_id: user.department_ids }
     else
         can :read, Pair
         can :read, Group
