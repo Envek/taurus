@@ -143,7 +143,7 @@ class Pair < ActiveRecord::Base
       end
       # lecturer busyness
       if (conflicts = candidates.select { |c| 
-            c.charge_card && charge_card && 
+            c.charge_card && charge_card && charge_card.teaching_place &&
             (c.charge_card.teaching_place.try(:lecturer) == charge_card.teaching_place.try(:lecturer) ||
              c.charge_card.try(:assistant_teaching_place).try(:lecturer) == charge_card.teaching_place.try(:lecturer))
       }).size > 0
