@@ -25,5 +25,7 @@
         , 
         %abbr{:title => "#{pair.assistant_full}"}
           = link_to "#{pair.assistant}", timetable_lecturer_path(pair.assistant_id), :target => '_blank'
+    - if s and s > 2
+      = "#{s}-я подгруппа"       
     .pair_dates
       = "#{pair.active_at} — #{pair.expired_at}"

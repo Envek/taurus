@@ -4,8 +4,8 @@
   .lecturer #{p.lecturer}  
 .discipline #{p.discipline}
 .auditory Ауд.: #{p.classroom ? "#{p.classroom.name} (#{p.classroom.building.name})" : "не указана"}
-- if s and p.max_subgroups > 2 and s != 0
-  .subgroup Подгруппа #{s}
+- if s and s > 2
+  .subgroup #{s}-я подгруппа 
 - if ![1,2,9].include?(p.active_at.month) or ![5,6,7,12].include?(p.expired_at.month)
   .duration
     с #{p.active_at} по #{p.expired_at}
