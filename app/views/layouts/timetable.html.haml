@@ -20,12 +20,12 @@
     = yield
     %footer.timetable
       - if @terminal
-        %p.week_no #{(week_number % 2 != 0) ? "Первая" : "вторая"} неделя
+        %p.week_no #{(week_number % 2 != 0) ? "Первая" : "Вторая"} неделя.
         %p.time #{I18n.l Time.now, :format => "%H:%M"}
       - else
         .today
           %p Сегодня #{I18n.l Date.today, :format => :long} года.
-          %p.week_no #{(week_number % 2 != 0) ? "Первая" : "вторая"} неделя.
+          %p.week_no #{(week_number % 2 != 0) ? "Первая" : "Вторая"} неделя.
         .info
           %div
             Вы смотрите расписание на
