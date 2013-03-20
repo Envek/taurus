@@ -7,6 +7,7 @@
 *= require timetable/timetable
 *= require timetable/group
 *= require timetable/lecturer
+*= require timetable/classrooms
 *= require timetable/terminal
 *= require about
 *= require help
@@ -85,8 +86,8 @@ body.timetable {
 
     & li {
       float: left;
-      width: 250px;
-      font: normal 1.5em "Cuprum",sans-serif;
+      width: 175px;
+      font: normal 1.2em "Cuprum",sans-serif;
       list-style: none;
       border-right: 1px dotted silver;
       border-left: 1px dotted silver;
@@ -97,7 +98,7 @@ body.timetable {
       display: block;
       width: 100%;
       height: 100%;
-      padding: 0.3em 0;
+      padding: 0.5em 0;
       text-align: center;
       text-decoration: none;
       text-shadow: white 1px 1px 2px;

@@ -4,4 +4,5 @@
 //= require timetable/timetable
 //= require timetable/group
 //= require timetable/lecturer
+//= require timetable/classrooms
 //= require timetable/terminal

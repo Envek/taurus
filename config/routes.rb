@@ -8,6 +8,7 @@ Taurus::Application.routes.draw do
   namespace :timetable do
     resources :groups
     resources :lecturers
+    resources :classrooms
     root :to => redirect('/timetable/groups')
   end
 

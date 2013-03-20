@@ -1,0 +1,22 @@
+- title @classroom.full_name
+
+= link_to "Назад", timetable_classrooms_path, :class => "button back_button", :id => "back_button_top"
+
+.timetable.lecturer_timetable
+  %h2 Аудитория #{@classroom.full_name}. Расписание учебных пар.
+  %p #{@classroom.capacity ? "Вместимость: #{@classroom.capacity} #{Russian.p(@classroom.capacity, "человек", "человека", "человек")}" : "Вместимость не указана"}#{", #{@classroom.properties_human}" if @classroom.properties_human.present?}.
+  - if @classroom.department.present?
+    %p Закреплена за кафедрой: #{@classroom.department.name} (#{@classroom.department.faculty.try(:name)})
+  %table
+    %colgroup
+      %col.timecells
+      - 6.times do
+        %col.daycells
+    %thead
+      %tr
+        %th
+        = render :partial => 'day_header', :collection => @days
+    %tbody
+      = render :partial => 'time', :collection => @times
+
+= link_to "Назад", timetable_classrooms_path, :class => "button back_button", :id => "back_button_bottom"

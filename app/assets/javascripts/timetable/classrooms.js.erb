@@ -1,0 +1,56 @@
+<%
+building_c = <<eos
+'<div class=\"building\">
+  <h2>'+building.name+' корпус</h2>'
+eos
+building_c.gsub!(/\n\s*/, "")
+content = <<eos
+'<div class=\"classroom\">
+  <h3>'+classroom.name+(classroom.title ? '<small>: '+classroom.title+'</small>' : '')+'</h3>
+  <a href=\"/timetable/classrooms/'+classroom.id+location.search+'\" class=\"button link_to_timetable\">Расписание</a>
+</div>'
+eos
+content.gsub!(/\n\s*/, "")
+%>
+
+jQuery(document).ready(function($) {
+
+    $('#classroom_name_input').on('input', function () {
+        $.ajax({
+            url: "/timetable/classrooms.json",
+            data: {classroom: $(this).val()},
+            dataType: 'json',
+            timeout: 15000,
+            beforeSend: function (jqXHR, settings) {
+                $(".ajax_message").hide();
+                $(".ajax_spinner").show();
+                $(".ajax_loading").show();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $(".ajax_error").show();
+            },
+            success: function (data, textStatus, jqXHR) {
+                if (data.length) {
+                    $(".list_box").empty();
+                    $.each(data, function (i, elem) {
+                        var building = elem.building;
+                        var html = <%= building_c %>;
+                        $.each(building.classrooms, function (j, classroom) {
+                           html += <%= content %>;
+                        });
+                        $(html+'</div>').appendTo(".list_box");
+                    });
+                } else {
+                    $(".ajax_not_found").show();
+                }
+            },
+            complete: function (jqXHR, textStatus) {
+                $(".ajax_spinner").hide();
+                $(".ajax_loading").hide();
+            }
+        });
+    });
+
+    if ($('#lecturer_name_input').val()) $('#lecturer_name_input').trigger('input');
+
+});

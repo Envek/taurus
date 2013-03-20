@@ -1,0 +1,45 @@
+- title "Аудитории"
+
+.classroom_timetable_search
+  .search_box
+    .keyboard
+      .kbd_row.k10.large
+        - (1..10).each do |letter|
+          .key.classroom_letter #{letter%10}
+      .kbd_row.k12
+        - %w(й ц у к е н г ш щ з х ъ).each do |letter|
+          .key.classroom_letter #{letter}
+      .kbd_row.k11
+        - %w(ф ы в а п р о л д ж э).each do |letter|
+          .key.classroom_letter #{letter}
+      .kbd_row.k10
+        - %w(я ч с м и т ь б ю .).each do |letter|
+          .key.classroom_letter #{letter}
+      .kbd_row.k9
+        .key.clear ✖
+        .key.whitespace &nbsp;
+        .key.backspace ⌫
+    = form_tag(url_for(), :method => "get") do
+      - if @terminal
+        %input{:type => :hidden, :name => :terminal, :value => @terminal}
+      %label{:for => "classroom_name_input"} Введите номер аудитории для поиска:
+      %input.timetable_input#classroom_name_input{:autofocus => true, :name => :classroom, :value => params[:classroom]}
+      %button{:type => "submit"} >
+  .list_box
+    - @buildings.each do |building|
+      .building
+        %h2 #{building.name} корпус
+        - building.classrooms.each do |classroom|
+          .classroom
+            %h3<
+              #{classroom.name}
+              - if classroom.title
+                %small> : #{classroom.title}
+            = link_to "Расписание", timetable_classroom_path(classroom), :class => "button link_to_timetable"
+
+  .ajax_messages_container
+    .ajax_spinner
+      .ajax_spinner_image
+    .ajax_message.ajax_loading Ищем аудитории по вашему запросу…
+    .ajax_message.ajax_error Произошла ошибка при выполнении запроса. Пожалуйста, попробуйте ещё раз чуть позже.
+    .ajax_message.ajax_not_found Мы не нашли таких аудиторий в базе! Может быть, вы ошиблись при вводе?
