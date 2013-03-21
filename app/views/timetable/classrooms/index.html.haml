@@ -25,6 +25,12 @@
       %label{:for => "classroom_name_input"} Введите номер аудитории для поиска:
       %input.timetable_input#classroom_name_input{:autofocus => true, :name => :classroom, :value => params[:classroom]}
       %button{:type => "submit"} >
+    = form_tag(url_for(), :method => "get") do
+      %label Найти свободную аудиторию в
+      = select_tag :day_of_the_week, options_for_select(Timetable.days.map.with_index{|d,i| [d,i+1]}, params[:day_of_the_week])
+      = select_tag :week, options_for_select([["Обе недели", 0]]+Timetable.weeks.map.with_index{|d,i| [d,i+1]}, params[:week])
+      = select_tag :pair_number, options_for_select(Timetable.times.map.with_index{|d,i| [d,i+1]}, params[:pair_number])
+      %button{:type => "submit"} Найти
   .list_box
     - @buildings.each do |building|
       .building

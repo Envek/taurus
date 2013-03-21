@@ -7,7 +7,8 @@ div.classroom_timetable_search {
 
   label {
     display: block;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
   }
 
   .search_box {
@@ -33,6 +34,14 @@ div.classroom_timetable_search {
 
     form {
       margin-left: $keyboard_width;
+    }
+
+    select {
+      font-size: 0.8em;
+    }
+
+    select + button {
+      font-size: 0.8em;
     }
 
   }
