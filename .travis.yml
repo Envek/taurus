@@ -2,6 +2,7 @@ language: ruby
 bundler_args: --without development assets production
 rvm:
   - 1.9.3
+  - 2.0.0
   - rbx-19mode
   - jruby-19mode
 before_script:
@@ -9,8 +10,9 @@ before_script:
   - cp config/database.travis.yml config/database.yml
   - RAILS_ENV=test bundle exec rake db:create
   - RAILS_ENV=test bundle exec rake db:schema:load
-  # Install latest phantomjs (Travis have not recent version installed)
-  - version=phantomjs-1.7.0-linux-i686
+  # Install latest phantomjs with required libraries (Travis have not recent version installed)
+  - sudo apt-get install libstdc++6 libfreetype6 libfontconfig1
+  - version=phantomjs-1.8.2-linux-i686
   - wget http://phantomjs.googlecode.com/files/$version.tar.bz2
   - tar xjf $version.tar.bz2
   - mv $version phantomjs
@@ -18,5 +20,6 @@ before_script:
   - phantomjs --version
 matrix:
   allow_failures:
+    - rvm: 2.0.0
     - rvm: rbx-19mode
     - rvm: jruby-19mode
