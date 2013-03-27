@@ -27,6 +27,7 @@ div.group_timetable_search {
 
   .keyboard {
     margin: 0 -5%;
+    overflow: hidden;
 
     .key {
       float: left;
@@ -48,6 +49,27 @@ div.group_timetable_search {
       color: maroon !important;
     }
 
+  }
+
+  .autoad, .date {
+    margin-top:  0.75em;
+    border:  1px solid silver;
+    font-size: 115%;
+    text-align: center;
+
+    & > p {
+      margin: auto;
+      font-size: 110%;
+    }
+
+    & > p.link {
+      font-size: 125%;
+      font-weight: bold;
+    }
+  }
+
+  .date > p {
+    font-size:  85%;
   }
 
   .list_box {

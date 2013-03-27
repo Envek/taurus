@@ -16,6 +16,12 @@
       .key.backspace ⌫
       - %w(А Б К М О С Э -).each do |letter|
         .key.group_letter #{letter}
+    - if @terminal
+      .autoad
+        %p Расписание доступно в Интернете по адресу
+        %p.link= request.host
+      .date
+        %p #{I18n.l(Date.today, :format => "%A, %d %B %Y")} г.
   .list_box
     - @groups.each do |group|
       .group
