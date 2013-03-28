@@ -10,14 +10,7 @@ before_script:
   - cp config/database.travis.yml config/database.yml
   - RAILS_ENV=test bundle exec rake db:create
   - RAILS_ENV=test bundle exec rake db:schema:load
-  # Install latest phantomjs with required libraries (Travis have not recent version installed)
-  - sudo apt-get install libstdc++6 libfreetype6 libfontconfig1
-  - version=phantomjs-1.8.2-linux-i686
-  - wget http://phantomjs.googlecode.com/files/$version.tar.bz2
-  - tar xjf $version.tar.bz2
-  - mv $version phantomjs
-  - "export PATH=phantomjs/bin:$PATH"
-  - phantomjs --version
+  - phantomjs --version # Ensure, that travis have required version (at least 1.7)
 matrix:
   allow_failures:
     - rvm: 2.0.0
