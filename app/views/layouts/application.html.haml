@@ -7,6 +7,7 @@
     = javascript_include_tag "application"
     %link{ :rel => "shortcut icon", :href => asset_path("favicon.ico") }
     = csrf_meta_tag
+    = analytics_init if Rails.env.production?
   %body
     
     = render 'application/menu/main'

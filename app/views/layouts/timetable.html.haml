@@ -9,6 +9,7 @@
     /[if lt IE 9]
       = javascript_include_tag "//html5shiv.googlecode.com/svn/trunk/html5.js"
       = stylesheet_link_tag "timetable_ie", :media => :all
+    = analytics_init if Rails.env.production? and not @terminal
   %body.timetable{ :class => @terminal ? 'terminal' : '' }
     /[if lt IE 9]
       %p Ваш браузер устарел и правильная работа системы в нём не гарантируется! Пожалуйста, обновите ваш браузер.

@@ -22,6 +22,7 @@ gem 'nokogiri'
 gem 'validates_timeliness'
 gem 'axlsx_rails'
 gem 'redcarpet'
+gem 'google-analytics-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
