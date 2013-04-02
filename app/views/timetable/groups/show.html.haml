@@ -7,7 +7,8 @@
 
 .timetable.group_timetable
   %h2 Расписание учебных пар группы #{@group.name}
-  %table
+
+  %table.table_view
     %col.timecells
     - @days.each do |i|
       %col.daycells
@@ -17,6 +18,22 @@
         = render :partial => 'day_header', :collection => @days
     %tbody
       = render :partial => 'time', :collection => @times
+
+  .list_view
+    - @days.each_with_index do |day, day_index|
+      - if @pairs[day_index].flatten.any?
+        %h3
+          #{day}
+        - @times.each_with_index do |time, time_index|
+          - if @pairs[day_index][time_index].flatten.any?
+            %dl
+              %dt
+                %h4 #{time}
+              - @pairs[day_index][time_index].each_with_index do |pairset, week_no|
+                - pairset.each do |pair, subgroup|
+                  %dd
+                    = render 'pair_in_list', p: pair, subgroup: subgroup, week_no: week_no
+
 
 .export_pane
   %div= link_to "Скачать в формате Excel", timetable_group_path(@group, :format => :xlsx), :class => "button export excel_export"

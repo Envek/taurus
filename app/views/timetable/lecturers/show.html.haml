@@ -4,7 +4,8 @@
 
 .timetable.lecturer_timetable
   %h2 #{@lecturer.name}. Расписание учебных пар.
-  %table
+
+  %table.table_view
     %colgroup
       %col.timecells
       - 6.times do
@@ -15,5 +16,20 @@
         = render :partial => 'day_header', :collection => @days
     %tbody
       = render :partial => 'time', :collection => @times
+
+  .list_view
+    - @days.each_with_index do |day, day_index|
+      - if @pairs[day_index].flatten.any?
+        %h3
+          #{day}
+        - @times.each_with_index do |time, time_index|
+          - if @pairs[day_index][time_index].flatten.any?
+            %dl
+              %dt
+                %h4 #{time}
+              - @pairs[day_index][time_index].each_with_index do |pairs, week_no|
+                - pairs.each do |pair|
+                  %dd
+                    = render 'pair_in_list', p: pair, week_no: week_no
 
 = link_to "Назад", timetable_lecturers_path, :class => "button back_button", :id => "back_button_bottom"

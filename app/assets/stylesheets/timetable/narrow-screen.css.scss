@@ -156,6 +156,75 @@
 
     }
 
+    div.classroom_timetable_search {
+
+      .search_box {
+        position: static;
+        margin: 0;
+        width: auto;
+        padding: 0.5em;
+
+        form {
+          margin: 0;
+          font-size: 0.8em;
+
+          label {
+            margin: 0;
+          }
+        }
+
+        form + form {
+          margin-top: 0.5em;
+        }
+
+        .timetable_input {
+          font-size: 1.5em;
+          height: auto;
+        }
+
+        .timetable_input + button {
+          font-size: 1.5em;
+          height: auto;
+        }
+
+      }
+
+      .keyboard {
+        display: none;
+      }
+
+      .list_box {
+        margin: 0;
+        overflow: hidden;
+
+        .lecturer {
+
+          h2 {
+            font-size: 1em;
+          }
+
+          a.button {
+            width: auto;
+            font-size: 1em;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+
+  /* Group timetable: show list view */
+  .list_view {
+    display: block;
+  }
+
+  .table_view {
+    display: none;
   }
 
 }

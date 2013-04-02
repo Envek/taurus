@@ -1,0 +1,16 @@
+%span.lecturer>
+  - if p.assistant && p.assistant_id
+    #{p.lecturer}, #{p.assistant},
+  - else
+    #{p.lecturer},
+%span.discipline< #{p.discipline},
+%span.auditory< ауд.: #{p.classroom ? "#{p.classroom.name} (#{p.classroom.building.name})" : "не указана"}
+- unless subgroup.zero?
+  %span.subgroup><
+    %strong , (#{subgroup}-я подгруппа)
+- unless week_no.zero?
+  %span.week><
+    , <strong>#{Timetable.weeks[week_no-1]}</strong>
+- if ![1,2,9].include?(p.active_at.month) or ![5,6,7,12].include?(p.expired_at.month)
+  %span.duration (с #{p.active_at} по #{p.expired_at})
+
