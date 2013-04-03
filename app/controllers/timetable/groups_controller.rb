@@ -55,8 +55,8 @@ class Timetable::GroupsController < Timetable::BaseController
 
     if stale? @group
       respond_to do |format|
-        format.svg  { render qrcode: timetable_group_url(@group), unit: 3 }
-        format.png  { render qrcode: timetable_group_url(@group), unit: 3 }
+        format.svg  { render qrcode: timetable_group_url(@group, terminal: nil), unit: 4 }
+        format.png  { render qrcode: timetable_group_url(@group, terminal: nil), unit: 4 }
       end
     end
   end
