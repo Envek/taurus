@@ -23,6 +23,8 @@ gem 'validates_timeliness'
 gem 'axlsx_rails'
 gem 'redcarpet'
 gem 'google-analytics-rails'
+gem 'rqrcode-rails3'
+gem 'mini_magick'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -49,4 +49,15 @@ class Timetable::GroupsController < Timetable::BaseController
       end
     end
   end
+
+  def qrcode
+    @group = Group.for_timetable.from_param(params[:id])
+
+    if stale? @group
+      respond_to do |format|
+        format.svg  { render qrcode: timetable_group_url(@group), unit: 3 }
+        format.png  { render qrcode: timetable_group_url(@group), unit: 3 }
+      end
+    end
+  end
 end

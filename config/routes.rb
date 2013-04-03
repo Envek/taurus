@@ -6,7 +6,9 @@ Taurus::Application.routes.draw do
   root :to => redirect('/timetable/groups')
 
   namespace :timetable do
-    resources :groups
+    resources :groups do
+      get :qrcode, on: :member
+    end
     resources :lecturers
     resources :classrooms
     root :to => redirect('/timetable/groups')

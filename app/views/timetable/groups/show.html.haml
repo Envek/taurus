@@ -34,6 +34,12 @@
                   %dd
                     = render 'pair_in_list', p: pair, subgroup: subgroup, week_no: week_no
 
+  .group_autoad
+    = image_tag qrcode_timetable_group_path(@group, format: :png), class: 'qrcode'
+    %h3 Забываешь расписание? Смотри его через интернет!
+    %p С компьютера, мобильного, планшета, телевизора, холодильника, чего бы то ни было с доступом в интернет!
+    %p Открой браузер, набери <strong>#{request.host}</strong>, введи номер группы и узнай своё расписание!
+    %p Для мобильного и планшета: считай QR-код справа и сохрани страницу в закладки.
 
 .export_pane
   %div= link_to "Скачать в формате Excel", timetable_group_path(@group, :format => :xlsx), :class => "button export excel_export"

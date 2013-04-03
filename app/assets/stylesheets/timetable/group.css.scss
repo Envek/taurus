@@ -122,3 +122,23 @@ div.group_timetable_search {
     margin-top: -100px;
   }
 }
+
+body.terminal .group_autoad {
+  display: block;
+}
+
+.group_autoad {
+  overflow: hidden;
+  margin: 1.5em 0 0.5em;
+  display: none;
+
+  .qrcode {
+    float: right;
+    max-height: 10em;
+  }
+
+  p {
+    margin-top: 0.1em;
+  }
+
+}
