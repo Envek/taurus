@@ -13,9 +13,13 @@ LessonType.create([
   {:name => 'лабораторная работа'}
 ])
 
-Faculty.create([
-  {:name => 'ФМИ', :full_name => 'факультет математики и информатики'}
-])
+fmi = Faculty.create({
+  :name => 'ФМИ', :full_name => 'Факультет математики и информатики'
+})
+
+Department.create({
+  :short_name => "ИиУС", :name => "Информационных и управляющих систем", :faculty => fmi
+})
 
 Position.create([
   {:name => 'ассистент', :short_name => 'асс.'},
@@ -24,17 +28,17 @@ Position.create([
   {:name => 'профессор', :short_name => 'проф.'}
 ])
 
-Admin.create([
-  { :login => "admin", :name => "Воронков Андрей Алексеевич",
-    :email => "voronkovaa@gmail.com", :password => "12345678", :password_confirmation => "12345678"}
-])
+Semester.create({
+  :year => Date.today.year - (Date.today.month < 8 ? 1 : 0),
+  :number => Date.today.month < 8 ? 2 : 1,
+  :start => Date.new( Date.today.year, (Date.today.month < 8 ? 1 : 9), 1),
+  :end => Date.new( Date.today.year, (Date.today.month < 8 ? 7 : 12), 31),
+  :full_time => true, :published => true,
+})
 
-Supervisor.create([
-  { :login => "supervisor", :name => "Воронков Андрей Алексеевич",
-    :email => "supervisor@example.com", :password => "12345678", :password_confirmation => "12345678"}
-])
-
-Editor.create([
-  { :login => "editor", :name => "Воронков Андрей Алексеевич",
-    :email => "editor@example.com", :password => "12345678", :password_confirmation => "12345678"}
-])
+admin = User.new({
+    :login => "admin", :name => "Администратор системы",
+    :email => "admin@taurus.local", :password => "12345678", :password_confirmation => "12345678"
+  })
+admin.admin = true;
+admin.save!
