@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130130014707) do
+ActiveRecord::Schema.define(:version => 20130618065620) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20130130014707) do
     t.integer  "lesson_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "hours_per_week"
+    t.decimal  "hours_per_week",    :precision => 5, :scale => 2
     t.integer  "weeks_quantity"
     t.integer  "assistant_id"
     t.string   "editor_name"
