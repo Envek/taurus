@@ -5,7 +5,7 @@ gem "rails", "~> 3.2.0"
 gem 'jquery-rails', '~> 2.1.0'
 gem 'jquery-ui-themes'
 
-gem "active_scaffold", github: "activescaffold/active_scaffold"
+gem "active_scaffold", '~> 3.3.0'
 gem "recordselect"
 gem "russian"
 gem "devise", "~> 2.2.0"
@@ -31,7 +31,7 @@ gem 'mini_magick'
 group :assets do
   gem 'sass-rails', " ~> 3.2.0"
   gem 'coffee-rails', " ~> 3.2.0"
-  gem 'select2-rails'
+  gem 'select2-rails', '~> 3.3.0'
   gem 'uglifier'
   gem 'therubyracer'
   gem 'libv8', '~> 3.11.8' # For therubyracer gem
@@ -44,7 +44,7 @@ group :production do
   gem 'backup', '~> 3.0'
   gem 'net-ssh', '~> 2.3.0'
   gem 'net-scp'
-  gem 'dropbox-sdk', '~> 1.2.0'
+  gem 'dropbox-sdk'
   gem 'mail'
 end
 
