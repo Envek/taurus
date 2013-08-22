@@ -48,6 +48,8 @@ group :production do
   gem 'mail'
 end
 
+gem 'newrelic_rpm'
+
 group :development do
   gem "capistrano"
   gem "rvm-capistrano"
