@@ -100,4 +100,3 @@ class ChargeCard < ActiveRecord::Base
   end
 
 end
-

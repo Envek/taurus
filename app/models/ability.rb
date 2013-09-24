@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user, params)
-    as_action_aliases
+    as_action_aliases if defined?(as_action_aliases)
     user ||= User.new # Guests
 
     if user.admin?

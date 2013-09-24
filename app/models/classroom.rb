@@ -37,7 +37,11 @@ class Classroom < ActiveRecord::Base
   end
 
   def full_name
-    "#{self.name}#{' ('+self.building.name+')' if self.building}#{': '+self.title if self.title}"
+    "#{short_name}#{': '+self.title if self.title}"
+  end
+
+  def short_name
+    "#{self.name}#{' ('+self.building.name+')' if self.building}"
   end
 
   alias to_label full_name

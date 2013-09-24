@@ -59,7 +59,17 @@ p.notice {
   background-image: image-url("information_32.png");
   background-position: 10px center;
   background-repeat: no-repeat;
-  font-size: 120%; }
+  font-size: 120%;
+  overflow: hidden;
+
+  .print_button_container {
+    overflow: hidden;
+  }
+
+  .print_button {
+    float: right;
+  }
+}
 
 /* GroupsList START */
 #group_list_form {
@@ -221,4 +231,117 @@ table.teaching_plan tbody, table.teaching_plan tfoot, table.teaching_plan thead 
 
 .select2-result-sub {
   padding-left: 0;
+}
+
+a.btn {
+  display: block;
+  margin: 0 0.5em 0 0;
+  padding: 0.2em 0.25em;
+  border: 1px solid silver;
+  border-radius: 3px;
+  background-image: -moz-linear-gradient(top, #f9f9f9, #e0e0e0);
+  background-image: -ms-linear-gradient(top, #f9f9f9, #e0e0e0);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#e0e0e0));
+  background-image: -webkit-linear-gradient(top, #f9f9f9, #e0e0e0);
+  background-image: -o-linear-gradient(top, #f9f9f9, #e0e0e0);
+  background-image: linear-gradient(top, #f9f9f9, #e0e0e0);
+  float: left;
+
+  &.current {
+    background-image: -moz-linear-gradient(top, #e0e0e0, #f9f9f9);
+    background-image: -ms-linear-gradient(top, #e0e0e0, #f9f9f9);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e0e0e0), to(#f9f9f9));
+    background-image: -webkit-linear-gradient(top, #e0e0e0, #f9f9f9);
+    background-image: -o-linear-gradient(top, #e0e0e0, #f9f9f9);
+    background-image: linear-gradient(top, #e0e0e0, #f9f9f9);
+  }
+
+  &:link, &:visited {
+    color: navy;
+    text-decoration: none;
+  }
+
+  &:hover, &:focus {
+    background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
+    background-image: -ms-linear-gradient(top, #fff, #e6e6e6);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top, #fff, #e6e6e6);
+    background-image: -o-linear-gradient(top, #fff, #e6e6e6);
+    background-image: linear-gradient(top, #fff, #e6e6e6);
+  }
+
+  &::before {
+    display: inline-block;
+    margin-right: 0.5em;
+    position: relative;
+    top: 2px;
+  }
+
+  &.print_button::before {
+    content: image-url('printer.png');
+  }
+}
+
+table.report {
+  font: normal 12pt serif;
+  border-collapse: collapse;
+
+  thead, th {
+    background: none;
+  }
+
+  td {
+    padding: 0.1em 0.25em;
+    border: 1px solid black;
+    page-break-inside: avoid;
+  }
+
+}
+
+.charge_card_forms {
+  font: normal 12pt serif;
+
+  h1 {
+    font: normal 13pt serif;
+    text-align: center;
+
+    span {
+      text-transform: uppercase;
+      font-weight: bold;
+      display: block;
+    }
+  }
+}
+
+@media print {
+
+  @page {
+    size: A4 portrait;
+    margin-top: 1cm;
+    margin-right: 1cm;
+    margin-bottom: 1cm;
+    margin-left: 2.5cm;
+  }
+
+  @page :left {
+    margin-right: 2.5cm;
+    margin-left: 1cm;
+  }
+
+  .main_menu, .notice, .alert, .info {
+    display: none;
+    border: none;
+  }
+
+  a:link, a:visited {
+    text-decoration: none;
+    color: black;
+  }
+
+  table {
+    tr, th, td {
+      page-break-inside: avoid;
+    }
+  }
+
 }

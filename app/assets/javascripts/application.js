@@ -73,4 +73,10 @@ jQuery(document).ready(function($) {
         $("#teaching_plans_group_input").val('');
         $("#teaching_plans_group_list tbody tr").removeClass("hidden");
     });
+
+    $(".print_button").on('click', function () {
+        window.print();
+        return false;
+    })
+
 });

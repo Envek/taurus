@@ -101,6 +101,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
       end
     end
     resources :classrooms do as_routes end
+    resource :charge_card_form, only: [:show, :edit, :save]
     root :to => redirect {|env, req| "/department/#{req.params[:department_id]}/teaching_places" }
   end
 

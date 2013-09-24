@@ -25,4 +25,9 @@ class Lecturer < ActiveRecord::Base
   def self.escape_name(name)
     name.to_s.gsub('%', '\%').gsub('_', '\_') + '%'
   end
+
+  def short_name
+    parts = name.split(/[\.\s]/)
+    "#{parts.first}\u00A0#{parts[1..-1].map(&:first).join('.')}."
+  end
 end

@@ -1,0 +1,60 @@
+<style> @page { size: A4 landscape; margin: 1cm 0.5cm 0.5cm; }</style> <!-- Chrome doesn't support named pages. It's a hack. -->
+
+- title "Карточка распределения нагрузки #{current_department.short_name}"
+
+.info.print_info
+  %p Вы можете распечатать карточку непосредственно с этой страницы, нажмите кнопку «Печать» ниже:
+  %p.print_button_container
+    %a.btn.print_button{href: ''} Печать
+
+.charge_card_forms
+
+  %h1 <span>Карточка</span> распределения нагрузки преподавателей кафедры #{current_department.short_name} (№ кафедры: #{current_department.gosinsp_code}) на #{current_semester.to_human}.
+
+  %table.report
+    %thead
+      %tr
+        %th{rowspan: 2} №
+        %th{rowspan: 2} Дисциплина
+        %th{rowspan: 2} Курс
+        %th{rowspan: 2} Группы в потоке
+        %th{rowspan: 2} Лектор
+        %th{rowspan: 2} Преподаватель, ведущий практ., лаборат. занятия
+        %th{colspan: 2} Лекции
+        %th{colspan: 2} Практические
+        %th{colspan: 2} Лабораторные
+        %th{rowspan: 2} Примечания
+      %tr
+        - 3.times do
+          %th ч/н
+          %th ауд.
+    %tbody
+      - counter = 0
+      - @disciplines.each do |discipline|
+        - @grouped[discipline.id].each do |lead_card, grouped_cards|
+          - rows = grouped_cards.size
+          - grouped_cards.each_with_index do |group, index|
+            - cards = group.second
+            %tr
+              - if index.zero?
+                %td{rowspan: rows}= counter+=1
+                %td{rowspan: rows}= discipline.name
+                %td{rowspan: rows}= lead_card.groups.first.try(:course)
+              %td= cards.first.groups.map(&:name).join(', ')
+              - if index.zero?
+                %td{rowspan: rows}= lead_card.teaching_place.try(:lecturer).try(:short_name) if lead_card.lesson_type_id == 1
+              %td= cards.first.try(:teaching_place).try(:lecturer).try(:short_name)
+              - if index.zero?
+                %td{rowspan: rows}= raw "<strong>#{format("%g", lead_card.hours_per_week)}</strong>" if lead_card.lesson_type_id == 1
+                %td{rowspan: rows}= lead_card.preferred_classrooms.map(&:short_name).join(', ') if lead_card.lesson_type_id == 1
+              - @lesson_types.reject{|t| t.id == 1}.each do |lt|
+                - if (ltcards = cards.select{|c| c.lesson_type_id == lt.id }).any?
+                  %td <strong>#{format("%g", ltcards.map(&:hours_per_week).inject(&:+))}</strong>
+                  %td= ltcards.map{|c| c.preferred_classrooms.map(&:short_name) }.flatten.uniq.join(', ')
+                - else
+                  %td
+                  %td
+              - if index.zero?
+                %td{rowspan: rows}
+
+  %p Зав. кафедрой
