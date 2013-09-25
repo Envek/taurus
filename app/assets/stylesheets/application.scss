@@ -296,7 +296,13 @@ table.report {
     page-break-inside: avoid;
   }
 
+  &+p.note {
+    margin-top: 0;
+  }
+
 }
+
+p.note { font-size: 75%; }
 
 .charge_card_forms {
   font: normal 12pt serif;

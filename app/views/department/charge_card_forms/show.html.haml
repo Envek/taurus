@@ -49,12 +49,17 @@
                 %td{rowspan: rows}= lead_card.preferred_classrooms.map(&:short_name).join(', ') if lead_card.lesson_type_id == 1
               - @lesson_types.reject{|t| t.id == 1}.each do |lt|
                 - if (ltcards = cards.select{|c| c.lesson_type_id == lt.id }).any?
-                  %td <strong>#{format("%g", ltcards.map(&:hours_per_week).inject(&:+))}</strong>
+                  %td
+                    <strong>#{format("%g", ltcards.map(&:hours_per_week).inject(&:+))}</strong>
+                    - if ltcards.any? {|c| c.jets.any? {|jet| not jet.subgroups_quantity.zero? }}
+                      <small>(#{ ltcards.map {|c| c.jets.map(&:subgroups_quantity) }.flatten.max})</small>
                   %td= ltcards.map{|c| c.preferred_classrooms.map(&:short_name) }.flatten.uniq.join(', ')
                 - else
                   %td
                   %td
               - if index.zero?
                 %td{rowspan: rows}
+
+  %p.note Числа в скобках после количества часов обозначают количество подгрупп, на которые необходимо поделить группы.
 
   %p Зав. кафедрой

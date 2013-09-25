@@ -11,7 +11,9 @@ class Department::ChargeCardFormsController < Department::BaseController
         cards.reject!{|c| (c.groups - card.groups).empty? }
         [card, pl_cards]
       end
-      other_card_groups = cards.map{|c| [c, [c].group_by{|c| [c.group_ids, c.teaching_place_id]}] }
+      other_card_groups = cards.group_by{|c| [c.group_ids, c.teaching_place_id]}.map do |g, cs|
+        [cs.first, [[g, cs]]]
+      end
       [discipline.id, groups + other_card_groups]
     end]
   end
