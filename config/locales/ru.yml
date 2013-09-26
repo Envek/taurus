@@ -113,6 +113,7 @@ ru:
         gosinsp_code: 'Код в GosInsp'
         charge_cards_all: 'Кол-во карт нагрузки'
         charge_cards_today: 'Создано сегодня'
+        dept_head: Зав. кафедрой
       discipline:
         name: 'Название дисциплины'
         short_name: 'Сокращенное название'

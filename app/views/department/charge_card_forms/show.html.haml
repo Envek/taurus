@@ -62,4 +62,17 @@
 
   %p.note Числа в скобках после количества часов обозначают количество подгрупп, на которые необходимо поделить группы.
 
-  %p Зав. кафедрой
+  %table.invisible.signature_block
+    %col
+    %col
+    %col
+    %tbody
+      %tr
+        %td Зав. кафедрой
+        %td
+          %p.signature{'data-subscript' => '(подпись)'} &nbsp;
+        %td
+          - if current_department.dept_head
+            = current_department.dept_head.try(:short_name)
+          - else
+            %p.signature{'data-subscript' => '(Фамилия И.О.)'} &nbsp;

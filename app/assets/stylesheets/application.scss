@@ -319,6 +319,54 @@ p.note { font-size: 75%; }
   }
 }
 
+table.invisible {
+  border: none;
+
+  td, th {
+    border: none;
+  }
+
+}
+
+table.signature_block {
+  width: 100%;
+
+  col {
+    width: 33%;
+  }
+
+  td {
+    padding: 0.1em 1em;
+
+    &:first-child {
+      text-align: left;
+    }
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+}
+
+.signature {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 5em;
+  border-bottom: 1px solid black;
+
+  &::after {
+    content: attr(data-subscript);
+    display: block;
+    font-size: 75%;
+    position: absolute;
+    top: 1.75em;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
 @media print {
 
   @page {

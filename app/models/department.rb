@@ -8,7 +8,8 @@ class Department < ActiveRecord::Base
   has_many :lecturers, :through => :teaching_places
   has_many :specialities, :dependent => :destroy
   has_and_belongs_to_many :dept_heads, :class_name => "User"
-  
+  belongs_to :dept_head, class_name: 'Lecturer'
+
   validates :name, :presence => true, :uniqueness => true
   validates :short_name, :presence => true, :uniqueness => true
   validates :gosinsp_code, :uniqueness => {:allow_nil => true},
