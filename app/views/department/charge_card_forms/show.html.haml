@@ -58,7 +58,7 @@
                   %td
                   %td
               - if index.zero?
-                %td{rowspan: rows}
+                %td{rowspan: rows}= sanitize [lead_card, cards].flatten.map(&:note).compact.join('<br/>')
 
   %p.note Числа в скобках после количества часов обозначают количество подгрупп, на которые необходимо поделить группы.
 

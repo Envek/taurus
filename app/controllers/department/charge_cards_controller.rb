@@ -2,7 +2,7 @@
 class Department::ChargeCardsController < Department::BaseController
   active_scaffold do |config|
     config.actions << :delete
-    config.columns = [:semester, :teaching_place, :assistant_teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups, :preferred_classrooms]
+    config.columns = [:semester, :teaching_place, :assistant_teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups, :preferred_classrooms, :note]
     config.create.columns.exclude :groups, :hours_quantity
     config.update.columns.exclude :groups, :hours_quantity
     config.list.columns.exclude :jets
@@ -21,6 +21,7 @@ class Department::ChargeCardsController < Department::BaseController
     config.columns[:groups].clear_link
     config.columns[:hours_per_week].inplace_edit = true
     config.columns[:weeks_quantity].inplace_edit = true
+    config.columns[:note].inplace_edit = true
   end
 
   def conditions_for_collection

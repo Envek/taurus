@@ -90,6 +90,7 @@ ru:
         weeks_quantity: 'Количество недель'
         semester: 'Семестр'
         preferred_classrooms: 'Предпочитаемые аудитории'
+        note: 'Примечания'
       classroom:
         building: 'Корпус'
         capacity: 'Вместимость'
