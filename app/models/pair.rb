@@ -157,7 +157,7 @@ class Pair < ActiveRecord::Base
       if (charge_card.try(:assistant_teaching_place).try(:lecturer) != nil)
         if (conflicts = candidates.select { |c| 
             c.charge_card && charge_card && 
-            (c.charge_card.teaching_place.lecturer == charge_card.try(:assistant_teaching_place).try(:lecturer) ||
+            (c.charge_card.try(:teaching_place).try(:lecturer) == charge_card.try(:assistant_teaching_place).try(:lecturer) ||
              c.charge_card.try(:assistant_teaching_place).try(:lecturer) == charge_card.try(:assistant_teaching_place).try(:lecturer))            
         }).size > 0
           pairs = conflicts.map { |p| p.name }.join('<br />')
