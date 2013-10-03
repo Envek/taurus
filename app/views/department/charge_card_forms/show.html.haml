@@ -42,8 +42,15 @@
                 %td{rowspan: rows}= lead_card.groups.first.try(:course)
               %td= cards.first.groups.map(&:name).join(', ')
               - if index.zero?
-                %td{rowspan: rows}= lead_card.teaching_place.try(:lecturer).try(:short_name) if lead_card.lesson_type_id == 1
-              %td= cards.first.try(:teaching_place).try(:lecturer).try(:short_name)
+                %td{rowspan: rows}
+                  - if lead_card.lesson_type_id == 1
+                    - lecturer  = lead_card.teaching_place.try(:lecturer).try(:short_name)
+                    - assistant = lead_card.assistant_teaching_place.try(:lecturer).try(:short_name)
+                    #{[lecturer, assistant].compact.to_sentence}
+              %td
+                - lecturer  = cards.first.try(:teaching_place).try(:lecturer).try(:short_name)
+                - assistant = cards.first.try(:assistant_teaching_place).try(:lecturer).try(:short_name)
+                #{[lecturer, assistant].compact.to_sentence}
               - if index.zero?
                 %td{rowspan: rows}= raw "<strong>#{format("%g", lead_card.hours_per_week)}</strong>" if lead_card.lesson_type_id == 1
                 %td{rowspan: rows}= lead_card.preferred_classrooms.map(&:short_name).join(', ') if lead_card.lesson_type_id == 1
