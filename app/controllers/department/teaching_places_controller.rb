@@ -29,6 +29,10 @@ class Department::TeachingPlacesController < Department::BaseController
       end
     end
     @lesson_types = LessonType.all
+    respond_to do |format|
+      format.html
+      format.xlsx { render xlsx: 'training_assignments', filename: "Заявка на учебные поручения: #{@teaching_place.try(:lecturer).try(:short_name)}, кафедра #{current_department.short_name}.xlsx" }
+    end
   end
 
   protected

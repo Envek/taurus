@@ -6,6 +6,7 @@
   %p Вы можете распечатать заявку непосредственно с этой страницы, нажмите кнопку «Печать» ниже:
   %p.print_button_container
     %a.btn.print_button{href: ''} Печать
+    %a.btn.excel_export{href: training_assignments_department_teaching_place_path(current_department, @teaching_place, format: 'xlsx')} В формате Excel
 
 .training_assignments_forms.report
 

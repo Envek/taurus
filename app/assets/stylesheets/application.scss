@@ -280,6 +280,11 @@ a.btn {
   &.print_button::before {
     content: image-url('printer.png');
   }
+
+  &.excel_export::before {
+    content: image-url("excel.png");
+  }
+
 }
 
 table.report {

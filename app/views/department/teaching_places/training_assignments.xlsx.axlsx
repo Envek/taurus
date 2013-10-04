@@ -1,0 +1,103 @@
+wb = xlsx_package.workbook
+
+# Cell styles
+styles = {}
+wb.styles do |s|
+  styles[:header_top] = s.add_style sz: 14, font_name: 'Times New Roman', alignment: {horizontal: :center, vertical: :center }
+  styles[:text] = s.add_style sz: 12, font_name: 'Times New Roman', alignment: {horizontal: :center, vertical: :center, wrapText: true }
+  styles[:text_u] = s.add_style sz: 12, font_name: 'Times New Roman', alignment: {horizontal: :center, vertical: :center, wrapText: true }, border: { style: :thin, color: '00000000', edges: [:bottom]}
+  styles[:header_cell] = s.add_style sz: 8, font_name: 'Times New Roman', alignment: {horizontal: :center, vertical: :center, wrapText: true }, border: { style: :thin, color: '00000000'}
+  styles[:header_cell_vertical] = s.add_style sz: 8, font_name: 'Times New Roman', alignment: {horizontal: :center, vertical: :center, wrapText: true, textRotation: 90 }, border: { style: :thin, color: '00000000'}
+  styles[:usual_cell] = s.add_style sz: 10, font_name: 'Times New Roman', alignment: {horizontal: :left, vertical: :center, wrapText: true }, border: { style: :thin, color: '00000000'}
+end
+
+# Printing preparations
+margins = {left: 0.5/2.54, right: 0.5/2.54, top: 0.5/2.54, bottom: 0.5/2.54, header: 0, footer: 0}
+setup = {fit_to_width: 1, fit_to_height: 0, orientation: :landscape}
+
+wb.add_worksheet(name: 'Учебные поручения', page_margins: margins, page_setup: setup) do |sheet|
+
+  table_width = 16
+
+  # Headers
+  sheet.add_row ['КАРТОЧКА'], style: styles[:header_top]
+  sheet.add_row ["на учебные поручения на #{current_semester.to_human}, #{@teaching_place.try(:lecturer).try(:name)}."], style: styles[:text]
+  sheet.add_row [
+    "На кафедру #{Unicode::downcase(current_department.name)}", ['']*5,
+    "Факультет: #{Unicode::downcase(current_department.faculty.full_name)}", ['']*9,
+  ].flatten, style: styles[:text]
+
+  sheet.merge_cells("A1:#{Axlsx::cell_r(table_width-1, 0)}")
+  sheet.merge_cells("A2:#{Axlsx::cell_r(table_width-1, 1)}")
+  sheet.merge_cells("A3:F3")
+  sheet.merge_cells("G3:#{Axlsx::cell_r(table_width-1, 2)}")
+
+  sheet.add_row ['']*table_width, style: styles[:text]
+
+  # Table headers
+  headers = [
+    'Дисциплина',
+    'Группа',
+    'Кол-во студентов',
+    'Кол-во недель',
+    'Лекции',
+    'Практич.',
+    'Лаборат.',
+    'Самос. работа',
+    'Консульт.',
+    'Зачёты',
+    'Экзамены',
+    'Уч.-произ. практ.',
+    'Курсовое проектир.',
+    'Практ. работы',
+    'Рук-во аспирантами',
+    'ИТОГО'
+  ]
+
+
+  sheet.add_row headers, style: [styles[:header_cell], (table_width-1).times.map{ styles[:header_cell_vertical]}].flatten, height: 50
+
+  # Abiturient list
+  current_row = start_row = 5
+  @grouped.each do |discipline, group, cards|
+    sheet.add_row [
+      discipline.name,
+      group.name,
+      group.population,
+      cards.map(&:weeks_quantity).max,
+      @lesson_types.map { |type|
+        cards.select{|cc| cc.lesson_type_id == type.id }.map(&:hours_quantity).sum
+      },
+      8.times.map { '' },
+      "=SUM(#{Axlsx::cell_r(4, current_row)}:#{Axlsx::cell_r(table_width-2, current_row)})",
+    ].flatten, style: styles[:usual_cell]
+    current_row += 1
+  end
+
+  # Footer (sums)
+  sheet.add_row [
+    'ИТОГО', '', '', '',
+    11.times.map { |idx|
+      "=SUM(#{Axlsx::cell_r(4+idx, start_row)}:#{Axlsx::cell_r(4+idx, current_row-1)})"
+    },
+    "=SUM(#{Axlsx::cell_r(4, current_row)}:#{Axlsx::cell_r(table_width-2, current_row)})",
+  ].flatten, style: styles[:usual_cell]
+  current_row += 1
+
+  # Dept head sign place
+  sheet.add_row ['']*table_width, style: styles[:text]
+  current_row += 1
+  sign_styles = [styles[:text]]*5
+  if current_department.dept_head
+    sheet.add_row ['Зав. кафедрой', ['']*8, current_department.dept_head.try(:short_name), ['']*6].flatten, style: [[styles[:text]]*2, [styles[:text_u]]*6, [styles[:text]]*8].flatten
+  else
+    sheet.add_row ['Зав. кафедрой', ['']*15].flatten, style: [[styles[:text]]*2, [styles[:text_u]]*6, styles[:text], [styles[:text_u]]*7].flatten
+  end
+  sheet.merge_cells("#{Axlsx::cell_r(2, current_row)}:#{Axlsx::cell_r(7, current_row)}")
+  sheet.merge_cells("#{Axlsx::cell_r(9, current_row)}:#{Axlsx::cell_r(table_width-1, current_row)}")
+  current_row += 1
+
+
+  # Page adjusting
+  sheet.column_widths *[30, 8, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7]
+end
