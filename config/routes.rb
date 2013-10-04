@@ -68,6 +68,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     resources :teaching_places do
       as_routes
       record_select_routes
+      get :training_assignments, on: :member
     end
     resources :disciplines do
       as_routes

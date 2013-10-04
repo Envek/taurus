@@ -93,5 +93,10 @@ class Group < ActiveRecord::Base
     end
   end
 
+  def <=> (other_group)
+    year_equal = self.forming_year <=> other_group.forming_year
+    year_equal.zero? ? self.name <=> other_group.name : year_equal
+  end
+
 end
 
