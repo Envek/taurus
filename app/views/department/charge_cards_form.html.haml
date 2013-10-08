@@ -1,6 +1,6 @@
 <style> @page { size: A4 landscape; margin: 1cm 0.5cm 0.5cm; }</style> <!-- Chrome doesn't support named pages. It's a hack. -->
 
-- title "Карточка распределения нагрузки #{current_department.short_name}"
+- title "Карточка распределения нагрузки #{@department.short_name}"
 
 .info.print_info
   %p Вы можете распечатать карточку непосредственно с этой страницы, нажмите кнопку «Печать» ниже:
@@ -9,7 +9,7 @@
 
 .charge_card_forms.report
 
-  %h1 <span>Карточка</span> распределения нагрузки преподавателей кафедры #{current_department.short_name} (№ кафедры: #{current_department.gosinsp_code}) на #{current_semester.to_human}.
+  %h1 <span>Карточка</span> распределения нагрузки преподавателей кафедры #{@department.short_name} (№ кафедры: #{@department.gosinsp_code}) на #{current_semester.to_human}.
 
   %table.report
     %thead
@@ -79,7 +79,7 @@
         %td
           %p.signature{'data-subscript' => '(подпись)'} &nbsp;
         %td
-          - if current_department.dept_head
-            = current_department.dept_head.try(:short_name)
+          - if @department.dept_head
+            = @department.dept_head.try(:short_name)
           - else
             %p.signature{'data-subscript' => '(Фамилия И.О.)'} &nbsp;

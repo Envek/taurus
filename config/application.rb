@@ -16,6 +16,7 @@ module Taurus
   class Application < Rails::Application
 
     config.autoload_paths += [config.root.join('lib')]
+    config.autoload_paths += %W(#{config.root}/app/controllers/concerns)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

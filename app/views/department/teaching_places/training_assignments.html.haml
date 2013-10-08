@@ -1,19 +1,19 @@
 <style> @page { size: A4 landscape; margin: 1cm 0.5cm 0.5cm; }</style> <!-- Chrome doesn't support named pages. It's a hack. -->
 
-- title "Заявка на учебные поручения: #{@teaching_place.try(:lecturer).try(:short_name)}, кафедра #{current_department.short_name}"
+- title "Заявка на учебные поручения: #{@teaching_place.try(:lecturer).try(:short_name)}, кафедра #{@teaching_place.department.short_name}"
 
 .info.print_info
   %p Вы можете распечатать заявку непосредственно с этой страницы, нажмите кнопку «Печать» ниже:
   %p.print_button_container
     %a.btn.print_button{href: ''} Печать
-    %a.btn.excel_export{href: training_assignments_department_teaching_place_path(current_department, @teaching_place, format: 'xlsx')} В формате Excel
+    %a.btn.excel_export{href: url_for(format: 'xlsx')} В формате Excel
 
 .training_assignments_forms.report
 
   %h1 <span>Заявка</span> на учебные поручения на #{current_semester.to_human}, #{@teaching_place.try(:lecturer).try(:name)}.
 
-  %p На кафедру #{Unicode::downcase(current_department.name)}
-  %p Факультет: #{Unicode::downcase(current_department.faculty.full_name)}
+  %p На кафедру #{Unicode::downcase(@teaching_place.department.name)}
+  %p Факультет: #{Unicode::downcase(@teaching_place.department.faculty.full_name)}
   %table.report
     %thead
       %tr

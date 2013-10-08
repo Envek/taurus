@@ -9,4 +9,7 @@ class Editor::Reference::TeachingPlacesController < Editor::BaseController
     config.search.columns << :lecturer
     config.nested.add_link :charge_cards
   end
+
+  include TeachingPlacesConcern
+
 end

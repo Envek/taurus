@@ -10,4 +10,7 @@ class Supervisor::TeachingPlacesController < Supervisor::BaseController
     conf.actions << :delete
     conf.nested.add_link :charge_cards
   end
+
+  include TeachingPlacesConcern
+
 end 

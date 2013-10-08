@@ -1,6 +1,16 @@
 # -*- encoding : utf-8 -*-
 Taurus::Application.routes.draw do
 
+##### Общие части #####
+
+  concern :departments do
+    get :charge_cards_form, on: :member
+  end
+
+  concern :teaching_places do
+    get :training_assignments, on: :member
+  end
+
 ##### Отображение расписания #####
 
   root :to => redirect('/timetable/groups')
@@ -130,7 +140,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
       as_routes
       record_select_routes
     end
-    resources :departments do as_routes end
+    resources :departments, concerns: [:departments] do as_routes end
     resources :semesters do as_routes end
     get 'teaching_plans' => 'teaching_plans#new'
     post 'teaching_plans/fill' => 'teaching_plans#fill'

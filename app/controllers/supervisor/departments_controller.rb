@@ -10,4 +10,7 @@ class Supervisor::DepartmentsController < Supervisor::BaseController
     config.nested.add_link :teaching_places
     config.nested.add_link :disciplines
   end
+
+  include DepartmentsConcern
+
 end

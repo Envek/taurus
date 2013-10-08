@@ -23,8 +23,8 @@ wb.add_worksheet(name: 'Учебные поручения', page_margins: margin
   sheet.add_row ['КАРТОЧКА'], style: styles[:header_top]
   sheet.add_row ["на учебные поручения на #{current_semester.to_human}, #{@teaching_place.try(:lecturer).try(:name)}."], style: styles[:text]
   sheet.add_row [
-    "На кафедру #{Unicode::downcase(current_department.name)}", ['']*5,
-    "Факультет: #{Unicode::downcase(current_department.faculty.full_name)}", ['']*9,
+    "На кафедру #{Unicode::downcase(@teaching_place.department.name)}", ['']*5,
+    "Факультет: #{Unicode::downcase(@teaching_place.department.faculty.full_name)}", ['']*9,
   ].flatten, style: styles[:text]
 
   sheet.merge_cells("A1:#{Axlsx::cell_r(table_width-1, 0)}")
@@ -88,8 +88,8 @@ wb.add_worksheet(name: 'Учебные поручения', page_margins: margin
   sheet.add_row ['']*table_width, style: styles[:text]
   current_row += 1
   sign_styles = [styles[:text]]*5
-  if current_department.dept_head
-    sheet.add_row ['Зав. кафедрой', ['']*8, current_department.dept_head.try(:short_name), ['']*6].flatten, style: [[styles[:text]]*2, [styles[:text_u]]*6, [styles[:text]]*8].flatten
+  if @teaching_place.department.dept_head
+    sheet.add_row ['Зав. кафедрой', ['']*8, @teaching_place.department.dept_head.try(:short_name), ['']*6].flatten, style: [[styles[:text]]*2, [styles[:text_u]]*6, [styles[:text]]*8].flatten
   else
     sheet.add_row ['Зав. кафедрой', ['']*15].flatten, style: [[styles[:text]]*2, [styles[:text_u]]*6, styles[:text], [styles[:text_u]]*7].flatten
   end
