@@ -13,6 +13,15 @@ class Pair < ActiveRecord::Base
 
   scope :in_semester, lambda { |semester| where('("pairs"."expired_at" >= ? AND "pairs"."expired_at" <= ?) OR ("pairs"."active_at" >= ? AND "pairs"."active_at" <= ?)', semester.start, semester.end, semester.start, semester.end) }
 
+  RELATIONS_TO_INCLUDE = {
+    subgroups: {jet: :group},
+    charge_card: [:groups, {
+     preferred_classrooms: [:department, :building],
+     teaching_place: [:lecturer, :department], assistant_teaching_place: [:lecturer, :department],
+    }],
+    classroom: [:department, :building],
+  }
+
   def in_semester?(semester)
     (active_at >= semester.start and active_at <= semester.end) or (expired_at >= semester.start and expired_at <= semester.end)
   end
@@ -118,7 +127,7 @@ class Pair < ActiveRecord::Base
     week_conditions = week == 0 ? [0, 1, 2] : [0, week]
     conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?) AND NOT ((pairs.active_at > ? AND expired_at > ?) OR (active_at < ? AND expired_at < ?))',
                   id, day_of_the_week, pair_number, week_conditions, expired_at, expired_at, active_at, active_at]
-    if (conflicts = Pair.where(conditions)).size > 0
+    if (conflicts = Pair.where(conditions).includes(RELATIONS_TO_INCLUDE)).size > 0
       pairs = conflicts.map { |p| p.name }.join('<br />')
       errors[:base] << "Невозможно создать пару, так как следующая пара:<br /><br />" +
       pairs +
@@ -127,13 +136,15 @@ class Pair < ActiveRecord::Base
   end
   
   def update_validation
+    logger.debug "Pair ##{self.id} update validation: start"
     week_conditions = week == 0 ? [0, 1, 2] : [0, week]
     conditions = ['pairs.id <> ? AND pairs.day_of_the_week = ? AND pairs.pair_number = ? AND pairs.week IN (?) AND NOT ((pairs.active_at > ? AND expired_at > ?) OR (active_at < ? AND expired_at < ?))',
                   id, day_of_the_week, pair_number, week_conditions, expired_at, expired_at, active_at, active_at]
-    if (candidates = Pair.all(:conditions => conditions)).size > 0
+    if (candidates = Pair.where(conditions).includes(RELATIONS_TO_INCLUDE)).size > 0
       # classroom busyness (it's okay if there is no classroom yet)
       unless classroom_id.nil?
-        if (conflicts = candidates.select { |c| c.classroom_id == classroom.id }).size > 0
+        logger.debug "Pair ##{self.id} update validation: check for classroom busyness (#{classroom.short_name})"
+        if (conflicts = candidates.select { |c| c.classroom_id == classroom_id }).size > 0
           pairs = conflicts.map { |p| p.name }.join('<br />')
           errors[:base] << "Невозможно сохранить пару, так как следующие пары:<br /><br />" +
           pairs +
@@ -142,6 +153,7 @@ class Pair < ActiveRecord::Base
         end
       end
       # lecturer busyness
+      logger.debug "Pair ##{self.id} update validation: check for lecturer busyness"
       if (conflicts = candidates.select { |c| 
             c.charge_card && charge_card && charge_card.teaching_place &&
             (c.charge_card.teaching_place.try(:lecturer) == charge_card.teaching_place.try(:lecturer) ||
@@ -154,6 +166,7 @@ class Pair < ActiveRecord::Base
         candidates -= conflicts
       end
       # assistant lecturer busyness
+      logger.debug "Pair ##{self.id} update validation: check for assistant lecturer busyness"
       if (charge_card.try(:assistant_teaching_place).try(:lecturer) != nil)
         if (conflicts = candidates.select { |c| 
             c.charge_card && charge_card && 
@@ -168,6 +181,7 @@ class Pair < ActiveRecord::Base
         end
       end
       # subgroups busyness
+      logger.debug "Pair ##{self.id} update validation: check for subgroup busyness"
       if (conflicts = candidates.select { |c| c.charge_card && charge_card && (c.charge_card.groups & charge_card.groups).size > 0 }).size > 0
         groups_intersect = conflicts.map { |c| [c, c.charge_card.groups & charge_card.groups] }
         conflicts = []

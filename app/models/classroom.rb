@@ -13,7 +13,7 @@ class Classroom < ActiveRecord::Base
 
   def self.all_with_recommended_first_for (department)
     if department.class == Department
-      find_by_sql("(
+      classrooms = find_by_sql("(
         SELECT classrooms.*
         FROM classrooms JOIN buildings ON classrooms.building_id = buildings.id
         WHERE classrooms.department_id = #{department.id}
@@ -28,9 +28,12 @@ class Classroom < ActiveRecord::Base
         ORDER BY
 	        classrooms.name ASC,
 	        buildings.name ASC
-        )").each do |c|
-          c.set_recommended_dept(department)
-        end
+      )").each do |c|
+        c.set_recommended_dept(department)
+      end
+      includes = [:department, :building, :recommended_charge_cards]
+      ActiveRecord::Associations::Preloader.new(classrooms, includes).run
+      classrooms
     else
       all
     end
