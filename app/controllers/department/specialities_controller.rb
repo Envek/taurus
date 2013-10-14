@@ -23,6 +23,7 @@ class Department::SpecialitiesController < Department::BaseController
   def teaching_plan_import
     if params[:plan] and params[:plan].class == ActionDispatch::Http::UploadedFile
       @specialities = current_department.specialities
+      params[:plan].rewind # In case if someone have already read our file
       @speciality, @results, @errors = parse_and_fill_teaching_plan(params[:plan].read, @specialities)
       render "supervisor/teaching_plans/fill"
       return
