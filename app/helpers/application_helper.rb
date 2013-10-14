@@ -39,4 +39,17 @@ module ApplicationHelper
     MarkdownHandler.parser.render(text).html_safe
   end
 
+  def departments_change_grouped_options_for_select(accessible_departments=Department.all)
+    faculties = Faculty.joins(:departments).reorder('departments.gosinsp_code').includes(:departments)
+    groups = faculties.map do |f|
+      depts = f.departments & accessible_departments
+      if depts.any?
+        [f.name, depts.map{|d| [d.name, d.id] }]
+      else
+        nil
+      end
+    end.compact
+    grouped_options_for_select(groups, current_department.id)
+  end
+
 end

@@ -18,6 +18,8 @@ class Department < ActiveRecord::Base
 
   after_update :update_charge_cards_editor_titles, :if => :name_changed?
 
+  default_scope where('departments.faculty_id IS NOT NULL').order(:gosinsp_code, :name)
+
   protected
 
   def update_charge_cards_editor_titles

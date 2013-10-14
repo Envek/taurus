@@ -2,5 +2,5 @@
 - if depts.count > 1
   %li.department
     = form_tag '/department/change', :method => 'post' do |f|
-      = select_tag :department_id, options_for_select(depts.map { |d| [d.name, d.id] }, current_department.id), :class => :department_change
+      = select_tag :department_id, departments_change_grouped_options_for_select(depts), :class => :department_change
       <button type="submit">Сменить</button>
