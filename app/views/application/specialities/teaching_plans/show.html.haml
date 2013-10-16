@@ -1,8 +1,23 @@
-%h1 Учебный план специальности #{@speciality.code} «#{@speciality.name}»
+- title "Учебный план #{@speciality.code}"
+
+<style> @page { size: A4 landscape; margin: 1cm 0.5cm 0.5cm; }</style> <!-- Chrome doesn't support named pages. It's a hack. -->
+
+.info.print_info
+  %p Вы можете распечатать учебный план непосредственно с этой страницы, нажмите кнопку «Печать» ниже:
+  %p.print_button_container
+    %a.btn.print_button{href: ''} Печать
+
+%h1 Учебный план #{@speciality.code} «#{@speciality.name}»
+
+%p.noprint
+  = link_to_if params[:course].present?, "Общий", url_for(params.merge(course: nil))
+  - @courses.each do |course|
+    = link_to_unless (params[:course].to_i == course), "Курс #{course}", url_for(params.merge(course: course))
 
 %p Группы: 
 %ul
   - @speciality.groups.each do |group|
+    - next if params[:course].present? and group.course != params[:course].to_i
     %li <strong>#{group.name}</strong>, #{group.course} курс, #{group.population or "(не указано)"} человек
 
 - conditions = {:speciality_id => @speciality.id}
@@ -13,50 +28,59 @@
 - else
   %table.teaching_plan.infotable.fullwidth-table
     %colgroup
-    - @courses.each do |course|
+    - @display_courses.each do |course|
       %colgroup
         %col{:span => 4}
         %col{:span => 4}
-    %colgroup
+    %colgroup{:span => 4}
     %thead
       %tr
         %th{:rowspan => 3} Дисциплина
-        - @courses.each do |course|
+        - @display_courses.each do |course|
           %th{:colspan => 8} Курс #{course}
-        %th{:rowspan => 3} Всего
+        %th{:rowspan => 2, colspan: 4} Всего
       %tr
-        - @courses.each do |course|
+        - @display_courses.each do |course|
           %th{:colspan => 4} Семестр 1
           %th{:colspan => 4} Семестр 2
       %tr
-        - (@courses.count*2).times do |course|
+        - (@display_courses.count*2).times do |course|
           - ["Лек", "Прт", "Лаб"].each do |typename|
             %th #{typename}
           %th{:rowspan => 3} Экз
+        - ["Лек", "Прт", "Лаб"].each do |typename|
+          %th #{typename}
+        %th Итого
     %tfoot
       %tr
         %th Всего
-        - @courses.each do |course|
+        - @display_courses.each do |course|
           - (1..2).each do |semester|
             - conditions.merge!({:course => course, :semester => semester})
-            - plans = TeachingPlan.all(:conditions => conditions)
+            - plans = @teaching_plans.select{|tp| conditions.all? {|k,v| tp.send(k) == v} }
             %th #{plans.sum{|p| p.lections or 0 } if plans.any?}
             %th #{plans.sum{|p| p.practics or 0} if plans.any?}
             %th #{plans.sum{|p| p.lab_works or 0} if plans.any?}
             %th
-        %th
+        %th= @teaching_plans.sum{|p| (p.lections or 0)} if @teaching_plans.any?
+        %th= @teaching_plans.sum{|p| (p.practics or 0)} if @teaching_plans.any?
+        %th= @teaching_plans.sum{|p| (p.lab_works or 0)} if @teaching_plans.any?
+        %th= @teaching_plans.sum{|p| (p.lections or 0) + (p.practics or 0) + (p.lab_works or 0)} if @teaching_plans.any?
     %tbody
       - @disciplines.each do |discipline|
         %tr
-          %th= discipline.name
+          %th #{discipline.name} <small>(каф. #{discipline.department.try(:short_name)})</small>
           - plans = []
-          - @courses.each do |course|
+          - @display_courses.each do |course|
             - (1..2).each do |semester|
               - conditions.merge!({:discipline_id => discipline.id, :course => course, :semester => semester})
-              - plan = TeachingPlan.first(:conditions => conditions)
+              - plan = @teaching_plans.select{|tp| conditions.all? {|k,v| tp.send(k) == v} }.first
               - plans << plan if plan
               %td #{plan.lections if plan}
               %td #{plan.practics if plan}
               %td #{plan.lab_works if plan}
               %td #{(plan.exam ? "Экз" : "Зач") if plan}
+          %th= plans.sum{|p| (p.lections or 0)} if plans.any?
+          %th= plans.sum{|p| (p.practics or 0)} if plans.any?
+          %th= plans.sum{|p| (p.lab_works or 0)} if plans.any?
           %th= plans.sum{|p| (p.lections or 0) + (p.practics or 0) + (p.lab_works or 0)} if plans.any?

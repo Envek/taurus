@@ -220,6 +220,10 @@ table.teaching_plan tbody, table.teaching_plan tfoot, table.teaching_plan thead 
   border: 2px solid gray;
 }
 
+table.teaching_plan th small {
+  font-weight: normal;
+}
+
 .edit_pair select, .edit_pair .select2-container {
   width: 100%;
 }
@@ -387,7 +391,7 @@ table.signature_block {
     margin-left: 1cm;
   }
 
-  .main_menu, .notice, .alert, .info {
+  .main_menu, .notice, .alert, .info, .noprint {
     display: none;
     border: none;
   }
