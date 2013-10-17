@@ -142,6 +142,12 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     end
     resources :departments, concerns: [:departments] do as_routes end
     resources :semesters do as_routes end
+    resources :training_assignments do
+      as_routes
+      get :join_selected, on: :collection
+      get :split_by_disciplines, on: :member
+      get :split_by_groups, on: :member
+    end
     get 'teaching_plans' => 'teaching_plans#new'
     post 'teaching_plans/fill' => 'teaching_plans#fill'
     root :to => redirect('/supervisor/lecturers')

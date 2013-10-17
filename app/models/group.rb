@@ -4,6 +4,7 @@ class Group < ActiveRecord::Base
   has_many :jets, :dependent => :destroy
   has_many :subgroups, :through => :jets
   has_many :charge_cards, :through => :jets
+  has_and_belongs_to_many :training_assignments, join_table: :groups_in_assignments
 
   validates :name, :presence => true, :uniqueness => { :scope => :forming_year }
   validates :population, :numericality => {:only_integer => true, :greater_than => 0, :allow_nil => true}

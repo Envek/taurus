@@ -3,6 +3,7 @@ class Discipline < ActiveRecord::Base
   belongs_to :department
   has_many :charge_cards, :dependent => :destroy
   has_many :teaching_plans, :dependent => :destroy
+  has_and_belongs_to_many :training_assignments, join_table: :disciplines_in_assignments
 
   validates_presence_of :department, :name, :short_name
   validates_uniqueness_of :name, :scope => :department_id
