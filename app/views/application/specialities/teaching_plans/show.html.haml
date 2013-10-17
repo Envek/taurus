@@ -14,6 +14,8 @@
   - @courses.each do |course|
     = link_to_unless (params[:course].to_i == course), "Курс #{course}", url_for(params.merge(course: course))
 
+%p.noprint= link_to "Сгенерировать учебные поручения", generate_training_assignments_supervisor_speciality_path(@speciality, course: params[:course]), method: :post
+
 %p Группы: 
 %ul
   - @speciality.groups.each do |group|

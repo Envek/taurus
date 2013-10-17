@@ -121,8 +121,10 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
   namespace :supervisor do
     resources :faculties do as_routes end
     resources :specialities do
+      get :teaching_plan, on: :member
+      post :generate_training_assignments, on: :collection
+      post :generate_training_assignments, on: :member
       as_routes
-      member do get :teaching_plan end
     end
     resources :groups do
       as_routes
