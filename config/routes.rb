@@ -146,6 +146,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     resources :semesters do as_routes end
     resources :training_assignments do
       as_routes
+      get :report, on: :collection
       get :join_selected, on: :collection
       get :split_by_disciplines, on: :member
       get :split_by_groups, on: :member

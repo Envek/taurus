@@ -6,15 +6,18 @@ class Supervisor::TrainingAssignmentsController < Supervisor::BaseController
     conf.columns[:disciplines].form_ui = :record_select
     conf.columns[:disciplines].clear_link
     conf.columns[:disciplines].search_sql = 'disciplines.name||disciplines.short_name'
+    conf.columns[:disciplines].sort_by sql: 'disciplines.name'
     conf.search.columns << :disciplines
     conf.columns[:groups].form_ui = :record_select
     conf.columns[:groups].clear_link
     conf.columns[:groups].search_sql = 'groups.name'
+    conf.columns[:groups].sort_by sql: 'groups.name'
     conf.search.columns << :groups
     conf.columns[:lesson_type].form_ui = :select
     conf.columns[:lesson_type].inplace_edit = true
     conf.columns[:lesson_type].clear_link
     conf.columns[:lesson_type].search_sql = 'lesson_types.name'
+    conf.columns[:lesson_type].sort_by sql: 'lesson_types.name'
     conf.search.columns << :lesson_type
     conf.columns[:lesson_type].search_ui = :select
     conf.columns[:weeks_quantity].inplace_edit = true
@@ -84,6 +87,36 @@ class Supervisor::TrainingAssignmentsController < Supervisor::BaseController
       flash[:info] = "Запись разделена на #{total} по дисциплинам!"
     end
     list
+  end
+
+  def report
+    @lesson_types = LessonType.all
+    @assignments = TrainingAssignment.joins(:disciplines).includes(:disciplines).where(semester_id: current_semester.id)
+    if params[:department_id].present?
+      @department  = Department.includes(:disciplines).find(params[:department_id])
+      @assignments = @assignments.where(disciplines: {id: @department.discipline_ids})
+    end
+    if params[:faculty_id].present?
+      @faculty = Faculty.includes(departments: {specialities: :groups}).find(params[:faculty_id])
+      group_ids = @faculty.departments.map(&:specialities).flatten.map(&:group_ids).flatten
+      @assignments = @assignments.includes(:groups).where(groups: {id: group_ids})
+    end
+    @disciplines = @assignments.map(&:disciplines).flatten.uniq.sort_by(&:name)
+    @grouped_assignments = @assignments.group_by{|ta| ta.disciplines.sort_by(&:id) }.sort do |a,b|
+      a.first.first.try(:name).to_s <=> b.first.first.try(:name).to_s
+    end.map do |disciplines, assignments|
+      lect_assigns = assignments.select{|c| c.lesson_type_id == 1}.sort_by{|c| c.groups.map(&:course).min }
+      other_assigns = assignments.reject{|c| c.lesson_type_id == 1}
+      lect_groups = lect_assigns.map do |assignment|
+        pl_assigns = other_assigns.select{|a| (a.groups - assignment.groups).empty? }.group_by{|a| a.group_ids.sort }
+        other_assigns.reject!{|a| (a.groups - assignment.groups).empty? }
+        [assignment, pl_assigns]
+      end
+      other_groups = other_assigns.group_by{|a| a.group_ids.sort }.map do |g, as|
+        [as.first, [[g, as]]]
+      end
+      [disciplines, lect_groups + other_groups]
+    end
   end
 
   def conditions_for_collection
