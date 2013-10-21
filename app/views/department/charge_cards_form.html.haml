@@ -32,8 +32,9 @@
       - counter = 0
       - @disciplines.each do |discipline|
         - @grouped[discipline.id].each do |lead_card, grouped_cards|
-          - rows = grouped_cards.size
-          - grouped_cards.each_with_index do |group, index|
+          - rows = grouped_cards.size.zero?? 1 : grouped_cards.size
+          - charge_cards = grouped_cards.size.zero?? [[nil, [lead_card]]] : grouped_cards
+          - charge_cards.each_with_index do |group, index|
             - cards = group.second
             %tr
               - if index.zero?
@@ -50,7 +51,7 @@
               %td
                 - lecturer  = cards.first.try(:teaching_place).try(:lecturer).try(:short_name)
                 - assistant = cards.first.try(:assistant_teaching_place).try(:lecturer).try(:short_name)
-                #{[lecturer, assistant].compact.to_sentence}
+                #{[lecturer, assistant].compact.to_sentence if cards.first.lesson_type_id != 1}
               - if index.zero?
                 %td{rowspan: rows}= raw "<strong>#{format("%g", lead_card.hours_per_week)}</strong>" if lead_card.lesson_type_id == 1
                 %td{rowspan: rows}= lead_card.preferred_classrooms.map(&:short_name).join(', ') if lead_card.lesson_type_id == 1
