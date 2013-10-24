@@ -13,9 +13,9 @@ class Group < ActiveRecord::Base
   }
   validates :speciality_id, :presence => true
 
-  scope :for_timetable, includes(:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}])
+  scope :for_timetable, includes(:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:disciplines, {:teaching_place => [:lecturer, :department]}]}]}])
   scope :by_name, lambda { |name| where('groups.name ILIKE ?', escape_name(name)) }
-  scope :for_groups_editor, includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}})
+  scope :for_groups_editor, includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:disciplines, {:teaching_place => [:lecturer, :department]}]}]}})
 
   cattr_accessor :current_semester
 

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Discipline < ActiveRecord::Base
   belongs_to :department
-  has_many :charge_cards, :dependent => :destroy
+  has_and_belongs_to_many :charge_cards
   has_many :teaching_plans, :dependent => :destroy
   has_and_belongs_to_many :training_assignments, join_table: :disciplines_in_assignments
 

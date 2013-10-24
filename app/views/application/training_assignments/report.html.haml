@@ -17,6 +17,9 @@
       = select_tag :department_id, departments_grouped_options_for_select(Department.all, params[:department_id], "Все кафедры")
     = submit_tag "Показать"
 
+%p.noprint
+  = link_to "Сгенерировать карточки нагрузки по данным поручениям", url_for(params.merge(action: :new_charge_cards))
+
 .training_assignments_forms.report
 
   %h1 <span>Заявка</span> на учебные поручения на #{current_semester.to_human}.

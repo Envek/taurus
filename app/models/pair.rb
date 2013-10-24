@@ -74,7 +74,7 @@ class Pair < ActiveRecord::Base
   end
 
   def full_discipline
-    full = self.try(:charge_card).try(:discipline).try(:name)
+    full = (self.try(:charge_card).try(:disciplines)||[]).compact.map(&:name).join(', ')
     unless (lesson = self.try(:charge_card).try(:lesson_type).try(:name)).nil?
       full += ' (' + lesson + ')'
     end
@@ -82,11 +82,11 @@ class Pair < ActiveRecord::Base
   end
 
   def discipline
-    self.try(:charge_card).try(:discipline).try(:name)
+    (self.try(:charge_card).try(:disciplines)||[]).compact.map(&:name).join(', ')
   end
 
   def short_discipline
-    self.try(:charge_card).try(:discipline).try(:short_name)
+    (self.try(:charge_card).try(:disciplines)||[]).compact.map(&:short_name).join(', ')
   end
 
   def groups

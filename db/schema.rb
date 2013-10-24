@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131022235254) do
+ActiveRecord::Schema.define(:version => 20131024055705) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(:version => 20131022235254) do
   end
 
   create_table "charge_cards", :force => true do |t|
-    t.integer  "discipline_id"
     t.integer  "teaching_place_id"
     t.integer  "lesson_type_id"
     t.datetime "created_at"
@@ -32,6 +31,13 @@ ActiveRecord::Schema.define(:version => 20131022235254) do
     t.integer  "semester_id"
     t.string   "note"
   end
+
+  create_table "charge_cards_disciplines", :force => true do |t|
+    t.integer "charge_card_id", :null => false
+    t.integer "discipline_id",  :null => false
+  end
+
+  add_index "charge_cards_disciplines", ["charge_card_id", "discipline_id"], :name => "charge_cards_disciplines_main_index", :unique => true
 
   create_table "charge_cards_preferred_classrooms", :id => false, :force => true do |t|
     t.integer "charge_card_id"

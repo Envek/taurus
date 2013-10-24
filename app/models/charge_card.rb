@@ -3,7 +3,7 @@ class ChargeCard < ActiveRecord::Base
   after_save :update_editor_name
 
   belongs_to :semester
-  belongs_to :discipline
+  has_and_belongs_to_many :disciplines
   belongs_to :teaching_place
   belongs_to :assistant_teaching_place, :class_name => "TeachingPlace", :foreign_key => "assistant_id"
 
@@ -13,7 +13,7 @@ class ChargeCard < ActiveRecord::Base
   has_many :pairs, :dependent => :destroy
   has_and_belongs_to_many :preferred_classrooms, class_name: "Classroom", join_table: "charge_cards_preferred_classrooms"
 
-  validates_presence_of :discipline, :lesson_type, :weeks_quantity, :hours_per_week
+  validates_presence_of :lesson_type, :weeks_quantity, :hours_per_week
   validates_numericality_of :weeks_quantity, :hours_per_week
   validate :pairs_validity, :on => :update
   validate :lecturer_and_assistant_validation
@@ -29,7 +29,7 @@ class ChargeCard < ActiveRecord::Base
     self.groups.each do |group|
       groups << group.name
     end
-    n = [discipline.try(:name), lesson_type.try(:name), groups].compact.join(", ")
+    n = [disciplines.compact.map(&:name).join(', '), lesson_type.try(:name), groups].compact.join(", ")
     n + "; #{hours_quantity} ч."
   end
 
@@ -65,15 +65,15 @@ class ChargeCard < ActiveRecord::Base
 
   def self.for_autocreation(discipline_id, lesson_type_id, groups, semester)
     groups = [groups].flatten # In case of single group make it look like an array
-    pretendents = joins(:jets).where(
-        :discipline_id => discipline_id,
+    pretendents = joins(:jets, :disciplines).where(
+        :disciplines => {id: discipline_id},
         :lesson_type_id => lesson_type_id,
         :jets => {:group_id => groups},
         :semester_id => semester.id
     ).all
     pretendents = pretendents.find_all {|cc| cc.groups == groups }
     if pretendents.empty?
-      return new(:discipline_id => discipline_id, :lesson_type_id => lesson_type_id, :semester_id => semester.id)
+      return new(:discipline_ids => [discipline_id], :lesson_type_id => lesson_type_id, :semester_id => semester.id)
     else
       card = pretendents.first
       card.instance_variable_set("@readonly", false) # Very dirty hack to avoid ActiveRecord::ReadOnlyRecord exception
@@ -82,7 +82,7 @@ class ChargeCard < ActiveRecord::Base
   end
 
   def self.association_dependencies
-    [:discipline, :groups, {:jets => :group}, :lesson_type, {:teaching_place => [:lecturer, :department]}, {:assistant_teaching_place => [:lecturer, :department]}]
+    [:disciplines, :groups, {:jets => :group}, :lesson_type, {:teaching_place => [:lecturer, :department]}, {:assistant_teaching_place => [:lecturer, :department]}]
   end
 
   private

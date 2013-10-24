@@ -33,7 +33,7 @@
     - @disciplines.each do |discipline|
       %tr
         %th= discipline.name
-        - cards = @charge_cards.select{|cc| cc.discipline_id == discipline.id}
+        - cards = @charge_cards.select{|cc| cc.discipline_ids.include? discipline.id}
         - plan = @teaching_plans.select{|tp| tp.discipline_id == discipline.id}.first
         %td.numeric-cell= cards.map{|cc| cc.hours_per_week}.sum
         - [[1, :lections], [2, :practics], [3, :lab_works]].each do |type|

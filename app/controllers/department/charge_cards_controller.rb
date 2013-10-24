@@ -2,13 +2,14 @@
 class Department::ChargeCardsController < Department::BaseController
   active_scaffold do |config|
     config.actions << :delete
-    config.columns = [:semester, :teaching_place, :assistant_teaching_place, :lesson_type, :jets, :discipline, :hours_quantity, :hours_per_week, :weeks_quantity, :groups, :preferred_classrooms, :note]
+    config.columns = [:semester, :teaching_place, :assistant_teaching_place, :lesson_type, :jets, :disciplines, :hours_quantity, :hours_per_week, :weeks_quantity, :groups, :preferred_classrooms, :note]
     config.create.columns.exclude :groups, :hours_quantity
     config.update.columns.exclude :groups, :hours_quantity
     config.list.columns.exclude :jets
     config.columns[:semester].form_ui = :select
     config.columns[:semester].inplace_edit = true
-    config.columns[:discipline].form_ui = :record_select
+    config.columns[:disciplines].form_ui = :record_select
+    config.columns[:disciplines].clear_link
     config.columns[:lesson_type].form_ui = :select
     config.columns[:lesson_type].inplace_edit = true
     config.columns[:teaching_place].form_ui = :select
@@ -17,7 +18,6 @@ class Department::ChargeCardsController < Department::BaseController
     config.columns[:assistant_teaching_place].form_ui = :select
     config.columns[:assistant_teaching_place].clear_link
     config.columns[:assistant_teaching_place].inplace_edit = true
-    config.columns[:discipline].clear_link
     config.columns[:groups].clear_link
     config.columns[:hours_per_week].inplace_edit = true
     config.columns[:weeks_quantity].inplace_edit = true

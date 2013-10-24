@@ -18,6 +18,8 @@ Taurus::Application.routes.draw do
       get :join_selected, on: :collection
       get :split_by_disciplines, on: :member
       get :split_by_groups, on: :member
+      get :new_charge_cards, on: :collection
+      post :create_charge_cards, on: :collection
     end
   end
 
