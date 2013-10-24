@@ -11,6 +11,22 @@ Taurus::Application.routes.draw do
     get :training_assignments, on: :member
   end
 
+  concern :training_assignments do
+    resources :training_assignments do
+      as_routes
+      get :report, on: :collection
+      get :join_selected, on: :collection
+      get :split_by_disciplines, on: :member
+      get :split_by_groups, on: :member
+    end
+  end
+
+  concern :speciality_teaching_plans do
+    get :teaching_plan_import, on: :collection
+    post :teaching_plan_import, on: :collection
+    get :teaching_plan, on: :member
+  end
+
 ##### Отображение расписания #####
 
   root :to => redirect('/timetable/groups')
@@ -99,29 +115,54 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     resources :charge_cards do
       as_routes
     end
-    resources :specialities do
+    resources :specialities, concerns: [:speciality_teaching_plans] do
       as_routes
-      collection do
-        get :teaching_plan_import
-        post :teaching_plan_import
-      end
       member do
         get :add_charge_cards
-        get :teaching_plan
         post :create_charge_cards
       end
     end
     resources :classrooms do as_routes end
     resource :charge_card_form, only: [:show, :edit, :save]
+    concerns :training_assignments
     root :to => redirect {|env, req| "/department/#{req.params[:department_id]}/teaching_places" }
+  end
+
+##### Раздел деканата #####
+
+  get  'faculty' => 'faculty/base#change_current_faculty'
+  post 'faculty/change' => 'faculty/base#change_current_faculty'
+
+  namespace :faculty, :path => '/faculty/:faculty_id', :faculty_id => /\d+/ do
+    resources :specialities, concerns: [:speciality_teaching_plans] do
+      member do
+        post :generate_training_assignments
+      end
+      collection do
+        post :generate_training_assignments
+      end
+      as_routes
+    end
+    resources :lecturers do as_routes end
+    resources :groups do as_routes end
+    resources :teaching_places do
+      as_routes
+      record_select_routes
+    end
+    resources :disciplines do
+      as_routes
+      record_select_routes
+    end
+    resources :departments, concerns: [:departments] do as_routes end
+    concerns :training_assignments
+    root :to => redirect('/supervisor/lecturers')
   end
 
 ##### Раздел супервайзера #####
 
   namespace :supervisor do
     resources :faculties do as_routes end
-    resources :specialities do
-      get :teaching_plan, on: :member
+    resources :specialities, concerns: [:speciality_teaching_plans] do
       post :generate_training_assignments, on: :collection
       post :generate_training_assignments, on: :member
       as_routes
@@ -144,15 +185,7 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     end
     resources :departments, concerns: [:departments] do as_routes end
     resources :semesters do as_routes end
-    resources :training_assignments do
-      as_routes
-      get :report, on: :collection
-      get :join_selected, on: :collection
-      get :split_by_disciplines, on: :member
-      get :split_by_groups, on: :member
-    end
-    get 'teaching_plans' => 'teaching_plans#new'
-    post 'teaching_plans/fill' => 'teaching_plans#fill'
+    concerns :training_assignments
     root :to => redirect('/supervisor/lecturers')
   end
 
@@ -165,6 +198,11 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
     resources :supervisors do as_routes end
     resources :admins do as_routes end
     resources :departments do
+      as_routes
+      record_select_routes
+    end
+    resources :faculty_heads do as_routes end
+    resources :faculties do
       as_routes
       record_select_routes
     end

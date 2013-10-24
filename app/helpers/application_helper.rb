@@ -56,4 +56,8 @@ module ApplicationHelper
     grouped_options_for_select(groups, current, prompt)
   end
 
+  def faculties_change_options_for_select(accessible_faculties=Faculty.all)
+    options_for_select(accessible_faculties.map{|f| [f.name, f.id] }, current_faculty.id)
+  end
+
 end

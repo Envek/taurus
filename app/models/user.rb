@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   attr_accessible :login, :name, :email, :password, :password_confirmation, :remember_me
 
   has_and_belongs_to_many :departments
+  has_and_belongs_to_many :faculties
 
   protected
    def password_required?

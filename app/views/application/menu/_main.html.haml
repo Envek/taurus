@@ -8,6 +8,10 @@
           %menu.editor_menu
             = render 'application/menu/editor'
         %li.submenu
+          #{link_to "Деканат", department_teaching_places_path(current_department.id), class: (:current if params[:controller].starts_with?('faculty'))}
+          %menu.faculty_menu
+            = render 'application/menu/faculty'
+        %li.submenu
           #{link_to "Зав. кафедрой", department_teaching_places_path(current_department.id), class: (:current if params[:controller].starts_with?('department'))}
           %menu.department_menu
             = render 'application/menu/department'
@@ -18,6 +22,12 @@
               = render 'application/menu/admin'
       - elsif current_user.editor?
         = render 'application/menu/editor'
+      - elsif current_user.faculties.any?
+        = render 'application/menu/faculty'
+        %li.submenu
+          #{link_to "Зав. кафедрой", department_teaching_places_path(current_department.id), class: (:current if params[:controller].starts_with?('department'))}
+          %menu.department_menu
+            = render 'application/menu/department'
       - else
         = render 'application/menu/department'
       %li #{ link_to 'Выход', destroy_user_session_path, :class => "red", :method => :delete }

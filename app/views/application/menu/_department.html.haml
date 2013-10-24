@@ -3,4 +3,5 @@
 %li #{ link_to 'Дисциплины', department_disciplines_path(current_department.id), class: (:current if params[:controller] == "department/disciplines") }
 %li #{ link_to 'Специальности', department_specialities_path(current_department.id), class: (:current if params[:controller] == "department/specialities") }
 %li #{ link_to 'Аудитории', department_classrooms_path(current_department.id), class: (:current if params[:controller] == "department/classrooms") }
+%li #{ link_to 'Учебные поручения', report_department_training_assignments_path(current_department.id), class: (:current if params[:controller] == "department/training_assignments") }
 %li #{ link_to 'Карточка нагрузки', department_charge_card_form_path(current_department.id), class: (:current if params[:controller] == "department/charge_card_forms") }

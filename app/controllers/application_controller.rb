@@ -24,11 +24,20 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_department
   def current_department
-    @current_department ||= (params[:department_id] and Department.find(params[:department_id]))
+    @current_department ||= (params[:department_id].present? and Department.find(params[:department_id]))
     @current_department ||= Department.accessible_by(current_ability, :update).where(id: session[:current_department_id]).first
     @current_department ||= Department.accessible_by(current_ability, :update).first
     session[:current_department_id] = @current_department.id
     return @current_department
+  end
+
+  helper_method :current_faculty
+  def current_faculty
+    @current_faculty ||= (params[:faculty_id].present? and Faculty.find(params[:faculty_id]))
+    @current_faculty ||= Faculty.accessible_by(current_ability, :update).where(id: session[:current_faculty_id]).first
+    @current_faculty ||= Faculty.accessible_by(current_ability, :update).first
+    session[:current_faculty_id] = @current_faculty.id
+    return @current_faculty
   end
 
 protected
@@ -37,6 +46,7 @@ protected
     return admin_dept_heads_path if current_user.admin?
     return supervisor_lecturers_path if current_user.supervisor?
     return editor_groups_root_path if current_user.editor?
+    return department_teaching_places_path(current_user.faculty_ids.first) if current_user.faculty_ids.any?
     return department_teaching_places_path(current_user.department_ids.first) if current_user.department_ids.any?
     return request.referrer
   end

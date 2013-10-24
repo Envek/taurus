@@ -12,8 +12,9 @@
   = form_tag({}, {method: :get}) do
     От факультета
     = select_tag :faculty_id, options_for_select(Faculty.all.map{|f| [f.full_name, f.id] }, params[:faculty_id]), prompt: "Все факультеты"
-    на кафедру
-    = select_tag :department_id, departments_grouped_options_for_select(Department.all, params[:department_id], "Все кафедры")
+    - unless params[:controller].starts_with? 'department/'
+      на кафедру
+      = select_tag :department_id, departments_grouped_options_for_select(Department.all, params[:department_id], "Все кафедры")
     = submit_tag "Показать"
 
 .training_assignments_forms.report
