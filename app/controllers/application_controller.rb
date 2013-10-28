@@ -46,7 +46,7 @@ protected
     return admin_dept_heads_path if current_user.admin?
     return supervisor_lecturers_path if current_user.supervisor?
     return editor_groups_root_path if current_user.editor?
-    return department_teaching_places_path(current_user.faculty_ids.first) if current_user.faculty_ids.any?
+    return faculty_training_assignments_path(current_user.faculty_ids.first) if current_user.faculty_ids.any?
     return department_teaching_places_path(current_user.department_ids.first) if current_user.department_ids.any?
     return request.referrer
   end

@@ -20,10 +20,10 @@ class Ability
         group_ids = Department.where(id: department_ids).includes(:groups).map(&:group_ids).flatten
         can :read, TrainingAssignment
         can :manage, TrainingAssignment, groups: {id: group_ids}
-        can [:read, :update], Department, id: department_ids
+        can [:read, :update, :charge_cards_form], Department, id: department_ids
         can [:read, :browse, :select], Lecturer
         can [:read, :create], ChargeCard
-        can [:update, :destroy], ChargeCard, discipline: { department_id: department_ids }
+        can [:update, :destroy], ChargeCard, disciplines: { department_id: department_ids }
         can [:read], TeachingPlace
         can [:create, :update, :destroy], TeachingPlace, department_id: department_ids
         can [:read, :browse], Discipline

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class LessonType < ActiveRecord::Base
   has_many :charge_cards, :dependent => :nullify
-  has_many :training_assignments, dependent: :destroy
+  has_many :training_assignments, dependent: :destroy, inverse_of: :lesson_type
 
   validates_presence_of :name
 

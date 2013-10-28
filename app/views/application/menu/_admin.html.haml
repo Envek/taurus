@@ -2,4 +2,5 @@
 %li #{ link_to 'Супервайзеры', admin_supervisors_path, class: (:current if params[:controller] == "admin/supervisors") }
 %li #{ link_to 'Диспетчеры', admin_editors_path, class: (:current if params[:controller] == "admin/editors") }
 %li #{ link_to 'Заведующие кафедр', admin_dept_heads_path, class: (:current if params[:controller] == "admin/dept_heads") }
+%li #{ link_to 'Зам. деканов по УР', admin_faculty_heads_path, class: (:current if params[:controller] == "admin/faculty_heads") }
 %li #{ link_to 'Все пользователи', admin_users_path, class: (:current if params[:controller] == "admin/users") }

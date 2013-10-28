@@ -11,7 +11,10 @@
 %p.noprint
   = form_tag({}, {method: :get}) do
     От факультета
-    = select_tag :faculty_id, options_for_select(Faculty.all.map{|f| [f.full_name, f.id] }, params[:faculty_id]), prompt: "Все факультеты"
+    - if params[:controller].starts_with? 'faculty/'
+      = current_faculty.full_name
+    - else
+      = select_tag :faculty_id, options_for_select(Faculty.all.map{|f| [f.full_name, f.id] }, params[:faculty_id]), prompt: "Все факультеты"
     - unless params[:controller].starts_with? 'department/'
       на кафедру
       = select_tag :department_id, departments_grouped_options_for_select(Department.all, params[:department_id], "Все кафедры")
@@ -49,13 +52,14 @@
       - @grouped_assignments.each do |disciplines, assignment_groups|
         - assignment_groups.each_with_index do |assignment_group, d_idx|
           - lead_assignment, grouped_assignments = assignment_group
-          - rows = grouped_assignments.size
-          - grouped_assignments.each_with_index do |ungrouped_assignments, index|
+          - rows = grouped_assignments.size.zero?? 1 : grouped_assignments.size
+          - ga = grouped_assignments.size.zero?? [[nil, [lead_assignment]]] : grouped_assignments
+          - ga.each_with_index do |ungrouped_assignments, index|
             - group_ids, assignments = ungrouped_assignments
             %tr
               - if index.zero?
                 %td{rowspan: rows}= disciplines.map(&:name).to_sentence
-              %td= assignments.first.groups.map(&:name).join(', ')
+              %td= assignments.first.groups(true).map(&:name).join(', ')
               %td= assignments.first.groups.map(&:population).compact.inject(&:+)
               - if index.zero?
                 %td{rowspan: rows} <strong>#{lead_assignment.weeks_quantity}</strong>

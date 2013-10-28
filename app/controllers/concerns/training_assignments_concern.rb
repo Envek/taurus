@@ -5,7 +5,8 @@ module TrainingAssignmentsConcern
   included do
     active_scaffold :training_assignment do |conf|
       conf.actions << :delete
-      conf.columns = [:disciplines, :groups, :weeks_quantity, :lesson_type, :hours, :hours_per_week]
+      conf.columns = [:disciplines, :groups, :weeks_quantity, :lesson_type, :hours, :semester_id]
+      conf.list.columns = [:disciplines, :groups, :weeks_quantity, :lesson_type, :hours, :hours_per_week]
       conf.columns[:disciplines].form_ui = :record_select
       conf.columns[:disciplines].clear_link
       conf.columns[:disciplines].search_sql = 'disciplines.name||disciplines.short_name'
@@ -25,6 +26,7 @@ module TrainingAssignmentsConcern
       conf.columns[:lesson_type].search_ui = :select
       conf.columns[:weeks_quantity].inplace_edit = true
       conf.columns[:hours].inplace_edit = true
+      conf.columns[:semester_id].form_ui = :hidden
       conf.actions.add :mark
       conf.action_links.add :join_selected, type: :collection, position: false
       conf.action_links.add :report, type: :collection, position: false, page: true
@@ -191,6 +193,7 @@ module TrainingAssignmentsConcern
 
   def do_new
     super
+    debugger
     @record.semester = current_semester
   end
 

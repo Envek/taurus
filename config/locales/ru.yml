@@ -86,7 +86,7 @@ ru:
       charge_card:
         teaching_place: 'Преподаватель'
         assistant_teaching_place: 'Ассистент'
-        discipline: 'Название дисциплины'
+        disciplines: 'Дисциплины'
         groups: 'Группы'
         jets: 'Группы'
         lesson_type: 'Тип занятия'
@@ -168,6 +168,7 @@ ru:
         password: 'Пароль'
         password_confirmation: 'Подтверждение пароля'
         departments: 'Кафедры'
+        faculties: 'Факультеты'
         email: 'Электронная почта'
         current_sign_in_at: 'Время последнего входа'
         current_sign_in_ip: 'IP-адрес последнего входа'
