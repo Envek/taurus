@@ -83,12 +83,14 @@ GEM
     coffee-script-source (1.6.2)
     columnize (0.3.6)
     debug_inspector (0.0.2)
-    debugger (1.6.0)
+    debugger (1.6.2)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.1)
+      debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.2)
+    debugger-ruby_core_source (1.2.3)
+    deep_cloneable (1.5.5)
+      activerecord (>= 3.1.0)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -284,6 +286,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 3.2.0)
   debugger
+  deep_cloneable (~> 1.5.5)
   devise (~> 2.2.0)
   devise-encryptable
   dropbox-sdk

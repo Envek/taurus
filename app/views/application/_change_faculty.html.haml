@@ -1,0 +1,6 @@
+- faculties = Faculty.accessible_by(current_ability, :update)
+- if faculties.count > 1
+  %li.faculty
+    = form_tag '/faculty/change', :method => 'post' do |f|
+      = select_tag :faculty_id, faculties_change_options_for_select(faculties), :class => :faculty_change
+      <button type="submit">Сменить</button>

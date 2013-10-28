@@ -1,0 +1,4 @@
+= render 'change_faculty'
+%li #{ link_to 'Кафедры', faculty_departments_path(current_faculty.id), class: (:current if params[:controller] == "faculty/faculties") }
+%li #{ link_to 'Специальности', faculty_specialities_path(current_faculty.id), class: (:current if params[:controller] == "faculty/specialities") }
+%li #{ link_to 'Учебные поручения', faculty_training_assignments_path(current_faculty.id), class: (:current if params[:controller] == "faculty/training_assignments") }

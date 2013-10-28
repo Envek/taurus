@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
-class Supervisor::SpecialitiesController < Supervisor::BaseController
+class Faculty::SpecialitiesController < Faculty::BaseController
+
   active_scaffold do |config|
     config.actions << :delete
     config.columns = [:code, :name, :department]
@@ -47,6 +48,10 @@ class Supervisor::SpecialitiesController < Supervisor::BaseController
       each_marked_record {|r| r.as_marked = false} if marked_records.any?
       redirect_to supervisor_training_assignments_path, :notice => "Создано записей: #{created}"
     end
+  end
+
+  def beginning_of_chain
+    super.where(department_id: current_faculty.department_ids)
   end
 
 end

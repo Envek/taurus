@@ -7,6 +7,10 @@ jQuery(document).ready(function($) {
   $('.department_change').change(function() {
     $(this).parent().submit();
   });
+  $('.faculty_change+button').remove();
+  $('.faculty_change').change(function() {
+    $(this).parent().submit();
+  });
 });
 
 function formatResultedClassroomForSelect2 (result) {

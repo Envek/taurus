@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130926034216) do
+ActiveRecord::Schema.define(:version => 20131024055705) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(:version => 20130926034216) do
   end
 
   create_table "charge_cards", :force => true do |t|
-    t.integer  "discipline_id"
     t.integer  "teaching_place_id"
     t.integer  "lesson_type_id"
     t.datetime "created_at"
@@ -32,6 +31,13 @@ ActiveRecord::Schema.define(:version => 20130926034216) do
     t.integer  "semester_id"
     t.string   "note"
   end
+
+  create_table "charge_cards_disciplines", :force => true do |t|
+    t.integer "charge_card_id", :null => false
+    t.integer "discipline_id",  :null => false
+  end
+
+  add_index "charge_cards_disciplines", ["charge_card_id", "discipline_id"], :name => "charge_cards_disciplines_main_index", :unique => true
 
   create_table "charge_cards_preferred_classrooms", :id => false, :force => true do |t|
     t.integer "charge_card_id"
@@ -73,12 +79,26 @@ ActiveRecord::Schema.define(:version => 20130926034216) do
     t.datetime "updated_at"
   end
 
+  create_table "disciplines_in_assignments", :id => false, :force => true do |t|
+    t.integer "discipline_id"
+    t.integer "training_assignment_id"
+  end
+
+  add_index "disciplines_in_assignments", ["discipline_id", "training_assignment_id"], :name => "disciplines_in_assignments_uniq_index"
+
   create_table "faculties", :force => true do |t|
     t.string   "full_name"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "faculties_users", :id => false, :force => true do |t|
+    t.integer "faculty_id", :null => false
+    t.integer "user_id",    :null => false
+  end
+
+  add_index "faculties_users", ["faculty_id", "user_id"], :name => "faculties_users_main_index", :unique => true
 
   create_table "groups", :force => true do |t|
     t.integer  "speciality_id"
@@ -88,6 +108,13 @@ ActiveRecord::Schema.define(:version => 20130926034216) do
     t.datetime "updated_at"
     t.integer  "population"
   end
+
+  create_table "groups_in_assignments", :id => false, :force => true do |t|
+    t.integer "group_id"
+    t.integer "training_assignment_id"
+  end
+
+  add_index "groups_in_assignments", ["group_id", "training_assignment_id"], :name => "groups_in_assignments_uniq_index"
 
   create_table "jets", :force => true do |t|
     t.integer  "charge_card_id"
@@ -190,6 +217,15 @@ ActiveRecord::Schema.define(:version => 20130926034216) do
     t.boolean  "exam",          :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "training_assignments", :force => true do |t|
+    t.integer  "lesson_type_id"
+    t.integer  "weeks_quantity"
+    t.integer  "hours"
+    t.integer  "semester_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|

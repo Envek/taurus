@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Semester < ActiveRecord::Base
   has_many :charge_cards, :dependent => :destroy
+  has_many :training_assignments, dependent: :destroy, inverse_of: :semester
 
   validates :full_time, :inclusion => { :in => [true, false] }
   validates :open, :inclusion => { :in => [true, false] }

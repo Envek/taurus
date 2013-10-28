@@ -14,22 +14,26 @@ class Ability
         can :manage, Pair
         can :read, :all
         cannot :read, User
-    elsif user.department_ids.any? # DeptHead
-        can :update, Department, id: user.department_ids 
+    elsif user.department_ids.any? or user.faculty_ids.any? # Department head or faculty head
+        can :update, Faculty, id: user.faculty_ids if user.faculty_ids.any?
+        department_ids = Faculty.where(id: user.faculty_ids).map(&:department_ids).flatten | user.department_ids
+        group_ids = Department.where(id: department_ids).includes(:groups).map(&:group_ids).flatten
+        can :read, TrainingAssignment
+        can :manage, TrainingAssignment, groups: {id: group_ids}
+        can [:read, :update, :charge_cards_form], Department, id: department_ids
         can [:read, :browse, :select], Lecturer
         can [:read, :create], ChargeCard
-        can [:update, :destroy], ChargeCard, discipline: { department_id: user.department_ids }
+        can [:update, :destroy], ChargeCard, disciplines: { department_id: department_ids }
         can [:read], TeachingPlace
-        can [:create, :update, :destroy], TeachingPlace, department_id: user.department_ids
+        can [:create, :update, :destroy], TeachingPlace, department_id: department_ids
         can [:read, :browse], Discipline
-        can [:create, :update, :destroy], Discipline, department_id: user.department_ids
+        can [:create, :update, :destroy], Discipline, department_id: department_ids
         can [:read], Classroom
-        can [:update], Classroom, department_id: user.department_ids
+        can [:update], Classroom, department_id: department_ids
         can :manage, Jet
-        can [:read], Speciality
-        can [:create, :update, :destroy], Speciality, department_id: user.department_ids
+        can [:manage, :upload_teaching_plan], Speciality, department_id: department_ids
         can [:read, :browse], Group
-        can [:create, :update, :destroy], Group, speciality: { department_id: user.department_ids }
+        can [:create, :update, :destroy], Group, speciality: { department_id: department_ids }
     else
         can :read, Pair
         can :read, Group

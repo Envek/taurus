@@ -4,6 +4,7 @@ class Group < ActiveRecord::Base
   has_many :jets, :dependent => :destroy
   has_many :subgroups, :through => :jets
   has_many :charge_cards, :through => :jets
+  has_and_belongs_to_many :training_assignments, join_table: :groups_in_assignments
 
   validates :name, :presence => true, :uniqueness => { :scope => :forming_year }
   validates :population, :numericality => {:only_integer => true, :greater_than => 0, :allow_nil => true}
@@ -12,9 +13,9 @@ class Group < ActiveRecord::Base
   }
   validates :speciality_id, :presence => true
 
-  scope :for_timetable, includes(:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}])
+  scope :for_timetable, includes(:subgroups => [{:pair => [{:classroom => :building}, { :charge_card => [:disciplines, {:teaching_place => [:lecturer, :department]}]}]}])
   scope :by_name, lambda { |name| where('groups.name ILIKE ?', escape_name(name)) }
-  scope :for_groups_editor, includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:discipline, {:teaching_place => [:lecturer, :department]}]}]}})
+  scope :for_groups_editor, includes(:jets => {:subgroups => {:pair => [{:classroom => :building}, { :charge_card => [:disciplines, {:teaching_place => [:lecturer, :department]}]}]}})
 
   cattr_accessor :current_semester
 

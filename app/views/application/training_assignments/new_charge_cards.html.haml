@@ -1,0 +1,53 @@
+%h1 Создание карт нагрузок по учебным поручениям#{" с #{@faculty.name}" if @faculty}#{" на кафедру #{@department.name if @department}"}.
+
+= form_tag({:action => :create_charge_cards}, :method => :post) do
+  %p Данное действие автоматически создаст карты нагрузки, согласно учебным поручениям, составленным в системе ранее согласно учебного плана специальностей/направлений подготовки, загруженных в систему.
+  %p Карты нагрузки будут созданы на <strong>#{current_semester}</strong>. Сменить текущий семестр вы можете в верхнем меню.
+  %p Полученные карты нагрузки будут иметь незаполненное поле «Преподаватель». Часы, дисциплины и группы будут выставлены согласно учебным поручениям.
+  %p
+    = submit_tag "Создать"
+
+  %p Будут созданы следующие карты нагрузки:
+  %table.infotable.fullwidth-table
+    %thead
+      %tr
+        %th Дисциплины
+        %th Тип занятия
+        %th Всего часов
+        %th Количество недель
+        %th Часов в неделю
+        %th Группы
+        %th Состояние
+    %tbody
+      - @cards_to_create.each do |card|
+        %tr
+          %td= card.disciplines.map(&:name).join ', '
+          %td= card.lesson_type.name
+          %td= card.hours_quantity
+          %td= card.weeks_quantity
+          %td= card.hours_per_week
+          %td= card.jets.map(&:group).map(&:name).join ', '
+          %td= card.new_record? ? 'Новая' : 'Обновление'
+
+  %p
+    = check_box_tag :remove_old, true
+    = label_tag :remove, raw("<strong>ОПАСНО!</strong> Удалить старые карты нагрузки? Будет удалено карт нагрузок: #{@cards_to_remove.size}. Полный список:")
+
+  %table.infotable.fullwidth-table
+    %thead
+      %tr
+        %th Дисциплины
+        %th Тип занятия
+        %th Всего часов
+        %th Количество недель
+        %th Часов в неделю
+        %th Группы
+    %tbody
+      - @cards_to_remove.each do |card|
+        %tr
+          %td= card.disciplines.map(&:name).join ', '
+          %td= card.lesson_type.name
+          %td= card.hours_quantity
+          %td= card.weeks_quantity
+          %td= card.hours_per_week
+          %td= card.groups.map{|g| g.name}.join ', '

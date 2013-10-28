@@ -1,0 +1,79 @@
+<style> @page { size: A4 landscape; margin: 1cm 0.5cm 0.5cm; }</style> <!-- Chrome doesn't support named pages. It's a hack. -->
+
+- title "Заявка на учебные поручения #{"на кафедру #{@department.short_name} " if @department} #{"(#{@faculty.name})" if @faculty}".strip
+
+.info.print_info
+  %p Вы можете распечатать заявку непосредственно с этой страницы, нажмите кнопку «Печать» ниже:
+  %p.print_button_container
+    %a.btn.print_button{href: ''} Печать
+    %a.btn.excel_export{href: url_for(format: 'xlsx')} В формате Excel
+
+%p.noprint
+  = form_tag({}, {method: :get}) do
+    От факультета
+    - if params[:controller].starts_with? 'faculty/'
+      = current_faculty.full_name
+    - else
+      = select_tag :faculty_id, options_for_select(Faculty.all.map{|f| [f.full_name, f.id] }, params[:faculty_id]), prompt: "Все факультеты"
+    - unless params[:controller].starts_with? 'department/'
+      на кафедру
+      = select_tag :department_id, departments_grouped_options_for_select(Department.all, params[:department_id], "Все кафедры")
+    = submit_tag "Показать"
+
+%p.noprint
+  = link_to "Сгенерировать карточки нагрузки по данным поручениям", url_for(params.merge(action: :new_charge_cards))
+
+.training_assignments_forms.report
+
+  %h1 <span>Заявка</span> на учебные поручения на #{current_semester.to_human}.
+
+  - if @department
+    %p На кафедру #{Unicode::downcase(@department.name)}
+  - if @faculty
+    %p Факультет: #{Unicode::downcase(@faculty.full_name)}
+
+  %table.report
+    %thead
+      %tr
+        %th Дисциплины
+        %th Группы
+        %th Кол-во студентов
+        %th Кол-во недель
+        %th Лекции
+        %th Практич.
+        %th Лаборат.
+        %th Зачёты
+        %th Экзамены
+        %th Проектир.
+        %th Рец. работ заочников
+        %th Примечание
+    %tbody
+      -# debugger
+      - @grouped_assignments.each do |disciplines, assignment_groups|
+        - assignment_groups.each_with_index do |assignment_group, d_idx|
+          - lead_assignment, grouped_assignments = assignment_group
+          - rows = grouped_assignments.size.zero?? 1 : grouped_assignments.size
+          - ga = grouped_assignments.size.zero?? [[nil, [lead_assignment]]] : grouped_assignments
+          - ga.each_with_index do |ungrouped_assignments, index|
+            - group_ids, assignments = ungrouped_assignments
+            %tr
+              - if index.zero?
+                %td{rowspan: rows}= disciplines.map(&:name).to_sentence
+              %td= assignments.first.groups(true).map(&:name).join(', ')
+              %td= assignments.first.groups.map(&:population).compact.inject(&:+)
+              - if index.zero?
+                %td{rowspan: rows} <strong>#{lead_assignment.weeks_quantity}</strong>
+              - if index.zero?
+                %td{rowspan: rows}= raw "<strong>#{format("%g", lead_assignment.hours)}</strong>" if lead_assignment.lesson_type_id == 1
+              - @lesson_types.reject{|t| t.id == 1}.each do |lt|
+                - if (ltassignments = assignments.select{|c| c.lesson_type_id == lt.id }).any?
+                  %td
+                    <strong>#{format("%g", ltassignments.map(&:hours).inject(&:+))}</strong>
+                - else
+                  %td
+              %td
+              %td
+              %td
+              %td
+              - if index.zero?
+                %td{rowspan: rows}

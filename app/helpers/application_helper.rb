@@ -40,16 +40,24 @@ module ApplicationHelper
   end
 
   def departments_change_grouped_options_for_select(accessible_departments=Department.all)
+    departments_grouped_options_for_select(accessible_departments, current_department.id, nil)
+  end
+
+  def departments_grouped_options_for_select(departments=Department.all, current=nil, prompt=nil)
     faculties = Faculty.joins(:departments).reorder('departments.gosinsp_code').includes(:departments)
     groups = faculties.map do |f|
-      depts = f.departments & accessible_departments
+      depts = f.departments & departments
       if depts.any?
         [f.name, depts.map{|d| [d.name, d.id] }]
       else
         nil
       end
     end.compact
-    grouped_options_for_select(groups, current_department.id)
+    grouped_options_for_select(groups, current, prompt)
+  end
+
+  def faculties_change_options_for_select(accessible_faculties=Faculty.all)
+    options_for_select(accessible_faculties.map{|f| [f.name, f.id] }, current_faculty.id)
   end
 
 end

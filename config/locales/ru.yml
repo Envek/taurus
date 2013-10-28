@@ -74,6 +74,11 @@ ru:
         few: 'Пользователи'
         many: 'Пользователи'
         other: 'Пользователи'
+      training_assignment:
+        one: Учебное поручение
+        few: Учебные поручения
+        many: Учебные поручения
+        other: Учебные поручения
 
     attributes:
       building:
@@ -81,7 +86,7 @@ ru:
       charge_card:
         teaching_place: 'Преподаватель'
         assistant_teaching_place: 'Ассистент'
-        discipline: 'Название дисциплины'
+        disciplines: 'Дисциплины'
         groups: 'Группы'
         jets: 'Группы'
         lesson_type: 'Тип занятия'
@@ -163,9 +168,18 @@ ru:
         password: 'Пароль'
         password_confirmation: 'Подтверждение пароля'
         departments: 'Кафедры'
+        faculties: 'Факультеты'
         email: 'Электронная почта'
         current_sign_in_at: 'Время последнего входа'
         current_sign_in_ip: 'IP-адрес последнего входа'
+      training_assignment:
+        disciplines: Дисциплины
+        groups: Группы
+        lesson_type: Тип занятия
+        hours: Часы
+        weeks_quantity: Количество недель
+        hours_per_week: Часов в неделю
+        split_by_groups: Разделить по группам
 
     description:
       charge_card:
@@ -194,3 +208,10 @@ ru:
           attributes:
             assistant_teaching_place:
               cannot_be_the_same_person: " не может быть тем же лицом, что и преподаватель. (Один и тот же человек не может одновременно и вести пару и ассистировать себе.)"
+
+  active_scaffold:
+    join_selected: Объединить выбранные
+    split_by_groups: Разбить по группам
+    split_by_disciplines: Разбить по дисциплинам
+    generate_training_assignments: Создать учебные поручения для выделенных
+    report: Отчёт

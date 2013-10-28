@@ -4,4 +4,4 @@
 %li #{ link_to 'Преподаватели', supervisor_lecturers_path, class: (:current if params[:controller] == "supervisor/lecturers") }
 %li #{ link_to 'Аудитории', supervisor_classrooms_path, class: (:current if params[:controller] == "supervisor/classrooms") }
 %li #{ link_to 'Семестры', supervisor_semesters_path, class: (:current if params[:controller] == "supervisor/semesters") }
-%li #{ link_to 'Импорт учебных планов', {:controller => "supervisor/teaching_plans", :action => "new"}, class: (:current if params[:controller] == "supervisor/teaching_plans") }
+%li #{ link_to 'Учебные поручения', supervisor_training_assignments_path, class: (:current if params[:controller] == "supervisor/training_assignments") }
