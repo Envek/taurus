@@ -41,7 +41,7 @@ protected
     record.preferred_classroom_ids = params[:record][:preferred_classrooms] if params[:record]
     record.instance_variable_set("@readonly", false) # Very dirty hack (AS and CanCan)
     record.jets.each do |jet|
-      jet.save if jet.group_id_changed?
+      jet.save if jet.group_id_changed? or jet.subgroups_quantity_changed?
     end
   end
 
