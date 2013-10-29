@@ -46,7 +46,7 @@ class Faculty::SpecialitiesController < Faculty::BaseController
         end
       end
       each_marked_record {|r| r.as_marked = false} if marked_records.any?
-      redirect_to supervisor_training_assignments_path, :notice => "Создано записей: #{created}"
+      redirect_to faculty_training_assignments_path(current_faculty), :notice => "Создано записей: #{created}"
     end
   end
 
