@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131024055705) do
+ActiveRecord::Schema.define(:version => 20131030162804) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -217,7 +217,10 @@ ActiveRecord::Schema.define(:version => 20131024055705) do
     t.boolean  "exam",          :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "forming_year",  :default => 2013,  :null => false
   end
+
+  add_index "teaching_plans", ["speciality_id", "discipline_id", "course", "semester", "forming_year"], :name => "teaching_plans_main_index", :unique => true
 
   create_table "training_assignments", :force => true do |t|
     t.integer  "lesson_type_id"

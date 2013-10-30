@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Group < ActiveRecord::Base
   belongs_to :speciality
+  has_many :teaching_plans, through: :speciality, conditions: proc { {forming_year: forming_year} }
   has_many :jets, :dependent => :destroy
   has_many :subgroups, :through => :jets
   has_many :charge_cards, :through => :jets

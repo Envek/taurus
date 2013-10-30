@@ -8,7 +8,7 @@
 
 - if @speciality
   %h1 Внесение учебного плана для специальности #{@speciality.code} «#{@speciality.name}»
-  %p Изменение затронуло следующие группы: #{@speciality.groups.map{|group| group.name}.join(", ")}
+  %p Изменение затронуло следующие группы: #{@speciality.groups.where(forming_year: params[:forming_year]).pluck(:name).to_sentence}
   - if @results.any?
     %ol
       - @results.each do |r|

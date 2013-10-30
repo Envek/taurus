@@ -1,4 +1,4 @@
-- title "Учебный план #{@speciality.code}"
+- title "Учебный план #{@speciality.code} на #{@year} г."
 
 <style> @page { size: A4 landscape; margin: 1cm 0.5cm 0.5cm; }</style> <!-- Chrome doesn't support named pages. It's a hack. -->
 
@@ -13,12 +13,14 @@
   = link_to_if params[:course].present?, "Общий", url_for(params.merge(course: nil))
   - @courses.each do |course|
     = link_to_unless (params[:course].to_i == course), "Курс #{course}", url_for(params.merge(course: course))
-
+  |
+  - @years.each do |year|
+    = link_to_unless (@year == year), year, url_for(params.merge(forming_year: year))
 %p.noprint= link_to "Сгенерировать учебные поручения", generate_training_assignments_supervisor_speciality_path(@speciality, course: params[:course]), method: :post
 
 %p Группы: 
 %ul
-  - @speciality.groups.each do |group|
+  - @speciality.groups.where(forming_year: @year).each do |group|
     - next if params[:course].present? and group.course != params[:course].to_i
     %li <strong>#{group.name}</strong>, #{group.course} курс, #{group.population or "(не указано)"} человек
 

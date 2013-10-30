@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module GosinspParser
 
-  def parse_and_fill_teaching_plan(file_plan_contents, allowed_specialities = nil)
+  def parse_and_fill_teaching_plan(file_plan_contents, forming_year, allowed_specialities = nil)
     plan = Nokogiri::XML(file_plan_contents)
     errors = []
     results = []
@@ -40,9 +40,10 @@ module GosinspParser
             semnum = sem["Ном"].to_i
             semester = (semnum % 2 != 0) ? 1 : 2
             course = (semnum + (semnum % 2)) / 2
-            plan = TeachingPlan.find_or_initialize_by_speciality_id_and_discipline_id_and_course_and_semester(
-              speciality.id, discipline.id, course, semester
-            )
+            plan = TeachingPlan.where(
+              speciality_id: speciality.id, discipline_id: discipline.id,
+              course: course, semester: semester, forming_year: forming_year,
+            ).first_or_initialize
             plan.lections = sem["Лек"]
             plan.practics = sem["Пр"]
             plan.lab_works = sem["Лаб"]
