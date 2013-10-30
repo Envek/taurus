@@ -136,14 +136,15 @@ match 'help(/:page(.:format))', :controller => 'help', :action => 'show', :page 
   post 'faculty/change' => 'faculty/base#change_current_faculty'
 
   namespace :faculty, :path => '/faculty/:faculty_id', :faculty_id => /\d+/ do
-    resources :specialities, concerns: [:speciality_teaching_plans] do
+    resources :specialities do
+      as_routes
+      concerns :speciality_teaching_plans
       member do
         post :generate_training_assignments
       end
       collection do
         post :generate_training_assignments
       end
-      as_routes
     end
     resources :lecturers do as_routes end
     resources :groups do
