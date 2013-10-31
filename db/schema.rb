@@ -11,13 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131030162804) do
+ActiveRecord::Schema.define(:version => 20131031061516) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "buildings", ["name"], :name => "index_buildings_on_name"
 
   create_table "charge_cards", :force => true do |t|
     t.integer  "teaching_place_id"
@@ -32,6 +34,12 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.string   "note"
   end
 
+  add_index "charge_cards", ["assistant_id"], :name => "index_charge_cards_on_assistant_id"
+  add_index "charge_cards", ["editor_name"], :name => "index_charge_cards_on_editor_name"
+  add_index "charge_cards", ["lesson_type_id"], :name => "index_charge_cards_on_lesson_type_id"
+  add_index "charge_cards", ["semester_id"], :name => "index_charge_cards_on_semester_id"
+  add_index "charge_cards", ["teaching_place_id"], :name => "index_charge_cards_on_teaching_place_id"
+
   create_table "charge_cards_disciplines", :force => true do |t|
     t.integer "charge_card_id", :null => false
     t.integer "discipline_id",  :null => false
@@ -43,6 +51,8 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.integer "charge_card_id"
     t.integer "classroom_id"
   end
+
+  add_index "charge_cards_preferred_classrooms", ["classroom_id", "charge_card_id"], :name => "preferred_classrooms_main_index", :unique => true
 
   create_table "classrooms", :force => true do |t|
     t.integer  "building_id"
@@ -56,6 +66,10 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.hstore   "properties"
   end
 
+  add_index "classrooms", ["building_id"], :name => "index_classrooms_on_building_id"
+  add_index "classrooms", ["department_id"], :name => "index_classrooms_on_department_id"
+  add_index "classrooms", ["name"], :name => "index_classrooms_on_name"
+
   create_table "departments", :force => true do |t|
     t.integer  "faculty_id"
     t.string   "name"
@@ -66,10 +80,16 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.integer  "dept_head_id"
   end
 
+  add_index "departments", ["dept_head_id"], :name => "index_departments_on_dept_head_id"
+  add_index "departments", ["faculty_id"], :name => "index_departments_on_faculty_id"
+  add_index "departments", ["gosinsp_code"], :name => "index_departments_on_gosinsp_code"
+
   create_table "departments_users", :id => false, :force => true do |t|
     t.integer "department_id"
     t.integer "user_id"
   end
+
+  add_index "departments_users", ["department_id", "user_id"], :name => "department_users_main_index", :unique => true
 
   create_table "disciplines", :force => true do |t|
     t.integer  "department_id"
@@ -78,6 +98,9 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "disciplines", ["department_id"], :name => "index_disciplines_on_department_id"
+  add_index "disciplines", ["name"], :name => "index_disciplines_on_name"
 
   create_table "disciplines_in_assignments", :id => false, :force => true do |t|
     t.integer "discipline_id"
@@ -92,6 +115,8 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "faculties", ["name"], :name => "index_faculties_on_name"
 
   create_table "faculties_users", :id => false, :force => true do |t|
     t.integer "faculty_id", :null => false
@@ -109,6 +134,10 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.integer  "population"
   end
 
+  add_index "groups", ["forming_year"], :name => "index_groups_on_forming_year"
+  add_index "groups", ["name"], :name => "index_groups_on_name", :unique => true
+  add_index "groups", ["speciality_id"], :name => "index_groups_on_speciality_id"
+
   create_table "groups_in_assignments", :id => false, :force => true do |t|
     t.integer "group_id"
     t.integer "training_assignment_id"
@@ -124,12 +153,18 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.integer  "subgroups_quantity", :default => 0
   end
 
+  add_index "jets", ["charge_card_id", "group_id"], :name => "jets_main_index"
+  add_index "jets", ["charge_card_id"], :name => "index_jets_on_charge_card_id"
+  add_index "jets", ["group_id"], :name => "index_jets_on_group_id"
+
   create_table "lecturers", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "whish"
   end
+
+  add_index "lecturers", ["name"], :name => "index_lecturers_on_name"
 
   create_table "lesson_types", :force => true do |t|
     t.string   "name"
@@ -149,6 +184,10 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "pairs", ["charge_card_id"], :name => "index_pairs_on_charge_card_id"
+  add_index "pairs", ["classroom_id"], :name => "index_pairs_on_classroom_id"
+  add_index "pairs", ["day_of_the_week", "pair_number", "week", "active_at", "expired_at"], :name => "pair_validation_index"
 
   create_table "positions", :force => true do |t|
     t.string   "name"
@@ -190,6 +229,10 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.datetime "updated_at"
   end
 
+  add_index "specialities", ["code"], :name => "index_specialities_on_code"
+  add_index "specialities", ["department_id"], :name => "index_specialities_on_department_id"
+  add_index "specialities", ["name"], :name => "index_specialities_on_name"
+
   create_table "subgroups", :force => true do |t|
     t.integer  "jet_id"
     t.integer  "pair_id"
@@ -198,6 +241,10 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.datetime "updated_at"
   end
 
+  add_index "subgroups", ["jet_id", "pair_id"], :name => "index_subgroups_on_jet_id_and_pair_id", :unique => true
+  add_index "subgroups", ["jet_id"], :name => "index_subgroups_on_jet_id"
+  add_index "subgroups", ["pair_id"], :name => "index_subgroups_on_pair_id"
+
   create_table "teaching_places", :force => true do |t|
     t.integer  "department_id"
     t.integer  "lecturer_id"
@@ -205,6 +252,11 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "teaching_places", ["department_id", "lecturer_id"], :name => "teaching_places_main_index", :unique => true
+  add_index "teaching_places", ["department_id"], :name => "index_teaching_places_on_department_id"
+  add_index "teaching_places", ["lecturer_id"], :name => "index_teaching_places_on_lecturer_id"
+  add_index "teaching_places", ["position_id"], :name => "index_teaching_places_on_position_id"
 
   create_table "teaching_plans", :force => true do |t|
     t.integer  "speciality_id",                    :null => false
@@ -230,6 +282,9 @@ ActiveRecord::Schema.define(:version => 20131030162804) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
+
+  add_index "training_assignments", ["lesson_type_id"], :name => "index_training_assignments_on_lesson_type_id"
+  add_index "training_assignments", ["semester_id"], :name => "index_training_assignments_on_semester_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",    :null => false

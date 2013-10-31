@@ -135,6 +135,10 @@ GEM
     launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
+    lol_dba (1.6.0)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      railties (>= 3.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -299,6 +303,7 @@ DEPENDENCIES
   jquery-ui-themes
   launchy
   libv8 (~> 3.11.8)
+  lol_dba
   mail
   meta_request
   mini_magick
