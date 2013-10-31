@@ -5,6 +5,14 @@ mailer:
 analytics:
   id: UA-39782423-3
 
+exception_notification:
+  email:
+    email_prefix: "[TAURUS ERROR] "
+    sender_address:  '"Taurus notifications" <andrey.novikov@amursu.ru>'
+    exception_recipients: 
+      - exceptions@example.com
+      - exceptions@example.net
+
 backup:
   server:
     username:  user

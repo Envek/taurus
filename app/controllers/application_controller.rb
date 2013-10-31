@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   clear_helpers
   before_filter :set_current_semester
+  before_filter :log_additional_data
 
   rescue_from CanCan::AccessDenied do |exception|
     raise exception if Rails.env.development?
@@ -73,6 +74,15 @@ protected
   helper_method :current_ability
   def current_ability
     @current_ability ||= Ability.new(current_user, params)
+  end
+
+  def log_additional_data
+    request.env['exception_notifier.exception_data'] = {
+      current_user: (current_user if user_signed_in?),
+      current_semester: current_semester,
+      current_faculty: (current_faculty if session[:current_faculty_id].present?),
+      current_department: (current_department if session[:current_department_id].present?),
+    }
   end
 
 end

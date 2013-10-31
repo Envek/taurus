@@ -28,6 +28,7 @@ gem 'mini_magick'
 gem 'routing_concerns'
 gem 'deep_cloneable', '~> 1.5.5'
 gem 'rails_config'
+gem "exception_notification", "~> 4.0"
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -37,6 +37,8 @@ Taurus::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
 
   # Enable threaded mode
   # config.threadsafe!
@@ -55,5 +57,7 @@ Taurus::Application.configure do
   config.assets.digest = true
 
   GA.tracker = Settings.analytics.id
+
+  config.middleware.use ExceptionNotification::Rack, Settings.exception_notification.to_hash
 
 end
