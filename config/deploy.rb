@@ -37,7 +37,7 @@ require "whenever/capistrano"
 after 'deploy:update_code', :roles => :app do
   run "test -d #{deploy_to}/shared/config || mkdir #{deploy_to}/shared/config"
   run "test -f #{deploy_to}/shared/config/database.yml || cp #{current_release}/config/database.yml.example #{deploy_to}/shared/config/database.yml"
-  run "test -f #{deploy_to}/shared/config/backup.rb || cp #{current_release}/config/backup.rb.example #{deploy_to}/shared/config/backup.rb"
+  run "test -f #{deploy_to}/shared/config/settings.yml || cp #{current_release}/config/settings.yml.example #{deploy_to}/shared/config/settings.yml"
   run "test -f #{deploy_to}/shared/config/newrelic.yml || cp #{current_release}/config/newrelic.yml.example #{deploy_to}/shared/config/newrelic.yml"
 end
 
@@ -46,8 +46,8 @@ after 'deploy:update_code', :roles => :app do
   run "rm -f #{current_release}/config/database.yml"
   run "ln -s #{deploy_to}/shared/config/database.yml #{current_release}/config/database.yml"
 
-  run "rm -f #{current_release}/config/backup.rb"
-  run "ln -s #{deploy_to}/shared/config/backup.rb #{current_release}/config/backup.rb"
+  run "rm -f #{current_release}/config/settings.yml"
+  run "ln -s #{deploy_to}/shared/config/settings.yml #{current_release}/config/settings.yml"
 
   run "rm -f #{current_release}/config/newrelic.yml"
   run "ln -s #{deploy_to}/shared/config/newrelic.yml #{current_release}/config/newrelic.yml"

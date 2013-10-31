@@ -1,0 +1,25 @@
+mailer:
+  address: mail.amursu.ru
+  port:    587
+
+analytics:
+  id: UA-39782423-3
+
+backup:
+  server:
+    username:  user
+    password:  password
+    ip:        1backup.server.ip.address
+    port:      22
+    path:      /data/backups
+    keep:      50
+  dropbox:
+    api_key:     my_key
+    api_secret:  my_secret
+    path:        /
+    keep:        5
+  local:
+    path: ~/backups
+    keep: 100
+  email:
+    to: my@email.address

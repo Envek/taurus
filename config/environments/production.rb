@@ -54,6 +54,6 @@ Taurus::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  GA.tracker = 'UA-39782423-3'
+  GA.tracker = Settings.analytics.id
 
 end

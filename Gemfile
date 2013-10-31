@@ -27,6 +27,7 @@ gem 'rqrcode-rails3'
 gem 'mini_magick'
 gem 'routing_concerns'
 gem 'deep_cloneable', '~> 1.5.5'
+gem 'rails_config'
 
 # Gems used only for assets and not required
 # in production environments by default.
