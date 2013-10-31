@@ -2,7 +2,7 @@
 class TeachingPlan < ActiveRecord::Base
   belongs_to :speciality
   belongs_to :discipline
-  has_many   :groups, through: :speciality, conditions: -> { {forming_year: forming_year} }
+  has_many   :groups, through: :speciality, conditions: proc { {forming_year: forming_year} }
 
   validates_presence_of :speciality_id, :discipline_id, :course, :semester, :forming_year
   validates_numericality_of :course, :semester, :forming_year
